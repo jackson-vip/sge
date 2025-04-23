@@ -29,7 +29,7 @@ environ.Env.read_env()  # Lê as variáveis do arquivo .env
 # Substitui as configurações existentes pelas variáveis de ambiente
 SECRET_KEY = env('SECRET_KEY', default='django-insecure-default-key')
 DEBUG = env('DEBUG')
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost'])
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 
 # Application definition
