@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-import environ
+import os, environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,8 +27,8 @@ environ.Env.read_env()  # Lê as variáveis do arquivo .env
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # Substitui as configurações existentes pelas variáveis de ambiente
-SECRET_KEY = env('SECRET_KEY', default='django-insecure-default-key')
-DEBUG = env('DEBUG')
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env.bool('DEBUG', default=False) # Lembra de definir DEBUG como False em produção
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 
@@ -62,7 +62,10 @@ ROOT_URLCONF = 'sge_core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),  # Diretório para templates
+            os.path.join(BASE_DIR, '../basic_templates'),  # Diretório para templates adicionais
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -88,6 +91,10 @@ DATABASES = {
         'PASSWORD': env('DB_PASSWORD', default='sua_senha'),
         'HOST': env('DB_HOST', default='localhost'),
         'PORT': env('DB_PORT', default='5432'),
+        'OPTIONS': {
+            # 'sslmode': 'require',  # Boa prática para produção, descomentar quando necessário
+            # 'connect_timeout': 10,  # Tempo máximo de espera para conexão
+        },
     }
 }
 
@@ -114,20 +121,40 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'UTC'
+LANGUAGES = [
+    ('pt-br', 'Português'),
+    ('en', 'English'),
+]
 
-USE_I18N = True
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
 
-USE_TZ = True
+TIME_ZONE = env('TIME_ZONE', default='America/Recife')
+
+USE_I18N = env.bool('USE_I18N', default=True)
+
+USE_L10N = env.bool('USE_L10N', default=True)
+
+USE_TZ = env.bool('USE_TZ', default=True)
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = env('DJ_STATIC_URL', default='/static/')
+
+STATICFILES_DIRS = [
+    BASE_DIR / '../basic_static',  # Diretório para arquivos estáticos adicionais
+]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Diretório para coletar arquivos estáticos em produção
+
+MEDIA_URL = env('DJ_MEDIA_URL', default='/media/')
+
+MEDIA_ROOT = BASE_DIR / 'media'  # Diretório para armazenar arquivos de mídia
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
