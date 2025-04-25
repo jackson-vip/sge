@@ -75,6 +75,7 @@ sge/                               # Raiz do projeto
 │
 ├── basic_templates/               # Template base para os apps
 ├── basic_static/                  # Arquivos estáticos (CSS, JS, imagens)
+├── media/                         # Arquivos de mídia (uploads)
 ├── utils/                         # Funções utilitárias (ex: validações)
 │
 │ Dockerfile                       # Imagem do Docker
