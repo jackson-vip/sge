@@ -26,7 +26,7 @@ class LoginView(View):
             return render(request, self.template_name, {'error': 'Credenciais inválidas'})
 
 
-class CustomLogoutView(View):
+class LogoutView(View):
     def get(self, request, *args, **kwargs):
         logout(request)
         return HttpResponseRedirect(reverse('authentication:login'))

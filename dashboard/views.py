@@ -10,5 +10,5 @@ class DashboardView(View):
     ...
 
 @method_decorator(login_required, name='dispatch')
-class DashboardHomeView(TemplateView):
+class DashboardView(TemplateView):
     template_name = 'dashboard/home.html'
