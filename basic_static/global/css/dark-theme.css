@@ -1,0 +1,25 @@
+body.dark-theme {
+    --bg-color: #1e1e2f;
+    --sidebar-bg: #2a2a40;
+    --header-bg: #2a2a40;
+    --primary-color: #bb86fc;
+    --text-color: #e4e4e4;
+    --text-c-secondary: #a1a1b5;
+    --gray-light: #3a3a55;
+    --purple-light: #4a4a6a;
+}
+
+body.dark-theme .card {
+    background: #2a2a40;
+    color: var(--text-color);
+}
+
+body.dark-theme .hamburger{
+    color: var(--text-color);
+}
+
+/* Sidebar */
+
+body.dark-theme .sidebar {
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.5);
+}
