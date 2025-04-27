@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+:root {
+    --bg-color: #F8F8FA;
+    --sidebar-bg: #ffffff;
+    --header-bg: #ffffff;
+    --primary-color: #5E17EB;
+    --text-color: #333;
+    --text-c-secondary: #686b87;
+    --gray-light: #dcdcdc;
+    --purple-light: #e3d7f8;
+    /* --accent-yellow: #FFD700; */
+
+    --bg-sidebar: #fcfdd0dc;
+    --text-sidebar: #83680e;
+
+
+    --c-text-logo-blue: #2f8ec7;
+    --c-text-logo-yellow :#f8bd32;
+
+    --font-logo: 'Orbitron', sans-serif;
+    --font-default: 'Rubik', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%; /* 1rem = 10px */
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    font-family: var(--font-body); 
+}
+
+body {
+    font-family: "Segoe UI", sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    text-align: left;
+    font-size: 1.6rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 0.8rem;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1.4rem;
+}
