@@ -1,0 +1,106 @@
+{% load static %}
+<aside class="sidebar closed" id="sidebar">
+    <div class="logo">
+        <div class="enterprise">
+            <img src="{% static 'global/assets/img/logo_01.png' %}" alt="logo empresa">
+            <span>
+                <b>Inventory</b><br /> Management
+            </span>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li>
+                <a href="#">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>DASHBOARD</span>
+                </a>
+            </li>
+            <li class="has-submenu">
+                <a href="#">
+                    <i class="bi bi-box2"></i>
+                    <span>ESTOQUE</span>
+                    <i class="bi bi-chevron-left" class="submenu-toggle-icon"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="#">Campanhas ADS</a></li>
+                    <li><a href="#">Anúncios</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="bi bi-qr-code-scan"></i>
+                    <span>CÓDIGO DE BARRAS</span>
+                </a>
+            </li>
+            <li class="has-submenu">
+                <a href="#">
+                    <i class="bi bi-cart2"></i>
+                    <span>VENDAS</span>
+                    <i class="bi bi-chevron-left" class="submenu-toggle-icon"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="#">Lorem ipsum</a></li>
+                    <li><a href="#">Lorem ipsum</a></li>
+                    <li><a href="#">ipsum dolor</a></li>
+                    <li><a href="#">dolor ipsum</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="#">
+                    <i class="bi bi-person-plus"></i>
+                    <span>CLIENTE</span>
+                    <i class="bi bi-chevron-left" class="submenu-toggle-icon"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="#">Lorem ipsum</a></li>
+                    <li><a href="#">Lorem ipsum</a></li>
+                    <li><a href="#">Lorem ipsum</a></li>
+                    <li><a href="#">Lorem ipsum</a></li>
+                    <li><a href="#">Lorem ipsum</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="#">
+                    <i class="bi bi-truck"></i>
+                    <span>FORNECEDOR</span>
+                    <i class="bi bi-chevron-left" class="submenu-toggle-icon"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="#">Lorem ipsum</a></li>
+                    <li><a href="#">Lorem ipsum</a></li>
+                    <li><a href="#">Lorem ipsum</a></li>
+                    <li><a href="#">Lorem ipsum</a></li>
+                    <li><a href="#">Lorem ipsum</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="#">
+                    <!-- <i data-feather="bar-chart-2"></i> -->
+                    <i class="bi bi-clipboard2-data"></i>
+                    <span>CAMPANHAS</span>
+                    <i class="bi bi-chevron-left" class="submenu-toggle-icon"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="#">Lorem ipsum</a></li>
+                    <li><a href="#">Lorem ipsum</a></li>
+                    <li><a href="#">Lorem ipsum</a></li>
+                    <li><a href="#">Lorem ipsum</a></li>
+                    <li><a href="#">Lorem ipsum</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="bi bi-gear"></i>
+                    <span>CONFIGURAÇÕES</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'authentication:logout' %}">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>SAIR</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>

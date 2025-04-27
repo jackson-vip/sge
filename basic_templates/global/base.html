@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    {% include "global/partials/head.html" %}
+    {% block css %}{% endblock %}
+    <title>
+        {% block title %}{% endblock title %}
+    </title>
+</head>
+
+<body>
+    <div class="layout" id="layout">
+        <!-- Sidebar -->
+        {% include "global/partials/sidebar.html" %}
+        <!-- Main content -->
+        <div class="main">
+            <!-- Cabeçalho do Dashboard -->
+            {% include "global/partials/header.html" %}
+            <!-- Conteúdo principal do Dashboard -->
+            <main class="content">
+                {% block content %}{% endblock content %}
+            </main>
+        </div>
+    </div>
+
+    {% block js %}{% endblock %}
+</body>
+
+</html>
