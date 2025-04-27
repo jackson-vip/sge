@@ -18,6 +18,12 @@ body.dark-theme .hamburger{
     color: var(--text-color);
 }
 
+/* Header */
+
+body.dark-theme .dropdown-content h5 {
+    color: #363636;
+}
+
 /* Sidebar */
 
 body.dark-theme .sidebar {

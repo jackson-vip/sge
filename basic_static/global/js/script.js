@@ -52,3 +52,26 @@ themeToggle.addEventListener('click', () => {
     icon.className = isDarkMode ? 'bi bi-moon-stars' : 'bi bi-brightness-high';
 });
 
+/** Alterna o dropdown do usuário
+ * Usado para abrir e fechar o menu dropdown ao clicar na imagem do usuário
+ */
+const userDropdown = document.getElementById('userDropdown');
+const avatar = userDropdown.querySelector('img');
+
+avatar.addEventListener('click', () => {
+    userDropdown.classList.toggle('open');
+});
+
+// Fecha o dropdown ao clicar fora dele
+document.addEventListener('click', (event) => {
+    if (!userDropdown.contains(event.target)) {
+        userDropdown.classList.remove('open');
+    }
+});
+
+// Fecha o dropdown ao pressionar a tecla ESC
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        userDropdown.classList.remove('open');
+    }
+});
