@@ -315,3 +315,55 @@
 .card p {
     margin: 0;
 }
+
+/* BREADCRUMB */
+
+.fk_breadcrumb .breadcrumb_item i {
+    color: var(--c-text-logo-yellow);
+}
+
+.fk_breadcrumb {
+    background-color: #fff;
+    margin-bottom: 0;
+    list-style: none;
+    border-radius: 0.75rem;
+    font-size: 1.4rem;
+    padding: .8rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.fk_breadcrumb ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+}
+
+.fk_breadcrumb ul > li {
+    display: inline-block;
+}
+
+.fk_breadcrumb ul > li:not(:last-child)::after {
+    content: "›";
+    margin: 0 0.75em;
+    color: var(--color-gray-6);
+}
+
+.fk_breadcrumb a {
+    color: var(--color-gray-6);
+    text-decoration: none;
+}
+
+.fk_breadcrumb a:hover {
+    color: var(--color-gray-8);
+    text-decoration: underline;
+}
+
+.fk_breadcrumb ul li:first-child a:hover {
+    text-decoration: none;
+}
+
+.fk_breadcrumb .active {
+    color: var(--color-gray-3);
+    cursor: default;
+}

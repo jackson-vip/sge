@@ -1,0 +1,16 @@
+<!-- Breadcrumb -->
+<nav class="fk_breadcrumb">
+    <ul>
+        <li class="breadcrumb_item">
+            <a href="{% url 'dashboard:home' %}"><i class="fas fa-home"></i></a>
+        </li>
+        {% for breadcrumb in breadcrumbs %}
+        <!-- Se não for o último item do loop, então o link é clicável -->
+        {% if not forloop.last %}
+        <li class="breadcrumb_item"><a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a></li>
+        {% else %}
+        <li class="breadcrumb_item"><span class="active">{{ breadcrumb.name }}</span></li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+</nav>

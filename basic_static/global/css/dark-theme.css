@@ -9,7 +9,8 @@ body.dark-theme {
     --purple-light: #4a4a6a;
 }
 
-body.dark-theme .card {
+body.dark-theme .card,
+body.dark-theme .fk_breadcrumb {
     background: #2a2a40;
     color: var(--text-color);
 }
