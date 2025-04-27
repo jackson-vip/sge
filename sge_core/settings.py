@@ -68,7 +68,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),  # Diretório para templates
-            os.path.join(BASE_DIR, '../basic_templates'),  # Diretório para templates adicionais
+            os.path.join(BASE_DIR, 'basic_templates'),  # Diretório para templates adicionais
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -151,7 +151,7 @@ USE_TZ = env.bool('USE_TZ', default=True)
 STATIC_URL = env('DJ_STATIC_URL', default='/static/')
 
 STATICFILES_DIRS = [
-    BASE_DIR / '../basic_static',  # Diretório para arquivos estáticos adicionais
+    BASE_DIR / 'basic_static',  # Diretório para arquivos estáticos adicionais
 ]
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # Diretório para coletar arquivos estáticos em produção
