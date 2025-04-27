@@ -21,7 +21,7 @@ class LoginView(View):
 
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse('dashboard:home'))  # Redireciona para o dashboard
+            return HttpResponseRedirect(reverse('dashboard:dashboard'))  # Redireciona para o dashboard
         else:
             return render(request, self.template_name, {'error': 'Credenciais inválidas'})
 

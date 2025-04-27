@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('admin/', admin.site.urls), # URLs do admin
-    path('', login_required(RedirectView.as_view(url='/dashboard/', permanent=False)), name='home'),  # Redireciona para o dashboard
+    path('', login_required(RedirectView.as_view(url='/dashboard/', permanent=False)), name='dashboard'),  # Redireciona para o dashboard
     path('authentication/', include('authentication.urls')),  # URLs do app de autenticação
     path('dashboard/', include('dashboard.urls')),  # URLs do app de dashboard
     path('movimentacoes/', include('movimentacoes.urls')),  # URLs do app de movimentações

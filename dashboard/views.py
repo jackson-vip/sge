@@ -12,12 +12,12 @@ class DashboardView(View):
 
 @method_decorator(login_required, name='dispatch')
 class DashboardView(TemplateView):
-    template_name = 'dashboard/home.html'
+    template_name = 'dashboard/dashboard.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Dashboard'
         context['breadcrumbs'] = [
-            {'name': 'Dashboard', 'url': reverse('dashboard:home')},
+            {'name': 'Dashboard', 'url': reverse('dashboard:dashboard')},
         ]
         return context
