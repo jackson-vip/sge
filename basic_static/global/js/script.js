@@ -42,12 +42,29 @@ sidebarToggle.addEventListener('click', () => {
  * @description Este código adiciona um evento de clique ao botão de alternância do tema.
  * Quando o botão é clicado, ele alterna a classe "dark-theme" no corpo do documento,
  * mudando assim o tema da página entre claro e escuro.
+ * Persiste a preferência do tema no localStorage.
  * */
 const themeToggle = document.getElementById('themeToggle');
 const body = document.body;
 
+// Aplica o tema salvo no localStorage ao carregar a página
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+    body.classList.add(savedTheme);
+    const icon = themeToggle.querySelector('i');
+    if (savedTheme === 'dark-theme') {
+        icon.classList.remove('bi-brightness-high');
+        icon.classList.add('bi-moon-stars');
+    } else {
+        icon.classList.remove('bi-moon-stars');
+        icon.classList.add('bi-brightness-high');
+    }
+}
+
+// Atualiza o localStorage ao alternar o tema
 themeToggle.addEventListener('click', () => {
     const isDarkMode = body.classList.toggle('dark-theme');
+    localStorage.setItem('theme', isDarkMode ? 'dark-theme' : '');
     const icon = themeToggle.querySelector('i');
     icon.className = isDarkMode ? 'bi bi-moon-stars' : 'bi bi-brightness-high';
 });
