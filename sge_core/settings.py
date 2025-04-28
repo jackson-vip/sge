@@ -59,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'sge_core.middleware.CustomSecurityMiddleware',
 ]
 
 ROOT_URLCONF = 'sge_core.urls'
