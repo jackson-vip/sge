@@ -7,12 +7,15 @@ class UnidadeFederativa(models.Model):
     uf = models.CharField(verbose_name='UF', max_length=100)
     sigla = models.CharField(verbose_name='Sigla', max_length=2, unique=True)
 
-    def __str__(self):
-        return self.sigla
-
     class Meta:
        db_table = 'sge_unidade_federativa'
+       ordering = ['sigla']
+       verbose_name = 'Unidade Federativa'
+       verbose_name_plural = 'Unidades Federativas'
 
+    def __str__(self):
+        return self.sigla
+    
 class Municipio(models.Model):
     id_uf = models.ForeignKey(UnidadeFederativa, on_delete=models.RESTRICT, related_name='uf_municipios', db_column='id_uf')
     municipio = models.CharField(verbose_name="Municipio", max_length=150)
@@ -21,11 +24,14 @@ class Municipio(models.Model):
     cnpj = models.CharField(verbose_name='CNPJ', max_length=14, unique=True)
     codigo_siafi = models.CharField(verbose_name='Código SIAFI', max_length=7, unique=True)
 
-    def __str__(self):
-        return f"{self.municipio} - {self.uf}"
-    
     class Meta:
         db_table = 'sge_municipio'
+        ordering = ['municipio']
+        verbose_name = 'Município'
+        verbose_name_plural = 'Municípios'
+    
+    def __str__(self):
+        return f"{self.municipio} - {self.uf}"
 
 class Endereco(models.Model):
     TIPO_ENDERECO = [
@@ -46,6 +52,7 @@ class Endereco(models.Model):
     class Meta:
         db_table = 'sge_endereco'
         verbose_name = "Endereço"
+        verbose_name_plural = "Endereços"
         ordering = ['logradouro', 'numero']
 
     def __str__(self):
@@ -67,7 +74,7 @@ class Fornecedor(models.Model):
         db_table = 'sge_fornecedor'
         verbose_name = "Fornecedor"
         verbose_name_plural = "Fornecedores"
-        ordering = ['usuario__username']
+        ordering = ['usuario__username', 'razao_social']
 
     def __str__(self):
         return self.usuario.username
