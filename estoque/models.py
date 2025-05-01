@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from produtos.models import Produto
 
 class MovimentacaoEstoque(models.Model):
@@ -12,6 +13,7 @@ class MovimentacaoEstoque(models.Model):
     quantidade = models.PositiveIntegerField()
     data_movimentacao = models.DateTimeField(auto_now_add=True)
     observacoes = models.TextField(blank=True, null=True)
+    usuario_responsavel = models.ForeignKey('authentication.User', on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Usuário Responsável")
 
     class Meta:
         db_table = 'sge_movimentacao_estoque'
@@ -21,3 +23,14 @@ class MovimentacaoEstoque(models.Model):
 
     def __str__(self):
         return f"{self.tipo.capitalize()} - {self.produto.nome} ({self.quantidade})"
+
+    def save(self, *args, **kwargs):
+        if self.tipo == 'saida':
+            estoque_atual = self.produto.quantidade
+            if self.quantidade > estoque_atual:
+                raise ValidationError(f"Estoque insuficiente para o produto {self.produto.nome}. Quantidade disponível: {estoque_atual}.")
+            self.produto.quantidade -= self.quantidade
+        elif self.tipo == 'entrada':
+            self.produto.quantidade += self.quantidade
+        self.produto.save()
+        super().save(*args, **kwargs)

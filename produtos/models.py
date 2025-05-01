@@ -58,6 +58,14 @@ class Produto(models.Model):
         if self.preco_venda < self.preco_custo:
             raise ValidationError('O preço de venda não pode ser inferior ao preço de custo.')
 
+    def verificar_estoque_minimo(self):
+        if self.quantidade < self.quantidade_minima:
+            return f"Atenção: O estoque do produto {self.nome} está abaixo do mínimo ({self.quantidade_minima})."
+        return None
+
     def save(self, *args, **kwargs):
-        self.clean()
+        alerta_estoque = self.verificar_estoque_minimo()
+        if alerta_estoque:
+            # Aqui você pode implementar lógica para enviar notificações ou logs
+            print(alerta_estoque)
         super().save(*args, **kwargs)
