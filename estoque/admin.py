@@ -4,9 +4,10 @@ from django.http import HttpResponse
 import csv
 from openpyxl import Workbook
 from .models import MovimentacaoEstoque
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Permission, Group
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import permission_required
+from django.contrib.contenttypes.models import ContentType
 
 # Formulário para exportação personalizada
 class ExportacaoPersonalizadaForm(forms.Form):
@@ -118,3 +119,32 @@ class MovimentacaoEstoqueAdmin(admin.ModelAdmin):
                 super().get_results(*args, **kwargs)
 
         return CustomChangeList
+
+# Função para configurar grupos e permissões
+def configurar_grupos_e_permissoes():
+    # Criar ou obter o grupo "Gerente de Estoque"
+    gerente_estoque, created = Group.objects.get_or_create(name="Gerente de Estoque")
+
+    # Obter o ContentType do modelo MovimentacaoEstoque
+    content_type = ContentType.objects.get_for_model(MovimentacaoEstoque)
+
+    # Criar permissões específicas para o modelo
+    permissoes = [
+        ("can_add_movimentacao", "Pode adicionar movimentação"),
+        ("can_change_movimentacao", "Pode alterar movimentação"),
+        ("can_delete_movimentacao", "Pode deletar movimentação"),
+        ("can_view_movimentacao", "Pode visualizar movimentação"),
+    ]
+
+    for codename, nome in permissoes:
+        permissao, created = Permission.objects.get_or_create(
+            codename=codename,
+            name=nome,
+            content_type=content_type
+        )
+        gerente_estoque.permissions.add(permissao)
+
+    print("Grupos e permissões configurados com sucesso!")
+
+# Chamar a função ao iniciar o sistema
+configurar_grupos_e_permissoes()
