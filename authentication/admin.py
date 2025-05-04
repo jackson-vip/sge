@@ -54,10 +54,10 @@ def exportar_para_csv(modeladmin, request, queryset):
 
 @admin.register(Fornecedor)
 class FornecedorAdmin(admin.ModelAdmin):
-    list_display = ['usuario', 'razao_social', 'cnpj_cpf', 'telefone', 'email']
-    search_fields = ['usuario__username', 'razao_social', 'cnpj_cpf', 'telefone', 'email']
+    list_display = ['usuario', 'razao_social', 'cnpj', 'cpf', 'telefone', 'email']
+    search_fields = ['usuario__username', 'razao_social', 'cnpj', 'cpf', 'telefone', 'email']
     list_filter = ['tipo_pessoa']
-    ordering = ['razao_social', 'telefone', 'email', 'cnpj_cpf']
+    ordering = ['razao_social', 'telefone', 'email', 'cnpj']
     list_per_page = 20
     actions = [ativar_fornecedores, desativar_fornecedores, exportar_para_csv]
 

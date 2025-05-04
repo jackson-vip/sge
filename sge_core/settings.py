@@ -27,9 +27,9 @@ environ.Env.read_env()  # Lê as variáveis do arquivo .env
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # Substitui as configurações existentes pelas variáveis de ambiente
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY', default='django-insecure-default-key')
 DEBUG = env.bool('DEBUG', default=False) # Lembra de definir DEBUG como False em produção
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
 
 # Application definition

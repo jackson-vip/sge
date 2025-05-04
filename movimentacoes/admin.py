@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Pedido, PedidoProduto
+from .models import Pedido, ItemPedido
 
 # Register your models here.
 
@@ -14,7 +14,7 @@ class PedidoAdmin(admin.ModelAdmin):
     list_editable = ['status']
 
 
-@admin.register(PedidoProduto)
+@admin.register(ItemPedido)
 class PedidoProdutoAdmin(admin.ModelAdmin):
     list_display = ['pedido', 'produto', 'quantidade', 'preco_unitario']
     search_fields = ['pedido__fornecedor__usuario__username', 'produto__nome', 'quantidade', 'preco_unitario']

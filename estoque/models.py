@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from produtos.models import Produto
+from django.contrib.auth.models import User
 
 class MovimentacaoEstoque(models.Model):
     TIPO_MOVIMENTACAO = [
@@ -13,7 +14,7 @@ class MovimentacaoEstoque(models.Model):
     quantidade = models.PositiveIntegerField()
     data_movimentacao = models.DateTimeField(auto_now_add=True)
     observacoes = models.TextField(blank=True, null=True)
-    usuario_responsavel = models.ForeignKey('authentication.User', on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Usuário Responsável")
+    usuario_responsavel = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Usuário Responsável")
 
     class Meta:
         db_table = 'sge_movimentacao_estoque'

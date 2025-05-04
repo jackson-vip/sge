@@ -15,9 +15,9 @@ class Pedido(models.Model):
 
     fornecedor = models.ForeignKey('authentication.Fornecedor', on_delete=models.CASCADE)
     cliente = models.ForeignKey('authentication.Cliente', on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Cliente")
-    produtos = models.ManyToManyField(Produto, through='PedidoProduto')
+    produtos = models.ManyToManyField(Produto, through='ItemPedido')
     data_pedido = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=10, choices=STATUS_PEDIDO, default='pendente')
+    status = models.CharField(max_length=20, choices=STATUS_PEDIDO, default='pendente')
     valor_total = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="Valor Total")
     criado_em = models.DateTimeField(auto_now_add=True, verbose_name="Criado em")
     atualizado_em = models.DateTimeField(auto_now=True, verbose_name="Atualizado em")
