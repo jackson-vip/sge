@@ -25,7 +25,18 @@ class MovimentacaoEstoque(models.Model):
     def __str__(self):
         return f"{self.tipo.capitalize()} - {self.produto.nome} ({self.quantidade})"
 
+    def clean(self):
+        # Garantir que a quantidade seja positiva
+        if self.quantidade <= 0:
+            raise ValidationError("A quantidade deve ser maior que zero.")
+
+        # Garantir que o tipo de movimentação seja válido
+        if self.tipo not in dict(self.TIPO_MOVIMENTACAO):
+            raise ValidationError(f"Tipo de movimentação inválido: {self.tipo}.")
+
     def save(self, *args, **kwargs):
+        # Chamar validações antes de salvar
+        self.clean()
         if self.tipo == 'saida':
             estoque_atual = self.produto.quantidade
             if self.quantidade > estoque_atual:

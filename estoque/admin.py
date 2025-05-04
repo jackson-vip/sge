@@ -4,6 +4,7 @@ from django.http import HttpResponse
 import csv
 from openpyxl import Workbook
 from .models import MovimentacaoEstoque
+from django.contrib.auth.models import Permission
 
 # Formulário para exportação personalizada
 class ExportacaoPersonalizadaForm(forms.Form):
@@ -27,6 +28,8 @@ class ExportacaoPersonalizadaForm(forms.Form):
 
 @admin.action(description='Exportar para CSV')
 def exportar_para_csv(modeladmin, request, queryset):
+    if not request.user.has_perm('estoque.can_export_data'):
+        raise PermissionError("Você não tem permissão para exportar dados.")
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="movimentacao_estoque.csv"'
     writer = csv.writer(response)
@@ -37,6 +40,8 @@ def exportar_para_csv(modeladmin, request, queryset):
 
 @admin.action(description='Exportar para Excel')
 def exportar_para_excel(modeladmin, request, queryset):
+    if not request.user.has_perm('estoque.can_export_data'):
+        raise PermissionError("Você não tem permissão para exportar dados.")
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="movimentacao_estoque.xlsx"'
 
@@ -63,6 +68,8 @@ def exportar_para_excel(modeladmin, request, queryset):
 
 @admin.action(description='Exportar para CSV (Personalizado)')
 def exportar_para_csv_personalizado(modeladmin, request, queryset):
+    if not request.user.has_perm('estoque.can_export_data'):
+        raise PermissionError("Você não tem permissão para exportar dados.")
     form = ExportacaoPersonalizadaForm(request.POST or None)
     if 'apply' in request.POST and form.is_valid():
         colunas_selecionadas = form.cleaned_data['colunas']
