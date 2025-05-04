@@ -5,6 +5,8 @@ import csv
 from openpyxl import Workbook
 from .models import MovimentacaoEstoque
 from django.contrib.auth.models import Permission
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import permission_required
 
 # Formulário para exportação personalizada
 class ExportacaoPersonalizadaForm(forms.Form):
@@ -26,10 +28,19 @@ class ExportacaoPersonalizadaForm(forms.Form):
 
 # MovimentacaoEstoque
 
+# Decorator para verificar permissões de forma consistente
+def check_permission(permission):
+    def decorator(func):
+        @method_decorator(permission_required(permission, raise_exception=True))
+        def wrapper(*args, **kwargs):
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+# Atualizar as ações para usar o decorator
+@check_permission('estoque.can_export_data')
 @admin.action(description='Exportar para CSV')
 def exportar_para_csv(modeladmin, request, queryset):
-    if not request.user.has_perm('estoque.can_export_data'):
-        raise PermissionError("Você não tem permissão para exportar dados.")
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="movimentacao_estoque.csv"'
     writer = csv.writer(response)
@@ -38,10 +49,9 @@ def exportar_para_csv(modeladmin, request, queryset):
         writer.writerow([movimentacao.id, movimentacao.produto.nome, movimentacao.tipo, movimentacao.quantidade, movimentacao.data_movimentacao, movimentacao.observacoes])
     return response
 
+@check_permission('estoque.can_export_data')
 @admin.action(description='Exportar para Excel')
 def exportar_para_excel(modeladmin, request, queryset):
-    if not request.user.has_perm('estoque.can_export_data'):
-        raise PermissionError("Você não tem permissão para exportar dados.")
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="movimentacao_estoque.xlsx"'
 
@@ -66,10 +76,9 @@ def exportar_para_excel(modeladmin, request, queryset):
     wb.save(response)
     return response
 
+@check_permission('estoque.can_export_data')
 @admin.action(description='Exportar para CSV (Personalizado)')
 def exportar_para_csv_personalizado(modeladmin, request, queryset):
-    if not request.user.has_perm('estoque.can_export_data'):
-        raise PermissionError("Você não tem permissão para exportar dados.")
     form = ExportacaoPersonalizadaForm(request.POST or None)
     if 'apply' in request.POST and form.is_valid():
         colunas_selecionadas = form.cleaned_data['colunas']
