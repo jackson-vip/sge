@@ -2,12 +2,58 @@
 {% load static %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'global/css/styles.css' %}">
+    <style>
+        .dashboard-container {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+        .dashboard-section {
+            margin-bottom: 20px;
+        }
+        .dashboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .dashboard-table th, .dashboard-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .dashboard-table th {
+            background-color: #fff;
+        }
+        .dashboard-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .dashboard-table tr:hover {
+            background-color: #ddd;
+        }
+        .dashboard-section h2 {
+            margin-bottom: 10px;
+        }
+        .dashboard-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .dashboard-section ul li {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+        .dashboard-section ul li:hover {
+            background-color: #ddd;
+        }
+        .dashboard-section ul li span {
+            font-weight: bold;
+        }
+    </style>
 {% endblock %}
 {% block title %}{{ title }}{% endblock title %}
 {% block content %}
     {% include "global/partials/breadcrumb.html" %}
     <br>
-    <h2>Bem-vindo ao Painel</h2>
+    {% comment %} <h2>Bem-vindo ao Painel</h2>
     <div class="cards">
         <div class="card">
             <h3>R$ 33.343,92</h3>
@@ -21,6 +67,62 @@
             <h3>R$ 10.343,92</h3>
             <p>Compras do mês</p>
         </div>
+    </div> {% endcomment %}
+    <div class="dashboard-container">
+    
+        <div class="dashboard-section">
+            <h2>Estoque Atual</h2>
+            <table class="dashboard-table">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for produto in produtos %}
+                    <tr>
+                        <td>{{ produto.nome }}</td>
+                        <td>{{ produto.quantidade }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    
+        <div class="dashboard-section">
+            <h2>Movimentações Recentes</h2>
+            <table class="dashboard-table">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Tipo</th>
+                        <th>Quantidade</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for movimentacao in movimentacoes %}
+                    <tr>
+                        <td>{{ movimentacao.produto.nome }}</td>
+                        <td>{{ movimentacao.tipo }}</td>
+                        <td>{{ movimentacao.quantidade }}</td>
+                        <td>{{ movimentacao.data_movimentacao }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    
+        <div class="dashboard-section">
+            <h2>Estoque Crítico</h2>
+            <ul>
+                {% for produto in estoque_critico %}
+                <li>{{ produto.nome }} - {{ produto.quantidade }} unidades</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
+
 {% endblock content %}
 {% block js %}{% endblock js %}
