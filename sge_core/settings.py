@@ -23,14 +23,6 @@ env = environ.Env(
 
 environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))  # Lê as variáveis do arquivo .env
 
-# Adicionando um print para verificar a leitura da porta do banco de dados
-# print("DB_PORT:", env('DB_PORT', default='5432'))
-# print("DB_NAME:", env('DB_NAME', default=''))
-# print("DB_USER:", env('DB_USER', default=''))
-# print("DB_PASSWORD:", env('DB_PASSWORD', default=''))
-# print("DB_HOST:", env('DB_HOST', default=''))
-# print("DB_PORT:", env('DB_PORT', default=''))
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 

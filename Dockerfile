@@ -1,6 +1,6 @@
 # Usa uma imagem oficial do Python
-# FROM python:3.13-slim
-FROM python:3.11-slim
+FROM python:3.13-slim
+# FROM python:3.11-slim
 
 # Evita a criação de arquivos .pyc e garante logs em tempo real
 ENV PYTHONDONTWRITEBYTECODE=1
