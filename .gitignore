@@ -136,8 +136,8 @@ __pypackages__/
 *.bak
 *.swp
 .dockerignore
-Dockerfile*
-docker-compose*
+# Dockerfile*
+# docker-compose*
 
 # IDEs and Editors
 ## VS Code

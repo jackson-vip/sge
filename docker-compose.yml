@@ -1,0 +1,50 @@
+services:
+  db:
+    image: postgres:15
+    container_name: sge_db
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 8s      
+      retries: 5
+    restart: "no"
+
+  web:
+    image: python:3.9
+    build:
+      context: .
+    container_name: sge_web
+    command: >
+      sh -c "while !nc -z db 5432; do sleep 2; done;
+      python manage.py migrate --noinput &&
+      python manage.py runserver 0.0.0.0:8000"
+    env_file:
+      - .env
+    environment:
+      - DEBUG=${DEBUG}
+      - DJANGO_ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    restart: "no"
+
+volumes:
+  postgres_data:
+
+# Adicionado o uso do arquivo .env para carregar variáveis de ambiente nos serviços `db` e `web`.
+
