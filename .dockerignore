@@ -1,0 +1,60 @@
+# Ignorar arquivos e diretórios desnecessários para o build do Docker
+
+# Arquivos de configuração de controle de versão
+.git
+.gitignore
+
+# Arquivos de log
+*.log
+
+# Diretórios de ambientes virtuais
+.env
+.venv
+venv/
+ENV/
+
+# Arquivos de cache do Python
+__pycache__/
+*.py[cod]
+
+# Diretórios de build e distribuição
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Arquivos de configuração de IDEs
+.idea/
+.vscode/
+
+# Arquivos temporários
+*.tmp
+*.bak
+*.swp
+
+# Arquivos de mídia e estáticos gerados
+media/
+staticfiles/
+basic_static/
+
+# Diretórios de templates
+basic_templates/
+
+# Arquivos específicos do Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Outros arquivos desnecessários
+*.pid
+*.seed
+*.bak
+*.swp
+
+# Diretórios de migrações do Django
+**/migrations/
+
+# Arquivos de cache do Django
+**/*.pyc
+**/*.pyo
+**/*.pyd

@@ -135,7 +135,7 @@ __pypackages__/
 *.seed
 *.bak
 *.swp
-.dockerignore
+# .dockerignore
 # Dockerfile*
 # docker-compose*
 
