@@ -21,7 +21,15 @@ env = environ.Env(
     DEBUG=(bool, True)  # Define o tipo padrão para DEBUG como booleano
 )
 
-environ.Env.read_env()  # Lê as variáveis do arquivo .env
+environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))  # Lê as variáveis do arquivo .env
+
+# Adicionando um print para verificar a leitura da porta do banco de dados
+# print("DB_PORT:", env('DB_PORT', default='5432'))
+# print("DB_NAME:", env('DB_NAME', default=''))
+# print("DB_USER:", env('DB_USER', default=''))
+# print("DB_PASSWORD:", env('DB_PASSWORD', default=''))
+# print("DB_HOST:", env('DB_HOST', default=''))
+# print("DB_PORT:", env('DB_PORT', default=''))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -29,7 +37,7 @@ environ.Env.read_env()  # Lê as variáveis do arquivo .env
 # Substitui as configurações existentes pelas variáveis de ambiente
 SECRET_KEY = env('SECRET_KEY', default='django-insecure-default-key')
 DEBUG = env.bool('DEBUG', default=False) # Lembra de definir DEBUG como False em produção
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 
 # Application definition
@@ -94,8 +102,8 @@ DATABASES = {
         'NAME': env('DB_NAME', default='sge_db'),
         'USER': env('DB_USER', default='postgres'),
         'PASSWORD': env('DB_PASSWORD', default='sua_senha'),
-        'HOST': env('DB_HOST', default='localhost'),
-        'PORT': env('DB_PORT', default='5432'),
+        'HOST': env('DB_HOST', default='db'),
+        'PORT': env('DB_PORT', default='5432'),  # Porta forçada para garantir a conexão
         'OPTIONS': {
             # 'sslmode': 'require',  # Boa prática para produção, descomentar quando necessário
             # 'connect_timeout': 10,  # Tempo máximo de espera para conexão
