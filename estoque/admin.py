@@ -145,6 +145,3 @@ def configurar_grupos_e_permissoes():
         gerente_estoque.permissions.add(permissao)
 
     print("Grupos e permissões configurados com sucesso!")
-
-# Chamar a função ao iniciar o sistema
-configurar_grupos_e_permissoes()
