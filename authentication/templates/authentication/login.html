@@ -8,7 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="icon" href="{% static 'global/assets/img/favicon.ico' %}" type="image/x-icon">
 
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'authentication/css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'global/css/dark-theme.css' %}">
     <script type="text/javascript" src="{% static 'js/login.js' %}" defer></script>
 
 </head>
@@ -25,23 +26,34 @@
         {% if error %}
             <p class="error-message">{{ error }}</p>
         {% endif %}
-        <form method="post">
+        <form method="post" id="login-form">
             {% csrf_token %}
-            <label for="username">Usuário:</label>
+            <label for="username">Usuário</label>
             <div class="input-group">
                 <i class="bi bi-person icon"></i>
                 <input type="text" id="username" name="username" placeholder="Digite seu nome de usuário" required>
             </div>
 
-            <label for="password">Senha:</label>
+            <div class="label-group">
+                <label for="password">Senha</label>
+                <a href="#">Esqueceu sua senha?</a>
+            </div>
             <div class="input-group">
                 <i class="bi bi-lock icon"></i>
                 <input type="password" id="password" name="password" placeholder="Digite sua senha" required autocomplete="current-password">
                 <i class="bi bi-eye-slash toggle-password"></i>
             </div>
 
+            <div class="checkbox-group">
+                <label for="checkbox">
+                    <input type="checkbox" name="checkbox"> 
+                    <span>Permaneça conectado</span>
+                </label>
+            </div>           
+
             <button type="submit">Entrar</button>
         </form>
     </div>
+    <script type="text/javascript" src="{% static 'authentication/js/login.js' %}" defer></script>
 </body>
 </html>

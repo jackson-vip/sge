@@ -148,7 +148,7 @@ USE_TZ = env.bool('USE_TZ', default=True)
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = env('DJ_STATIC_URL', default='/static/')
+STATIC_URL = env('DJ_STATIC_URL', default='/static/') # URL para arquivos estáticos
 
 STATICFILES_DIRS = [
     BASE_DIR / 'basic_static',  # Diretório para arquivos estáticos adicionais
