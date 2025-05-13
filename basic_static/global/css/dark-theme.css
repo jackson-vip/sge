@@ -10,7 +10,9 @@ body.dark-theme {
 }
 
 body.dark-theme .card,
-body.dark-theme .fk_breadcrumb {
+body.dark-theme .fk_breadcrumb,
+body.dark-theme .dashboard-container,
+body.dark-theme .dashboard-table thead th {
     background: #2a2a40;
     color: var(--text-color);
 }
