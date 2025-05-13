@@ -7,6 +7,8 @@ body.dark-theme {
     --text-c-secondary: #a1a1b5;
     --gray-light: #3a3a55;
     --purple-light: #4a4a6a;
+
+    --bg-yellow: #f9c74f;
 }
 
 body.dark-theme .card,
@@ -31,4 +33,12 @@ body.dark-theme .dropdown-content h5 {
 
 body.dark-theme .sidebar {
     box-shadow: 2px 0 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilo para inputs em foco no tema escuro */
+body.dark-theme input:focus {
+    outline: none;
+    border: 1px solid var(--bg-yellow);
+    box-shadow: 0 0 5px var(--bg-yellow);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
