@@ -1,17 +1,14 @@
-from django.shortcuts import render
-from django.urls import reverse
-from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
+from django.urls import reverse
 
+# Importando os modelos necessários
 from estoque.models import MovimentacaoEstoque
 from produtos.models import Produto
 
 # Create your views here.
 
-@method_decorator(login_required, name='dispatch')
-class DashboardView(TemplateView):
+class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard/dashboard.html'
 
     def get_context_data(self, **kwargs):
