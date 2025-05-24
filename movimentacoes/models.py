@@ -1,5 +1,6 @@
 from django.db import models
 from produtos.models import Produto
+from clientes.models import Cliente
 
 # Removida a classe Fornecedor deste arquivo, pois foi movida para o app authentication.
 
@@ -13,8 +14,8 @@ class Pedido(models.Model):
         ('entregue', 'Entregue')
     ]
 
-    fornecedor = models.ForeignKey('authentication.Fornecedor', on_delete=models.CASCADE)
-    cliente = models.ForeignKey('authentication.Cliente', on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Cliente")
+    fornecedor = models.ForeignKey('fornecedores.Fornecedor', on_delete=models.CASCADE)
+    cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Cliente")
     produtos = models.ManyToManyField(Produto, through='ItemPedido')
     data_pedido = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUS_PEDIDO, default='pendente')

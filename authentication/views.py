@@ -1,12 +1,11 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
+
+from django.http import HttpResponseRedirect
 from django.views import View
 
 # Create your views here.
-
 
 class LoginView(View):
     template_name = 'authentication/login/login.html'

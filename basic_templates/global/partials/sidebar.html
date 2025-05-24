@@ -11,7 +11,7 @@
     <nav>
         <ul>
             <li>
-                <a href="#">
+                <a href="{% url 'dashboard:dashboard' %}">
                     <i class="bi bi-speedometer2"></i>
                     <span>DASHBOARD</span>
                 </a>
@@ -23,9 +23,17 @@
                     <i class="bi bi-chevron-left" class="submenu-toggle-icon"></i>
                 </a>
                 <ul class="submenu">
-                    <li><a href="#">Lorem ipsum</a></li>
-                    <li><a href="#">Lorem ipsum</a></li>
-                    <li><a href="#">Lorem ipsum</a></li>
+                    <li><a href="{% url 'cliente:cliente_list_view' %}">Consultar Clientes</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="#">
+                    <i class="bi bi-person-plus"></i>
+                    <span>FUNCIONARIO</span>
+                    <i class="bi bi-chevron-left" class="submenu-toggle-icon"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="{% url 'funcionario:funcionario_list_view' %}">Consultar Funcionarios</a></li>
                 </ul>
             </li>
             <li class="has-submenu">
@@ -35,9 +43,7 @@
                     <i class="bi bi-chevron-left" class="submenu-toggle-icon"></i>
                 </a>
                 <ul class="submenu">
-                    <li><a href="#">Lorem ipsum</a></li>
-                    <li><a href="#">Lorem ipsum</a></li>
-                    <li><a href="#">Lorem ipsum</a></li>
+                    <li><a href="{% url 'fornecedor:fornecedor_list_view' %}">Consultar Fornecedores</a></li>
                 </ul>
             </li>
             <li class="has-submenu">

@@ -13,7 +13,10 @@ urlpatterns = [
     path('movimentacoes/', include('movimentacoes.urls')),  # URLs do app de movimentações
     path('estoque/', include('estoque.urls')),  # URLs do app de estoque
     path('produtos/', include('produtos.urls')),  # URLs do app de produtos
-]
+    path('clientes/', include('clientes.urls')),  # URLs do app de clientes
+    path('funcionarios/', include('funcionarios.urls')),  # URLs do app de funcionários
+    path('fornecedores/', include('fornecedores.urls')),  # URLs do app de fornecedores
+    ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

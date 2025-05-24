@@ -1,0 +1,14 @@
+{% extends "global/base.html" %}
+{% load static %}
+
+{% block content %}
+    {% include "global/partials/breadcrumb.html" %}
+    <br>
+    <h1>{{ title }}</h1>
+    <p> Página: cliente_list_view.html</p>
+    <ul>
+        {% for cliente in clientes %}
+            <li>{{ cliente.nome }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

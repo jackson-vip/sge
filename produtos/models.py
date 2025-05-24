@@ -41,7 +41,7 @@ class Produto(models.Model):
     unidade_medida = models.CharField(max_length=20, choices=UNIDADE_MEDIDA, default='unidade')
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True)
     ativo = models.BooleanField(default=True)
-    fornecedor_id = models.ForeignKey('authentication.Fornecedor', on_delete=models.SET_NULL, null=True, blank=True, name='fornecedor')
+    fornecedor_id = models.ForeignKey('fornecedores.Fornecedor', on_delete=models.SET_NULL, null=True, blank=True, name='fornecedor')
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
 

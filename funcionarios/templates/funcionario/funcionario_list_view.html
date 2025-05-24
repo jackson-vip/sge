@@ -1,0 +1,14 @@
+{% extends "global/base.html" %}
+{% load static %}
+
+{% block content %}
+    {% include "global/partials/breadcrumb.html" %}
+    <br>
+    <h1>{{ title }}</h1>
+    <p> Página: funcionario_list_view.html</p>
+    <ul>
+        {% for funcionario in funcionarios %}
+            <li>{{ funcionario.nome }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
