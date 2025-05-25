@@ -14,7 +14,7 @@ class ClienteListView(LoginRequiredMixin, View):
 
     def get_context_data(self, **kwargs):
         context = {}
-        context['title'] = 'Lista de Clientes'
+        context['title'] = 'Clientes'
         context['breadcrumbs'] = [
             {'name': 'Clientes', 'url': reverse('cliente:cliente_list_view')},
         ]
