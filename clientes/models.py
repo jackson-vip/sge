@@ -9,7 +9,7 @@ from authentication.models import Endereco
 # Atualização no modelo Usuario
 class Cliente(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.PROTECT, null=True)
-    imagem = models.ImageField(upload_to='clientes/', blank=True, null=True, default='clientes/default.png')
+    imagem = models.ImageField(upload_to='clientes/', blank=True, null=True, default='global/assets/img/user.jpeg')
     data_nascimento = models.DateField()
     cpf = models.CharField(max_length=14, unique=True)
     rg = models.CharField(max_length=12, unique=True, blank=True, null=True)
