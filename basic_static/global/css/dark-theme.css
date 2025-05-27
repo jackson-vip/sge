@@ -14,7 +14,9 @@ body.dark-theme {
 body.dark-theme .card,
 body.dark-theme .fk_breadcrumb,
 body.dark-theme .dashboard-container,
-body.dark-theme .dashboard-table thead th {
+body.dark-theme .dashboard-table thead th,
+body.dark-theme .card-row,
+body.dark-theme .clients-container .client-card {
     background: #2a2a40;
     color: var(--text-color);
 }
@@ -41,4 +43,29 @@ body.dark-theme input:focus {
     border: 1px solid var(--bg-yellow);
     box-shadow: 0 0 5px var(--bg-yellow);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.dark-theme .client-card {
+    border: 1px solid #444;
+}
+
+body.dark-theme .card-body .client-detail {
+    border-bottom: 1px solid #444;
+}
+
+body.dark-theme .card-body .client-detail .detail-label {
+    color: var(--text-color);
+}
+
+body.dark-theme .card-body .client-detail .detail-value {
+    color: var(--text-c-secondary);
+}
+
+body.dark-theme .card-footer {
+    border-top: 1px solid var(--text-c-secondary);
+}
+
+body.dark-theme .select-all-container,
+body.dark-theme .user-info i {
+    color: var(--text-color);
 }
