@@ -24,7 +24,10 @@
 {% if clientes|length > 0 %}
     <div class="select-all-container">
         <input class="select-all-checkbox" type="checkbox" id="selecionarTodos" />
-        <label for="selecionarTodos">Selecionar Todos</label>
+        <label for="selecionarTodos">» Selecionar Todos</label>
+        <div class="selected-count-container">
+            <span class="selected-count">0 selecionados</span>
+        </div>
     </div>
 {% endif %}
 
@@ -34,10 +37,10 @@
         <div class="client-card">
             <div class="card-header">
                 <input type="checkbox" class="select-card" value="{{ cliente.id }}" />
-                <img src="{% static 'global/assets/img/user.jpeg' %}" class="client-image" alt="Imagem do Cliente"/>
+                <img src="{% if cliente.imagem and cliente.imagem.url %}{{ cliente.imagem.url }}{% else %}{% static 'global/assets/img/user.jpeg' %}{% endif %}" class="client-image" alt="Imagem do Cliente"/>
                 <div class="client-info">
-                    <h5>{{ cliente.nome }}</h5>
-                    <small class="status">Ativo</small>
+                    <h2 class='mb-1 p-2'>{{ cliente.usuario.first_name }} {{ cliente.usuario.last_name }}</h2>
+                    <small class="status badge rounded-pill {% if cliente.status == 'ativo' %}text-bg-success{% elif cliente.status == 'inativo' %}text-bg-warning{% else %}text-bg-danger{% endif %}">{{ cliente.status }}</small>
                 </div>
             </div>
             <div class="card-body">
@@ -58,7 +61,7 @@
             </div>
             <div class="card-footer">
                 <a href="#" class="btn-view" data-bs-toggle="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Visualizar"><i class="fas fa-eye"></i></a>
-                <a href="#" class="btn-edit" data-bs-toggle="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Editar"><i class="fas fa-edit"></i></a>
+                <a href="#" class="btn-edit" data-bs-toggle="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Editar"><i class="fas fa-pencil-alt"></i></a>
                 <a href="#" class="btn-delete" data-bs-toggle="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Excluir"><i class="fas fa-trash"></i></a>
             </div>
         </div>
@@ -71,7 +74,7 @@
 
 
 <!-- Teste Card Statico Apaga -->
-<div class="clients-container">
+{% comment %} <div class="clients-container">
     
     <div class="client-card">
         <div class="card-header">
@@ -111,83 +114,7 @@
         </div>
     </div>
 
-    <div class="client-card">
-        <div class="card-header">
-            <input type="checkbox" class="select-card" value="" />
-            <img src="{% static 'global/assets/img/user.jpeg' %}" class="client-image" alt="Imagem do Cliente"/>
-            <div class="client-info">
-            <h5>Jhon Doe</h5>
-            <small class="status">Ativo</small>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="client-details">
-                <div class="client-detail">
-                    <span class="detail-label"><strong>CPF :</strong></span>
-                    <span class="detail-value">000.000.000-00</span>
-                </div>
-                <div class="client-detail">
-                    <span class="detail-label"><strong>Email :</strong></span>
-                    <span class="detail-value">jhondoe@example.com</span>
-                </div>
-                <div class="client-detail">
-                    <span class="detail-label"><strong>Telefone :</strong></span>
-                    <span class="detail-value">(00) 0000-0000</span>
-                </div>
-            </div>
-        </div>
-        <div class="card-footer">
-            <a href="#" class="btn-view" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Visualizar">
-                <i class="fas fa-eye"></i>
-            </a>
-            <a href="#" class="btn-edit" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Editar">
-                    <i class="fas fa-pencil-alt"></i>
-            </a>
-            <a href="#" class="btn-delete" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Excluir">
-                <i class="fas fa-trash"></i>
-            </a>
-        </div>
-    </div>
-
-    <div class="client-card">
-        <div class="card-header">
-            <input type="checkbox" class="select-card" value="" />
-            <img src="{% static 'global/assets/img/user.jpeg' %}" class="client-image" alt="Imagem do Cliente"/>
-            <div class="client-info">
-            <h5>Jhon Doe</h5>
-            <small class="status">Ativo</small>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="client-details">
-                <div class="client-detail">
-                    <span class="detail-label"><strong>CPF :</strong></span>
-                    <span class="detail-value">000.000.000-00</span>
-                </div>
-                <div class="client-detail">
-                    <span class="detail-label"><strong>Email :</strong></span>
-                    <span class="detail-value">jhondoe@example.com</span>
-                </div>
-                <div class="client-detail">
-                    <span class="detail-label"><strong>Telefone :</strong></span>
-                    <span class="detail-value">(00) 0000-0000</span>
-                </div>
-            </div>
-        </div>
-        <div class="card-footer">
-            <a href="#" class="btn-view" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Visualizar">
-                <i class="fas fa-eye"></i>
-            </a>
-            <a href="#" class="btn-edit" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Editar">
-                    <i class="fas fa-pencil-alt"></i>
-            </a>
-            <a href="#" class="btn-delete" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Excluir">
-                <i class="fas fa-trash"></i>
-            </a>
-        </div>
-    </div>
-
-</div>
+</div> {% endcomment %}
 
 {% endblock %} 
 
