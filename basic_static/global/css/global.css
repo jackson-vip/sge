@@ -69,11 +69,122 @@ p {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    padding: 20px;
+    padding: 10px 20px;
     margin-bottom: 20px;
     font-size: 1.4rem;
 }
 
 .custom-tooltip {
     font-size: 1.2rem !important;
+}
+
+/* Paginação */
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+#pagination-dj {
+    display: flex;
+    padding: 0;
+    gap: 1rem;
+}
+
+#pagination-dj .pagination-link {
+    color:#646464;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: .5rem;
+    margin: 1rem 0;
+    /* background-color: #f9f9f9; */
+    border: 1px solid #e0e0e0;
+    background-color: #fff;
+    border-radius: 0.25rem;
+
+    & span {
+        padding: 0 6px;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+}
+
+#pagination-dj .pagination-item {
+    margin: 1rem 0;
+    background: transparent !important;
+}
+
+#pagination-dj .previous-page, 
+#pagination-dj .next-page {
+    background-color: #4d86c4;
+    border: 1px solid #4d86c4;
+    color: #fff;
+    text-decoration: none;
+
+    &:hover {
+        background-color: #cce5ff;
+        border: 1px solid #cce5ff;
+        color: #4d86c4;
+    }
+}
+
+.pagination-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem;
+    color: #aeaeae;
+    font-size: 1.4rem;
+    margin-right: 30px;
+}
+
+.start-num,
+.end-num {
+    padding: 0 10px;
+}
+
+.start-num {
+    font-weight: 600;
+    color: var(#646464);
+    border-right: 1px solid #e0e0e0;
+}
+
+#pagination-dj .pagination-active {
+    background-color: #cce5ff;
+    color: #4d86c4;
+    border: 1px solid #cce5ff;
+}
+
+#opcoes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: .4rem 2rem .4rem 1rem;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.25rem;
+    appearance: none;
+    -webkit-appearance: none; /* Para navegadores baseados no WebKit */
+    -moz-appearance: none; /* Para navegadores baseados no Gecko */
+    -ms-appearance: none; /* Para navegadores baseados no Trident */
+    -o-appearance: none; /* Para navegadores baseados no Presto */
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(#646464);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' color='gray' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'><path d='M19 9l-7 7-7-7'></path></svg>");
+    background-repeat: no-repeat;
+    background-position: right .2rem top 50%;
+    background-size: 1.5rem;
+}
+
+#opcoes option {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(#646464);
 }
