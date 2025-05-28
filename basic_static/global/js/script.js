@@ -100,3 +100,21 @@ document.addEventListener('keydown', (event) => {
  */
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+// Capturar o valor do select opcao e redirecionar para a página correta
+$(document).ready(function() {
+    $('#opcoes').on("change", function() {
+        let opcao = $('#opcoes').val();
+        console.log(opcao);
+
+        if (opcao == '12') {
+            window.location.href = `/clientes/?opcao=${opcao}`;
+        } else if (opcao == '15') {
+            window.location.href = `/clientes/?opcao=${opcao}`;
+        } else if (opcao == '18') {
+            window.location.href = `/clientes/?opcao=${opcao}`;
+        } else if (opcao == '21') {
+            window.location.href = `/clientes/?opcao=${opcao}`;
+        }
+    });
+});
