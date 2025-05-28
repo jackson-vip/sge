@@ -1,0 +1,54 @@
+{% if page_obj.has_other_pages %}
+  <div class="pagination-container">
+
+    <nav id="pagination-dj">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="previous-page pagination-link"><span>«</span></a>
+
+        {% if page_obj.number > 3 %}
+          <a href="?page=1" class="pagination-link"><span>1</span></a>
+          {% if page_obj.number > 4 %}
+            <span class="pagination-item">...</span>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+            <a href="?page={{ num }}" class="pagination-link pagination-active"><span>{{ num }}</span></a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %} <a href="?page={{ num }}&q={{ request.GET.q }}" class="pagination-link"><span>{{ num }}</span></a>
+          {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        {% if page_obj.number < page_obj.paginator.num_pages|add:'-3' %} <span class="pagination-item">...</span>
+          <a href="?page={{ page_obj.paginator.num_pages }}" class="pagination-link"><span>{{ page_obj.paginator.num_pages }}</span></a>
+          {% elif page_obj.number < page_obj.paginator.num_pages|add:'-2' %} <a
+          href="?page={{ page_obj.paginator.num_pages }}" class="pagination-link"><span>{{ page_obj.paginator.num_pages }}</span></a>
+        {% endif %}
+              <a href="?page={{ page_obj.next_page_number }}" class="next-page pagination-link"><span>»</span></a>
+      {% endif %}
+
+      <div style="display: flex; align-items: center;">
+        <form method="GET" actions="{% url 'cliente:cliente_list_view' %}">
+          {% comment %} <label for="opcao">Show :</label> {% endcomment %}
+          <select name="opcao" id="opcoes">
+            {% comment %} <option value="">  </option> {% endcomment %}
+            <option value=""></option>
+            <option value="12">12</option>
+            <option value="15">15</option>
+            <option value="18">18</option>
+            <option value="21">21</option>
+          </select>
+          {% comment %} <input type="hidden" name="page" value="{{ page_obj.number }}"> {% endcomment %}
+        </form>
+      </div>
+
+    </nav>
+
+    <span class="pagination-info">
+      Page <span class="start-num"> {{ page_obj.number }} </span> <span class="end-num"> {{ page_obj.paginator.num_pages }}</span>
+    </span>
+
+  </div>
+{% endif %}
