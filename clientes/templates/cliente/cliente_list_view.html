@@ -12,10 +12,7 @@
 <!-- Área de ações superiores -->
 <div class="card-row actions-container w-100 mt-4">
     <div class="search-container">
-        <input type="text" class="search-input" placeholder="Buscar cliente..." id="buscaCliente"/>
-        <button class="search-button" type="button">
-            <i class="fas fa-search"></i>
-        </button>
+        {% include "global/partials/search.html" %}
     </div>
     <a href="{% url 'cliente:cliente_create_view' %}" class="btn btn-lg btn-primary"> + Novo Cliente</a>
 </div>
@@ -66,9 +63,11 @@
             </div>
         </div>
     {% empty %}
-        <p class="no-clients">
-            Nenhum cliente cadastrado no momento. Por favor, adicione um novo cliente.
-        </p>
+        {% if clientes|length == 0 %}
+            <p class="no-clients">
+                Nenhum cliente cadastrado no momento. Por favor, adicione um novo cliente.
+            </p>
+        {% endif %}
     {% endfor %}
 </div>
 
