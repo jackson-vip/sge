@@ -28,4 +28,4 @@ class Cliente(models.Model):
         ordering = ['usuario__username']
 
     def __str__(self):
-        return self.usuario.username
+        return f"{self.usuario.first_name} {self.usuario.last_name}".strip()
