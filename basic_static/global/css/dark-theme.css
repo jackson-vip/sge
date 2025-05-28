@@ -16,7 +16,8 @@ body.dark-theme .fk_breadcrumb,
 body.dark-theme .dashboard-container,
 body.dark-theme .dashboard-table thead th,
 body.dark-theme .card-row,
-body.dark-theme .clients-container .client-card {
+body.dark-theme .clients-container .client-card,
+body.dark-theme .pagination-container {
     background: #2a2a40;
     color: var(--text-color);
 }
