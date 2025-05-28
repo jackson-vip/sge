@@ -22,6 +22,10 @@
             <main class="content">
                 {% block content %}{% endblock content %}
             </main>
+            {% if is_paginated %}
+                <!-- Paginação -->
+                {% include "global/partials/pagination.html" %}
+            {% endif %}
         </div>
     </div>
 
