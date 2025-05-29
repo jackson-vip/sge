@@ -98,7 +98,7 @@ document.addEventListener('keydown', (event) => {
  * @description Este código seleciona todos os elementos com o atributo `data-bs-toggle="tooltip"` e inicializa os tooltips do Bootstrap neles.
  * Isso permite que os tooltips sejam exibidos quando o usuário passa o mouse sobre esses elementos.
  */
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipTriggerList = document.querySelectorAll('[data-bs-tooltip="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 // Capturar o valor do select opcao e redirecionar para a página correta
