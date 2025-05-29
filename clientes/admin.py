@@ -5,8 +5,8 @@ from .models import Cliente
 
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
-    list_display = ['usuario', 'cpf', 'email', 'telefone']
-    search_fields = ['usuario__username', 'cpf', 'email', 'telefone']
+    list_display = ['usuario', 'cpf', 'rg', 'email', 'telefone']
+    search_fields = ['usuario__username', 'cpf', 'rg', 'email', 'telefone']
     list_filter = ['status']
     ordering = ['usuario__username']
     list_per_page = 20

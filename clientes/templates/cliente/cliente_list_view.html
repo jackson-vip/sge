@@ -60,7 +60,7 @@
                 <a href="{% url 'cliente:cliente_detail_view' cliente.id %}" class="btn-view" data-bs-tooltip="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Visualizar">
                     <i class="fas fa-eye"></i>
                 </a>
-                <a href="#" class="btn-edit" data-bs-tooltip="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Editar">
+                <a href="{% url 'cliente:cliente_update_view' cliente.id %}" class="btn-edit" data-bs-tooltip="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Editar">
                     <i class="fas fa-pencil-alt"></i>
                 </a>
                 <a href="#" class="btn-delete" data-bs-target="#cliente-delete-modal" data-bs-toggle="modal" data-cliente-id="{{ cliente.id }}" data-cliente-nome="{{ cliente.usuario.first_name }} {{ cliente.usuario.last_name }}" data-bs-tooltip="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Excluir">

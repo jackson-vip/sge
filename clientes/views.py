@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.views.generic import ListView, CreateView, DeleteView
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 from django.db.models import Q
 from django.urls import reverse, reverse_lazy
 
@@ -23,7 +23,7 @@ class ClienteListView(LoginRequiredMixin, ListView):
         if request.GET.get('opcao'):
             self.paginate_by = request.GET.get('opcao')
         return super().get(request, *args, **kwargs)
-    
+
     def get_queryset(self):
         queryset = super().get_queryset()
         qs = self.request.GET.get('qs', '').strip()  # Use strip para remover espaços em branco
@@ -48,7 +48,7 @@ class ClienteListView(LoginRequiredMixin, ListView):
             {'name': 'Clientes', 'url': reverse('cliente:cliente_list_view')},
         ]
         return context
-
+    
 class ClienteCreateView(LoginRequiredMixin, CreateView):
     model = Cliente
     template_name = 'cliente/cliente_create_view.html'
@@ -63,13 +63,7 @@ class ClienteCreateView(LoginRequiredMixin, CreateView):
             {'name': 'Criar Cliente', 'url': reverse('cliente:cliente_create_view')},
         ]
         return context
-
-class ClienteDeleteView(LoginRequiredMixin, DeleteView):
-    model = Cliente
-    template_name = 'cliente/cliente_modal/modal_cliente_delete_view.html'
-    success_url = reverse_lazy('cliente:cliente_list_view')
-
-
+    
 class ClienteDetailView(LoginRequiredMixin, ListView):
     model = Cliente
     template_name = 'cliente/cliente_detail_view.html'
@@ -81,10 +75,29 @@ class ClienteDetailView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Detalhes do Cliente'
         context['cliente'] = self.get_queryset().first()
         context['breadcrumbs'] = [
             {'name': 'Clientes', 'url': reverse('cliente:cliente_list_view')},
             {'name': 'Detalhes do Cliente', 'url': reverse('cliente:cliente_detail_view', kwargs={'pk': self.kwargs['pk']})},
+        ]
+        return context
+    
+class ClienteDeleteView(LoginRequiredMixin, DeleteView):
+    model = Cliente
+    template_name = 'cliente/cliente_modal/modal_cliente_delete_view.html'
+    success_url = reverse_lazy('cliente:cliente_list_view')
+
+class ClienteUpdateView(LoginRequiredMixin, UpdateView):
+    model = Cliente
+    template_name = 'cliente/cliente_update_view.html'
+    fields = ['usuario', 'imagem']  # Substitua pelos campos do modelo Cliente
+    success_url = reverse_lazy('cliente:cliente_list_view')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Atualizar Cliente'
+        context['breadcrumbs'] = [
+            {'name': 'Clientes', 'url': reverse('cliente:cliente_list_view')},
+            {'name': 'Atualizar Cliente', 'url': reverse('cliente:cliente_update_view', kwargs={'pk': self.kwargs['pk']})},
         ]
         return context
