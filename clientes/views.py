@@ -1,5 +1,7 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView
+from django.http import HttpResponseRedirect
+from django.views.generic import ListView, CreateView, DeleteView
 from django.db.models import Q
 from django.urls import reverse, reverse_lazy
 
@@ -61,3 +63,8 @@ class ClienteCreateView(LoginRequiredMixin, CreateView):
             {'name': 'Criar Cliente', 'url': reverse('cliente:cliente_create_view')},
         ]
         return context
+
+class ClienteDeleteView(LoginRequiredMixin, DeleteView):
+    model = Cliente
+    template_name = 'cliente/cliente_modal/modal_cliente_delete_view.html'
+    success_url = reverse_lazy('cliente:cliente_list_view')
