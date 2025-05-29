@@ -68,3 +68,23 @@ class ClienteDeleteView(LoginRequiredMixin, DeleteView):
     model = Cliente
     template_name = 'cliente/cliente_modal/modal_cliente_delete_view.html'
     success_url = reverse_lazy('cliente:cliente_list_view')
+
+
+class ClienteDetailView(LoginRequiredMixin, ListView):
+    model = Cliente
+    template_name = 'cliente/cliente_detail_view.html'
+    context_object_name = 'cliente'
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        return Cliente.objects.filter(pk=pk)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Detalhes do Cliente'
+        context['cliente'] = self.get_queryset().first()
+        context['breadcrumbs'] = [
+            {'name': 'Clientes', 'url': reverse('cliente:cliente_list_view')},
+            {'name': 'Detalhes do Cliente', 'url': reverse('cliente:cliente_detail_view', kwargs={'pk': self.kwargs['pk']})},
+        ]
+        return context

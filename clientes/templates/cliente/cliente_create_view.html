@@ -1,3 +1,16 @@
+{% extends "global/base.html" %} 
+{% load static %} 
+{% block title %}{{ title }}{% endblock title %} 
+{% block css %} 
+    <link rel="stylesheet" href="{% static 'cliente/css/cliente_list_view.css' %}" rel="stylesheet"/>
+{% endblock css %} 
+
+{% block content %} 
+
+{% include "global/partials/breadcrumb.html" %}
+
 <!-- Template para criar um cliente -->
 <h1>Criar Cliente</h1>
 <p> Página: cliente_create_view.html</p>
+
+{% endblock content %}

@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <a href="#" class="btn-view" data-bs-tooltip="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Visualizar">
+                <a href="{% url 'cliente:cliente_detail_view' cliente.id %}" class="btn-view" data-bs-tooltip="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Visualizar">
                     <i class="fas fa-eye"></i>
                 </a>
                 <a href="#" class="btn-edit" data-bs-tooltip="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Editar">
