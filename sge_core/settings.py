@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+from django.contrib.messages import constants as messages
 from pathlib import Path
 import os, environ
 
@@ -170,3 +171,11 @@ MEDIA_ROOT = BASE_DIR / 'media'  # Diretório para armazenar arquivos de mídia
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/authentication/login/'
+
+MESSAGE_TAGS = {
+    messages.SUCCESS: "success",
+    messages.ERROR: "danger",
+    messages.INFO: "info",
+    messages.WARNING: "warning",
+    messages.DEBUG: "debug",
+}

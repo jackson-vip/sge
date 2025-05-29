@@ -118,3 +118,16 @@ $(document).ready(function() {
         }
     });
 });
+
+/** Remoção dos alerts após 5 segundos
+ * Usado para remover os alerts após 5 segundos
+ * @description Este código seleciona todos os elementos com a classe `alert` e define um temporizador para removê-los do DOM após 5 segundos.
+ * Isso é útil para limpar automaticamente os alerts da página após um período de tempo, melhorando a experiência do usuário.
+ */
+$(document).ready(function() {
+    setTimeout(function() {
+        $('div.alert').fadeOut('slow', function() {
+            $(this).remove();
+        });
+    }, 5000);
+});

@@ -1,0 +1,11 @@
+{% if messages %}
+    {% for message in messages %}
+    <div id="message" class="my-4">
+        <div {% if message.tags %} class="alert alert-{{ message.tags }} d-flex justify-content-between align-items-center"{% endif %} role="alert">
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+            <h4>{{ message }}</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}

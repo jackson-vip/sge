@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView
@@ -81,11 +82,16 @@ class ClienteDetailView(LoginRequiredMixin, ListView):
             {'name': 'Detalhes do Cliente', 'url': reverse('cliente:cliente_detail_view', kwargs={'pk': self.kwargs['pk']})},
         ]
         return context
-    
-class ClienteDeleteView(LoginRequiredMixin, DeleteView):
+
+class ClienteDeleteView(SuccessMessageMixin, LoginRequiredMixin, DeleteView):
     model = Cliente
     template_name = 'cliente/cliente_modal/modal_cliente_delete_view.html'
     success_url = reverse_lazy('cliente:cliente_list_view')
+    success_message = "Cliente %(cliente_nome)s removido com sucesso!"
+    
+    def get_success_message(self, cleaned_data):
+        cliente = self.object if hasattr(self, 'object') else self.get_object()
+        return self.success_message % {'cliente_nome': cliente.usuario.get_full_name()}
 
 class ClienteUpdateView(LoginRequiredMixin, UpdateView):
     model = Cliente
@@ -101,3 +107,5 @@ class ClienteUpdateView(LoginRequiredMixin, UpdateView):
             {'name': 'Atualizar Cliente', 'url': reverse('cliente:cliente_update_view', kwargs={'pk': self.kwargs['pk']})},
         ]
         return context
+
+        # 997.710.180-94	30.878.946-5	valeska@gmail.com
