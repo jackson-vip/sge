@@ -4,6 +4,15 @@ from clientes.models import Cliente
 
 class ClienteFilter(django_filters.FilterSet):
     qs = django_filters.CharFilter(method='filter_qs', label='Busca')
+    status = django_filters.ChoiceFilter(
+        choices=[
+            ('ativo', 'Ativo'),
+            ('inativo', 'Inativo'),
+            ('bloqueado', 'Bloqueado'),
+        ],
+        empty_label='Todos',
+        label='Status',
+    )
 
     class Meta:
         model = Cliente
@@ -17,11 +26,13 @@ class ClienteFilter(django_filters.FilterSet):
         }
 
     def filter_qs(self, queryset, name, value):
+        if not value:
+            return queryset  # Retorna todos os resultados se o valor estiver vazio
+        
         return queryset.filter(
             Q(usuario__first_name__icontains=value) |
             Q(usuario__last_name__icontains=value) |
             Q(cpf__icontains=value) |
             Q(email__icontains=value) |
-            Q(telefone__icontains=value) |
-            Q(status__icontains=value)
+            Q(telefone__icontains=value) 
         )

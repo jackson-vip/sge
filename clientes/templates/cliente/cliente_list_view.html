@@ -12,9 +12,7 @@
 
 <!-- Área de ações superiores -->
 <div class="card-row actions-container w-100 mt-4">
-    <div class="search-container">
-        {% include "global/partials/search.html" with placeholder_text="Buscar cliente..." action_url=action_url %}
-    </div>
+    {% include "global/partials/search.html" with placeholder_text="Buscar cliente..." action_url=action_url %}
     <a href="{% url 'cliente:cliente_create_view' %}" class="btn btn-lg btn-primary fs-4"> + Novo Cliente</a>
 </div>
 
