@@ -1,6 +1,7 @@
 <div class="search-container">
-    <form action="{% url 'cliente:cliente_list_view' %}" method="GET" class="search-form">
-        <input type="search" id="search" class="search-input" placeholder="Buscar cliente..." name="qs" value="{{ qs }}" required>
+    <form action="{{ action_url|default:'' }}" method="GET" class="search-form">
+        <input type="search" id="search" class="search-input"
+            placeholder="{{ placeholder_text|default:'Buscar cliente...' }}" name="qs" value="{{ request.GET.qs }}">
         <button type="submit" class="search-button">
             <i class="fas fa-search"></i>
         </button>
