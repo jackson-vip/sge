@@ -1,50 +1,34 @@
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView
-from django.db.models import Q
 from django.urls import reverse, reverse_lazy
+from django_filters.views import FilterView
+
+from utils.filters import ClienteFilter
 
 # Importação dos modelos
 from .models import Cliente
-
 
 # Create your views here.
 
 PRE_PAGES = 12
 
-class ClienteListView(LoginRequiredMixin, ListView):
+class ClienteListView(LoginRequiredMixin, FilterView):
     model = Cliente
     template_name = 'cliente/cliente_list_view.html'
     context_object_name = 'clientes'
     paginate_by = PRE_PAGES
+    filterset_class = ClienteFilter
 
     def get(self, request, *args, **kwargs):
         if request.GET.get('opcao'):
             self.paginate_by = request.GET.get('opcao')
         return super().get(request, *args, **kwargs)
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        qs = self.request.GET.get('qs', '').strip()  # Use strip para remover espaços em branco
-
-        if qs:
-            queryset = queryset.filter(
-                Q(usuario__first_name__icontains=qs) |
-                Q(usuario__last_name__icontains=qs) |
-                Q(usuario__username__icontains=qs) |
-                Q(cpf__icontains=qs) |
-                Q(email__icontains=qs)
-            )
-        
-        return queryset
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Clientes'
-        qs = self.request.GET.get('qs', '').strip()
-        context['qs'] = qs
         context['breadcrumbs'] = [
             {'name': 'Clientes', 'url': reverse('cliente:cliente_list_view')},
         ]
