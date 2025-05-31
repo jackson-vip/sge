@@ -30,6 +30,7 @@ class ClienteListView(LoginRequiredMixin, FilterView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Clientes'
         context['action_url'] = reverse('cliente:cliente_list_view')
+        context['qnt_clientes'] = Cliente.objects.filter(status='ativo').count()
         context['breadcrumbs'] = [
             {'name': 'Clientes', 'url': reverse('cliente:cliente_list_view')},
         ]
@@ -92,5 +93,3 @@ class ClienteUpdateView(LoginRequiredMixin, UpdateView):
             {'name': 'Atualizar Cliente', 'url': reverse('cliente:cliente_update_view', kwargs={'pk': self.kwargs['pk']})},
         ]
         return context
-
-        # 997.710.180-94	30.878.946-5	valeska@gmail.com

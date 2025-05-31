@@ -6,11 +6,11 @@ from utils.filters import ClienteFilter
 class ClienteAdmin(admin.ModelAdmin):
     list_display = ['usuario', 'cpf', 'rg', 'email', 'telefone', 'status']
     list_display_links = ['usuario', 'email']
+    list_editable = ['status']
     search_fields = ['usuario__username', 'usuario__first_name', 'usuario__last_name', 'cpf', 'rg', 'email', 'telefone']
     list_filter = ['status']
     ordering = ['usuario__username']
     list_per_page = 20
-    readonly_fields = ['cpf', 'rg']
     list_select_related = ['usuario']
 
     def get_queryset(self, request):
@@ -20,6 +20,6 @@ class ClienteAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Informações Pessoais', {
-            'fields': ('usuario', 'cpf', 'rg', 'email', 'telefone', 'status')
+            'fields': ('usuario', 'data_nascimento', 'cpf', 'rg', 'email', 'endereco', 'telefone', 'status')
         }),
     )
