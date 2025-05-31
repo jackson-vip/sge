@@ -30,9 +30,9 @@
 <!-- Lista de clientes em cards -->
 <div class="clients-container">
     {% for cliente in clientes %}
-        <div class="client-card">
+        <div class="client-card" data-cliente-id="{{ cliente.id }}" >
             <div class="card-header">
-                <input type="checkbox" class="select-card" value="{{ cliente.id }}" />
+                <input type="checkbox" class="select-card" id="cliente-{{ cliente.id }}" value="{{ cliente.id }}" />
                 <img src="{% if cliente.imagem and cliente.imagem.url %}{{ cliente.imagem.url }}{% else %}{% static 'global/assets/img/user.jpeg' %}{% endif %}" class="client-image" alt="Imagem do Cliente"/>
                 <div class="client-info">
                     <h2 class='mb-1 p-2'>{{ cliente.usuario.first_name }} {{ cliente.usuario.last_name }}</h2>
@@ -43,7 +43,7 @@
                 <div class="client-details">
                     <div class="client-detail">
                         <span class="detail-label"><strong>CPF :</strong></span>
-                        <span class="detail-value">{{ cliente.cpf }}</span>
+                        <span class="detail-value cpf">{{ cliente.cpf }}</span>
                     </div>
                     <div class="client-detail">
                         <span class="detail-label"><strong>Email :</strong></span>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="client-detail">
                         <span class="detail-label"><strong>Telefone :</strong></span>
-                        <span class="detail-value">{{ cliente.telefone }}</span>
+                        <span class="detail-value telefone">{{ cliente.telefone }}</span>
                     </div>
                 </div>
             </div>
