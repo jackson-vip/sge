@@ -6,6 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django_filters.views import FilterView
 
 from utils.filters import ClienteFilter
+from .forms import ClienteForm
 
 # Importação dos modelos
 from .models import Cliente
@@ -38,9 +39,13 @@ class ClienteListView(LoginRequiredMixin, FilterView):
     
 class ClienteCreateView(LoginRequiredMixin, CreateView):
     model = Cliente
+    form_class = ClienteForm
     template_name = 'cliente/cliente_create_view.html'
-    fields = ['usuario', 'imagem']  # Substitua pelos campos do modelo Cliente
     success_url = reverse_lazy('cliente:cliente_list_view')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Cliente criado com sucesso!")
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
