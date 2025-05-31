@@ -18,11 +18,16 @@
 
 <!-- Seleção global -->
 {% if clientes|length > 0 %}
-    <div class="select-all-container">
-        <input class="select-all-checkbox" type="checkbox" id="selecionarTodos" />
-        <label for="selecionarTodos">» Selecionar Todos</label>
-        <div class="selected-count-container">
-            <span class="selected-count">0 selecionados</span>
+    <div class="select-all-container d-flex justify-content-between align-items-center">
+        <div class="group-select">
+            <input class="select-all-checkbox" type="checkbox" id="selecionarTodos" />
+            <label for="selecionarTodos">» Selecionar Todos</label>
+            <div class="selected-count-container">
+                <span class="selected-count">0 selecionados</span>
+            </div>
+        </div>
+        <div class="qnt-clientes">
+            <span>Clientes ativos <br /> no sistema:<span class="total-count">{{ qnt_clientes|default:0 }}</span></span>
         </div>
     </div>
 {% endif %}
