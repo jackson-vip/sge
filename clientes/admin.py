@@ -4,7 +4,7 @@ from utils.filters import ClienteFilter
 
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
-    list_display = ['usuario', 'cpf', 'rg', 'email', 'telefone', 'status']
+    list_display = ['usuario', 'cpf', 'rg', 'email', 'telefone', 'status', 'imagem']  # Adicionei o campo imagem
     list_display_links = ['usuario', 'email']
     list_editable = ['status']
     search_fields = ['usuario__username', 'usuario__first_name', 'usuario__last_name', 'cpf', 'rg', 'email', 'telefone']
@@ -20,6 +20,6 @@ class ClienteAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Informações Pessoais', {
-            'fields': ('usuario', 'data_nascimento', 'cpf', 'rg', 'email', 'endereco', 'telefone', 'status')
+            'fields': ('usuario', 'data_nascimento', 'cpf', 'rg', 'email', 'endereco', 'telefone', 'status', 'imagem')  # Adicionei o campo imagem
         }),
     )
