@@ -10,13 +10,13 @@
 {% include "global/partials/breadcrumb.html" %}
 {% include "global/partials/alerts.html" %}
 
-<!-- Área de ações superiores -->
+{% comment %} Área de ações superiores {% endcomment %}
 <div class="card-row actions-container w-100 mt-4">
     {% include "global/partials/search.html" with placeholder_text="Buscar cliente..." action_url=action_url %}
     <a href="{% url 'cliente:cliente_create_view' %}" class="btn btn-lg btn-primary fs-4"> + Novo Cliente</a>
 </div>
 
-<!-- Seleção global -->
+{% comment %} Seleção global {% endcomment %}
 {% if clientes|length > 0 %}
     <div class="row mb-4" id="clientes-dashboard-info">
         <div class="col-md-3 d-flex">
@@ -65,7 +65,7 @@
     </div>
 {% endif %}
 
-<!-- Lista de clientes em cards -->
+{% comment %} Lista de clientes em cards {% endcomment %}
 <div class="clients-container">
     {% for cliente in clientes %}
         <div class="client-card" data-cliente-id="{{ cliente.id }}" >
@@ -159,7 +159,7 @@
     </div> 
     {% endcomment %}
 
-    <!-- Modal de exclusão de cliente -->
+    {% comment %} Modal de exclusão de cliente {% endcomment %}
     {% include "cliente/cliente_modal/modal_cliente_delete_view.html" %}
 
 {% endblock %} 
