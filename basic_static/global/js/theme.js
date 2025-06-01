@@ -1,9 +1,14 @@
 // Centralizar a lógica de aplicação do tema
 function applyTheme(theme) {
-    const validThemes = ['light', 'dark'];
+    const validThemes = ['light', 'dark', 'auto'];
     if (!validThemes.includes(theme)) {
         console.warn(`Tema inválido: ${theme}. Aplicando tema padrão 'light'.`);
         theme = 'light';
+    }
+
+    if (theme === 'auto') {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        theme = prefersDark ? 'dark' : 'light';
     }
 
     document.body.classList.toggle('dark-theme', theme === 'dark');

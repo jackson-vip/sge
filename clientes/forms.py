@@ -1,118 +1,150 @@
-from django import forms
-from clientes.models import Cliente
 from authentication.models import Endereco, UnidadeFederativa, Municipio, Perfil
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
+from clientes.models import Cliente
+from django import forms
+from utils.django_forms import *
 import uuid
 
+# class UnidadeFederativaForm(forms.ModelForm):
+#     class Meta:
+#         model = UnidadeFederativa
+#         fields = ['uf', 'sigla']
+#         widgets = {
+#             'uf': forms.TextInput(attrs={'class': 'form-control'}),
+#             'sigla': forms.TextInput(attrs={'class': 'form-control'}),
+#         }
 
-class UnidadeFederativaForm(forms.ModelForm):
-    class Meta:
-        model = UnidadeFederativa
-        fields = ['uf', 'sigla']
-        widgets = {
-            'uf': forms.TextInput(attrs={'class': 'form-control'}),
-            'sigla': forms.TextInput(attrs={'class': 'form-control'}),
-        }
+# class MunicipioForm(forms.ModelForm):
+#     class Meta:
+#         model = Municipio
+#         fields = ['id_uf', 'municipio', 'codigo_ibge', 'uf', 'cnpj', 'codigo_siafi']
+#         widgets = {
+#             'id_uf': forms.Select(attrs={'class': 'form-control'}),
+#             'municipio': forms.TextInput(attrs={'class': 'form-control'}),
+#             'codigo_ibge': forms.TextInput(attrs={'class': 'form-control'}),
+#             'uf': forms.TextInput(attrs={'class': 'form-control'}),
+#             'cnpj': forms.TextInput(attrs={'class': 'form-control'}),
+#             'codigo_siafi': forms.TextInput(attrs={'class': 'form-control'}),
+#         }
 
-class MunicipioForm(forms.ModelForm):
-    class Meta:
-        model = Municipio
-        fields = ['id_uf', 'municipio', 'codigo_ibge', 'uf', 'cnpj', 'codigo_siafi']
-        widgets = {
-            'id_uf': forms.Select(attrs={'class': 'form-control'}),
-            'municipio': forms.TextInput(attrs={'class': 'form-control'}),
-            'codigo_ibge': forms.TextInput(attrs={'class': 'form-control'}),
-            'uf': forms.TextInput(attrs={'class': 'form-control'}),
-            'cnpj': forms.TextInput(attrs={'class': 'form-control'}),
-            'codigo_siafi': forms.TextInput(attrs={'class': 'form-control'}),
-        }
+# class EnderecoForm(forms.ModelForm):
+#     class Meta:
+#         model = Endereco
+#         fields = ['logradouro', 'numero', 'complemento', 'bairro', 'municipio', 'uf', 'sigla', 'cep', 'tipo_endereco'
+#         ]
+#         widgets = {
+#             'logradouro': forms.TextInput(attrs={'class': 'form-control'}),
+#             'numero': forms.TextInput(attrs={'class': 'form-control'}),
+#             'complemento': forms.TextInput(attrs={'class': 'form-control'}),
+#             'bairro': forms.TextInput(attrs={'class': 'form-control'}),
+#             'municipio': forms.Select(attrs={'class': 'form-control'}),
+#             'uf': forms.TextInput(attrs={'class': 'form-control'}),
+#             'sigla': forms.TextInput(attrs={'class': 'form-control'}),
+#             'cep': forms.TextInput(attrs={'class': 'form-control'}),
+#             'tipo_endereco': forms.Select(attrs={'class': 'form-control'}),
+#         }
+        
+#         def __init__(self, *args, **kwargs):
+#             super().__init__(*args, **kwargs)
+#             # Adicionar placeholders
+#             add_placeholder(self.fields['logradouro'], 'Logradouro')
+#             add_placeholder(self.fields['numero'], 'Número')
+#             add_placeholder(self.fields['complemento'], 'Complemento')
+#             add_placeholder(self.fields['bairro'], 'Bairro')
+#             add_placeholder(self.fields['cep'], 'CEP')
 
-class EnderecoForm(forms.ModelForm):
-    class Meta:
-        model = Endereco
-        fields = ['logradouro', 'numero', 'complemento', 'bairro', 'municipio', 'uf', 'sigla', 'cep', 'tipo_endereco'
-        ]
-        widgets = {
-            'logradouro': forms.TextInput(attrs={'class': 'form-control'}),
-            'numero': forms.TextInput(attrs={'class': 'form-control'}),
-            'complemento': forms.TextInput(attrs={'class': 'form-control'}),
-            'bairro': forms.TextInput(attrs={'class': 'form-control'}),
-            'municipio': forms.Select(attrs={'class': 'form-control'}),
-            'uf': forms.TextInput(attrs={'class': 'form-control'}),
-            'sigla': forms.TextInput(attrs={'class': 'form-control'}),
-            'cep': forms.TextInput(attrs={'class': 'form-control'}),
-            'tipo_endereco': forms.Select(attrs={'class': 'form-control'}),
-        }
-
-class PerfilForm(forms.ModelForm):
-    class Meta:
-        model = Perfil
-        fields = ['usuario', 'tipo']
-        widgets = {
-            'usuario': forms.Select(attrs={'class': 'form-control'}),
-            'tipo': forms.Select(attrs={'class': 'form-control'}),
-        }
+# class PerfilForm(forms.ModelForm):
+#     class Meta:
+#         model = Perfil
+#         fields = ['usuario', 'tipo']
+#         widgets = {
+#             'usuario': forms.Select(attrs={'class': 'form-control'}),
+#             'tipo': forms.Select(attrs={'class': 'form-control'}),
+#         }
 
 class ClienteForm(forms.ModelForm):
-    first_name = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-        label="Nome"
-    )
-    last_name = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-        label="Sobrenome"
-    )
-    email = forms.EmailField(
-        widget=forms.EmailInput(attrs={'class': 'form-control'}),
-        label="Email"
-    )
-    endereco_logradouro = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-        label="Logradouro"
-    )
-    endereco_numero = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-        label="Número"
-    )
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    email = forms.EmailField()
+    endereco_logradouro = forms.CharField()
+    endereco_numero = forms.CharField()
     endereco_complemento = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-        label="Complemento",
-        required=False
+        required=False,
     )
-    endereco_bairro = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-        label="Bairro"
-    )
+    endereco_bairro = forms.CharField()
     endereco_municipio = forms.ModelChoiceField(
         queryset=Municipio.objects.all(),
-        widget=forms.Select(attrs={'class': 'form-control'}),
-        label="Município"
     )
     endereco_uf = forms.ModelChoiceField(
         queryset=UnidadeFederativa.objects.all(),
-        widget=forms.Select(attrs={'class': 'form-control'}),
-        label="UF"
     )
-    endereco_cep = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-        label="CEP"
-    )
-    data_nascimento = forms.DateField(
-        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-        label="Data de Nascimento"
-    )
+    endereco_cep = forms.CharField()
+    data_nascimento = forms.DateField()
 
     class Meta:
         model = Cliente
-        fields = ['imagem', 'cpf', 'rg', 'telefone']
+        fields = ['imagem', 'cpf', 'rg', 'telefone', 'email']
         widgets = {
             'imagem': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'cpf': forms.TextInput(attrs={'class': 'form-control'}),
             'rg': forms.TextInput(attrs={'class': 'form-control'}),
             'telefone': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Adicionar form-control a todos os campos do formulário
+        add_form_control(self)
+
+        # Configurar auto_id para remover o prefixo 'id_'
+        # self.auto_id = '%s'
+
+        # Adicionar placeholders e atributos aos campos do formulário
+        # Campos de User
+        rename_label(self.fields['first_name'], 'Nome')
+        add_placeholder(self.fields['first_name'], 'Ex.: João')
+        
+        rename_label(self.fields['last_name'], 'Sobrenome')
+        add_placeholder(self.fields['last_name'], 'Ex.: da Silva')
+
+        # Os campos de Cliente
+        rename_label(self.fields['cpf'], 'CPF')
+        add_placeholder(self.fields['cpf'], 'Ex.: 000.000.000-00')
+
+        rename_label(self.fields['rg'], 'RG')
+        add_placeholder(self.fields['rg'], 'Ex.: 00.000.000-0')
+
+        rename_label(self.fields['telefone'], 'Telefone')
+        add_placeholder(self.fields['telefone'], 'Ex.: (00) 00000-0000')
+
+        rename_label(self.fields['email'], 'Email')
+        add_placeholder(self.fields['email'], 'Ex.: exemplo@dominio.com')
+        
+        rename_label(self.fields['data_nascimento'], 'Data de Nascimento')
+        add_placeholder(self.fields['data_nascimento'], 'Ex.: 01/01/2000')
+
+        # Os campos de Endereço
+        rename_label(self.fields['endereco_logradouro'], 'Logradouro')
+        add_placeholder(self.fields['endereco_logradouro'], 'Ex.: Rua Exemplo')
+
+        rename_label(self.fields['endereco_numero'], 'Número')
+        add_placeholder(self.fields['endereco_numero'], 'Ex.: 123')
+
+        rename_label(self.fields['endereco_complemento'], 'Complemento')
+        add_placeholder(self.fields['endereco_complemento'], 'Ex.: Apartamento 45')
+
+        rename_label(self.fields['endereco_bairro'], 'Bairro')
+        add_placeholder(self.fields['endereco_bairro'], 'Ex.: Centro')
+
+        rename_label(self.fields['endereco_cep'], 'CEP')
+        add_placeholder(self.fields['endereco_cep'], 'Ex.: 00000-000')
+
+        rename_label(self.fields['endereco_municipio'], 'Município')
+        add_attr(self.fields['endereco_municipio'], 'class', 'form-control')
+
+        rename_label(self.fields['endereco_uf'], 'UF')
 
     def save(self, commit=True):
         # Criar o usuário
@@ -142,6 +174,7 @@ class ClienteForm(forms.ModelForm):
             uf=self.cleaned_data['endereco_uf'],
             cep=self.cleaned_data['endereco_cep']
         )
+
         if commit:
             endereco.save()
             cliente.endereco = endereco  # Associar o endereço ao cliente

@@ -12,24 +12,150 @@
 <!-- Template para criar um cliente -->
 <br />
 <br />
-<form method="post" action="{% url 'cliente:cliente_create_view' %}">
+<form method="post" action="{% url 'cliente:cliente_create_view' %}" id="cliente-create-form">
     {% csrf_token %}
     <h2>Formulário de Cadastro de Cliente</h2>
     <p>Preencha os campos abaixo para criar um novo cliente:</p>
     <br />
-    {% for field in form %}
-        <div class="form-group">
-            {{ field.label }}
-            {{ field }}
-            {% for error in field.errors %}
-                <div class="alert alert-danger">{{ error }}</div>
-            {% endfor %}
-        </div>
-    {% endfor %}
+
+    <div class="form-group">
+        <label for="{{ form.imagem.id_for_label }}">{{ form.imagem.label }}</label>
+        {{ form.imagem }}
+        {% if form.imagem.help_text %}
+            <p class="form-text text-muted">{{ form.imagem.help_text }}</p>
+        {% endif %}
+        {{ form.imagem.errors }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+        {{ form.first_name }}
+        {% if form.first_name.help_text %}
+            <p class="form-text text-muted">{{ form.first_name.help_text }}</p>
+        {% endif %}
+        {{ form.first_name.errors }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+        {{ form.last_name }}
+        {% if form.last_name.help_text %}
+            <p class="form-text text-muted">{{ form.last_name.help_text }}</p>
+        {% endif %}
+        {{ form.last_name.errors }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.cpf.id_for_label }}">{{ form.cpf.label }}</label>
+        {{ form.cpf }}
+        {% if form.cpf.help_text %}
+            <p class="form-text text-muted">{{ form.cpf.help_text }}</p>
+        {% endif %}
+        {{ form.cpf.errors }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.rg.id_for_label }}">{{ form.rg.label }}</label>
+        {{ form.rg }}
+        {% if form.rg.help_text %}
+            <p class="form-text text-muted">{{ form.rg.help_text }}</p>
+        {% endif %}
+        {{ form.rg.errors }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.telefone.id_for_label }}">{{ form.telefone.label }}</label>
+        {{ form.telefone }}
+        {% if form.telefone.help_text %}
+            <p class="form-text text-muted">{{ form.telefone.help_text }}</p>
+        {% endif %}
+        {{ form.telefone.errors }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+        {{ form.email }}
+        {% if form.email.help_text %}
+            <p class="form-text text-muted">{{ form.email.help_text }}</p>
+        {% endif %}
+        {{ form.email.errors }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.endereco_logradouro.id_for_label }}">{{ form.endereco_logradouro.label }}</label>
+        {{ form.endereco_logradouro }}
+        {% if form.endereco_logradouro.help_text %}
+            <p class="form-text text-muted">{{ form.endereco_logradouro.help_text }}</p>
+        {% endif %}
+        {{ form.endereco_logradouro.errors }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.endereco_numero.id_for_label }}">{{ form.endereco_numero.label }}</label>
+        {{ form.endereco_numero }}
+        {% if form.endereco_numero.help_text %}
+            <p class="form-text text-muted">{{ form.endereco_numero.help_text }}</p>
+        {% endif %}
+        {{ form.endereco_numero.errors }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.endereco_complemento.id_for_label }}">{{ form.endereco_complemento.label }}</label>
+        {{ form.endereco_complemento }}
+        {% if form.endereco_complemento.help_text %}
+            <p class="form-text text-muted">{{ form.endereco_complemento.help_text }}</p>
+        {% endif %}
+        {{ form.endereco_complemento.errors }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.endereco_bairro.id_for_label }}">{{ form.endereco_bairro.label }}</label>
+        {{ form.endereco_bairro }}
+        {% if form.endereco_bairro.help_text %}
+            <p class="form-text text-muted">{{ form.endereco_bairro.help_text }}</p>
+        {% endif %}
+        {{ form.endereco_bairro.errors }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.endereco_municipio.id_for_label }}">{{ form.endereco_municipio.label }}</label>
+        {{ form.endereco_municipio }}
+        {% if form.endereco_municipio.help_text %}
+            <p class="form-text text-muted">{{ form.endereco_municipio.help_text }}</p>
+        {% endif %}
+        {{ form.endereco_municipio.errors }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.endereco_uf.id_for_label }}">{{ form.endereco_uf.label }}</label>
+        {{ form.endereco_uf }}
+        {% if form.endereco_uf.help_text %}
+            <p class="form-text text-muted">{{ form.endereco_uf.help_text }}</p>
+        {% endif %}
+        {{ form.endereco_uf.errors }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.endereco_cep.id_for_label }}">{{ form.endereco_cep.label }}</label>
+        {{ form.endereco_cep }}
+        {% if form.endereco_cep.help_text %}
+            <p class="form-text text-muted">{{ form.endereco_cep.help_text }}</p>
+        {% endif %}
+        {{ form.endereco_cep.errors }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.data_nascimento.id_for_label }}">{{ form.data_nascimento.label }}</label>
+        {{ form.data_nascimento }}
+        {% if form.data_nascimento.help_text %}
+            <p class="form-text text-muted">{{ form.data_nascimento.help_text }}</p>
+        {% endif %}
+        {{ form.data_nascimento.errors }}
+    </div>
+
     <button type="submit" class="btn btn-primary">Criar Cliente</button>
 </form>
 <br />
-<a href="{% url 'cliente:cliente_list_view' %}" class="btn btn-secondary">Voltar para a lista de clientes</a>
 
 {% if messages %}
     <div class="alert alert-info">
@@ -67,3 +193,7 @@
 {% endif %}
 
 {% endblock content %}
+
+{% block js %}
+    <script src="{% static 'cliente/js/cliente_create_view.js' %}"></script>
+{% endblock js %}

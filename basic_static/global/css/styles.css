@@ -381,3 +381,8 @@
     color: var(--color-gray-3);
     cursor: default;
 }
+
+.required-field {
+    color: #dc3545;
+    margin-left: 5px;
+}
