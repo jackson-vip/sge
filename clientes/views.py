@@ -31,7 +31,9 @@ class ClienteListView(LoginRequiredMixin, FilterView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Clientes'
         context['action_url'] = reverse('cliente:cliente_list_view')
-        context['qnt_clientes'] = Cliente.objects.filter(status='ativo').count()
+        context['qnt_ativos'] = Cliente.objects.filter(status='ativo').count()
+        context['qnt_inativos'] = Cliente.objects.filter(status='inativo').count()
+        context['qnt_bloqueados'] = Cliente.objects.filter(status='bloqueado').count()
         context['breadcrumbs'] = [
             {'name': 'Clientes', 'url': reverse('cliente:cliente_list_view')},
         ]

@@ -18,16 +18,49 @@
 
 <!-- Seleção global -->
 {% if clientes|length > 0 %}
-    <div class="select-all-container d-flex justify-content-between align-items-center">
-        <div class="group-select">
-            <input class="select-all-checkbox" type="checkbox" id="selecionarTodos" />
-            <label for="selecionarTodos">» Selecionar Todos</label>
-            <div class="selected-count-container">
-                <span class="selected-count">0 selecionados</span>
+    <div class="row mb-4" id="clientes-dashboard-info">
+        <div class="col-md-3 d-flex">
+            <div class="w-100 clientes-dashboard-info-content" id="clientes-selecionados">
+                <div>
+                    <label for="selecionarTodos">
+                        Capturar todos os clientes,
+                    </label>
+                    <input class="select-all-checkbox" type="checkbox" id="selecionarTodos" />
+                    <label for="selecionarTodos">
+                        <span class="fs-5">clique aqui</span>
+                        <img src="{% static 'global/assets/img/cursor_click_outline.svg' %}" alt="Clique aqui" />
+                    </label>
+                </div>
+                <div class="selected-count-container">
+                    <span class="selected-count">
+                        {% comment %} Exibe a contagem de clientes selecionados {% endcomment %}
+                    </span>
+                </div>
             </div>
         </div>
-        <div class="qnt-clientes">
-            <span>Clientes ativos <br /> no sistema:<span class="total-count">{{ qnt_clientes|default:0 }}</span></span>
+        <div class="col-md-3 d-flex clientes-dashboard-info-card">
+            <div class="w-100 clientes-dashboard-info-content" id="clientes-ativos">
+                <span> Clientes ativos: </span>
+                <span class="total-count">
+                    {{ qnt_ativos|default:0 }}
+                </span>
+            </div>
+        </div>
+        <div class="col-md-3 d-flex clientes-dashboard-info-card">
+            <div class="w-100 clientes-dashboard-info-content" id="clientes-inativos">
+                <span> Clientes inativos: </span>
+                <span class="total-count">
+                    {{ qnt_inativos|default:0 }}
+                </span>
+            </div>
+        </div>
+        <div class="col-md-3 d-flex clientes-dashboard-info-card">
+            <div class="w-100 clientes-dashboard-info-content" id="clientes-bloqueados">
+                <span> Clientes bloqueados: </span>
+                <span class="total-count">
+                    {{ qnt_bloqueados|default:0 }}
+                </span>
+            </div>
         </div>
     </div>
 {% endif %}
