@@ -26,7 +26,7 @@ class ClienteForm(forms.ModelForm):
 
     class Meta:
         model = Cliente
-        fields = '__all__'
+        fields = ['imagem','cpf', 'rg', 'telefone', 'email', 'data_nascimento']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
