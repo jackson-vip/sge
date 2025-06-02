@@ -9,6 +9,12 @@
         #id_data_nascimento {
             width: 100%;
         }
+        #cliente-create-form .form-group label {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 0.7rem;
+        }
     </style>
 
 {% endblock css %} 
@@ -27,7 +33,7 @@
     <br />
     
 
-    <div class="row mb-3">
+    <div class="row mb-4">
         <div class="col-md-12">
             <div class="form-group">
                 <label for="{{ form.imagem.id_for_label }}">{{ form.imagem.label }}</label>
@@ -40,7 +46,7 @@
         </div>
     </div>
     
-    <div class="row mb-3">
+    <div class="row mb-4">
         <div class="col-md-4">
             <div class="form-group">
                 <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
@@ -74,7 +80,7 @@
 
     </div>
     
-    <div class="row mb-3">
+    <div class="row mb-4">
         <div class="col-md-2">
             <div class="form-group">
                 <label for="{{ form.data_nascimento.id_for_label }}">{{ form.data_nascimento.label }}</label>
@@ -116,8 +122,8 @@
             </div>
         </div>
     </div>
-    
-    <div class="row mb-3">
+
+    <div class="row mb-4">
         <div class="col-md-3">
             <div class="form-group">
                 <label for="{{ form.endereco_cep.id_for_label }}">{{ form.endereco_cep.label }}</label>
@@ -150,7 +156,7 @@
         </div>
     </div>
 
-    <div class="row mb-3">
+    <div class="row mb-4">
         <div class="col-md-4">
             <div class="form-group">
                 <label for="{{ form.endereco_complemento.id_for_label }}">{{ form.endereco_complemento.label }}</label>
