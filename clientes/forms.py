@@ -104,42 +104,42 @@ class ClienteForm(forms.ModelForm):
         # Adicionar placeholders e atributos aos campos do formulário
         # Campos de User
         rename_label(self.fields['first_name'], 'Nome')
-        add_placeholder(self.fields['first_name'], 'Ex.: João')
+        add_placeholder(self.fields['first_name'], 'Digite seu nome')
         
         rename_label(self.fields['last_name'], 'Sobrenome')
-        add_placeholder(self.fields['last_name'], 'Ex.: da Silva')
+        add_placeholder(self.fields['last_name'], 'Digite seu sobrenome')
 
         # Os campos de Cliente
         rename_label(self.fields['cpf'], 'CPF')
-        add_placeholder(self.fields['cpf'], 'Ex.: 000.000.000-00')
+        add_placeholder(self.fields['cpf'], 'Digite seu CPF')
 
         rename_label(self.fields['rg'], 'RG')
-        add_placeholder(self.fields['rg'], 'Ex.: 00.000.000-0')
+        add_placeholder(self.fields['rg'], 'Digite seu RG')
 
         rename_label(self.fields['telefone'], 'Telefone')
-        add_placeholder(self.fields['telefone'], 'Ex.: (00) 00000-0000')
+        add_placeholder(self.fields['telefone'], '(00) 00000-0000')
 
         rename_label(self.fields['email'], 'Email')
-        add_placeholder(self.fields['email'], 'Ex.: exemplo@dominio.com')
+        add_placeholder(self.fields['email'], 'exemplo@dominio.com')
         
         rename_label(self.fields['data_nascimento'], 'Data de Nascimento')
-        add_placeholder(self.fields['data_nascimento'], 'Ex.: 01/01/2000')
+        add_placeholder(self.fields['data_nascimento'], '01/01/2000')
 
         # Os campos de Endereço
         rename_label(self.fields['endereco_logradouro'], 'Logradouro')
-        add_placeholder(self.fields['endereco_logradouro'], 'Ex.: Rua Exemplo')
+        add_placeholder(self.fields['endereco_logradouro'], 'Digite o logradouro')
 
         rename_label(self.fields['endereco_numero'], 'Número')
-        add_placeholder(self.fields['endereco_numero'], 'Ex.: 123')
+        add_placeholder(self.fields['endereco_numero'], 'Digite o número')
 
         rename_label(self.fields['endereco_complemento'], 'Complemento')
-        add_placeholder(self.fields['endereco_complemento'], 'Ex.: Apartamento 45')
+        add_placeholder(self.fields['endereco_complemento'], 'Digite o complemento')
 
         rename_label(self.fields['endereco_bairro'], 'Bairro')
-        add_placeholder(self.fields['endereco_bairro'], 'Ex.: Centro')
+        add_placeholder(self.fields['endereco_bairro'], 'Digite o bairro')
 
         rename_label(self.fields['endereco_cep'], 'CEP')
-        add_placeholder(self.fields['endereco_cep'], 'Ex.: 00000-000')
+        add_placeholder(self.fields['endereco_cep'], '00000-000')
 
         rename_label(self.fields['endereco_municipio'], 'Município')
         add_attr(self.fields['endereco_municipio'], 'class', 'form-control')

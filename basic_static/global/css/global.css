@@ -64,15 +64,28 @@ p {
     margin-bottom: 1.4rem;
 }
 
-input, 
-select {
+.form-control,
+.datepicker,
+.selectpicker {
     font-size: 1.4rem !important;
-    color: var(--text-color);
+    color: #212529;
     background-color: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 0.25rem;
-    padding: 1.2rem !important;
+    padding: 1rem !important;
     width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus,
+.datepicker:focus,
+.selectpicker:focus {
+    color: #212529;
+    outline: none;
+    background-color: #fff;
+    border-color: #86b7fe !important;
+    outline: 0 !important;
+    box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25) !important;
 }
 
 .card-row {
