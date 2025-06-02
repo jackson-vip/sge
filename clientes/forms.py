@@ -1,5 +1,4 @@
 from authentication.models import Endereco, UnidadeFederativa, Municipio, Perfil
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from clientes.models import Cliente
@@ -7,72 +6,16 @@ from django import forms
 from utils.django_forms import *
 import uuid
 
-# class UnidadeFederativaForm(forms.ModelForm):
-#     class Meta:
-#         model = UnidadeFederativa
-#         fields = ['uf', 'sigla']
-#         widgets = {
-#             'uf': forms.TextInput(attrs={'class': 'form-control'}),
-#             'sigla': forms.TextInput(attrs={'class': 'form-control'}),
-#         }
-
-# class MunicipioForm(forms.ModelForm):
-#     class Meta:
-#         model = Municipio
-#         fields = ['id_uf', 'municipio', 'codigo_ibge', 'uf', 'cnpj', 'codigo_siafi']
-#         widgets = {
-#             'id_uf': forms.Select(attrs={'class': 'form-control'}),
-#             'municipio': forms.TextInput(attrs={'class': 'form-control'}),
-#             'codigo_ibge': forms.TextInput(attrs={'class': 'form-control'}),
-#             'uf': forms.TextInput(attrs={'class': 'form-control'}),
-#             'cnpj': forms.TextInput(attrs={'class': 'form-control'}),
-#             'codigo_siafi': forms.TextInput(attrs={'class': 'form-control'}),
-#         }
-
-# class EnderecoForm(forms.ModelForm):
-#     class Meta:
-#         model = Endereco
-#         fields = ['logradouro', 'numero', 'complemento', 'bairro', 'municipio', 'uf', 'sigla', 'cep', 'tipo_endereco'
-#         ]
-#         widgets = {
-#             'logradouro': forms.TextInput(attrs={'class': 'form-control'}),
-#             'numero': forms.TextInput(attrs={'class': 'form-control'}),
-#             'complemento': forms.TextInput(attrs={'class': 'form-control'}),
-#             'bairro': forms.TextInput(attrs={'class': 'form-control'}),
-#             'municipio': forms.Select(attrs={'class': 'form-control'}),
-#             'uf': forms.TextInput(attrs={'class': 'form-control'}),
-#             'sigla': forms.TextInput(attrs={'class': 'form-control'}),
-#             'cep': forms.TextInput(attrs={'class': 'form-control'}),
-#             'tipo_endereco': forms.Select(attrs={'class': 'form-control'}),
-#         }
-        
-#         def __init__(self, *args, **kwargs):
-#             super().__init__(*args, **kwargs)
-#             # Adicionar placeholders
-#             add_placeholder(self.fields['logradouro'], 'Logradouro')
-#             add_placeholder(self.fields['numero'], 'Número')
-#             add_placeholder(self.fields['complemento'], 'Complemento')
-#             add_placeholder(self.fields['bairro'], 'Bairro')
-#             add_placeholder(self.fields['cep'], 'CEP')
-
-# class PerfilForm(forms.ModelForm):
-#     class Meta:
-#         model = Perfil
-#         fields = ['usuario', 'tipo']
-#         widgets = {
-#             'usuario': forms.Select(attrs={'class': 'form-control'}),
-#             'tipo': forms.Select(attrs={'class': 'form-control'}),
-#         }
-
 class ClienteForm(forms.ModelForm):
+    # Criando novos atributos para o formulário de Cliente
     first_name = forms.CharField()
     last_name = forms.CharField()
+    data_nascimento = forms.DateField()
     email = forms.EmailField()
+    endereco_cep = forms.CharField()
     endereco_logradouro = forms.CharField()
     endereco_numero = forms.CharField()
-    endereco_complemento = forms.CharField(
-        required=False,
-    )
+    endereco_complemento = forms.CharField(required=False)
     endereco_bairro = forms.CharField()
     endereco_municipio = forms.ModelChoiceField(
         queryset=Municipio.objects.all(),
@@ -80,18 +23,16 @@ class ClienteForm(forms.ModelForm):
     endereco_uf = forms.ModelChoiceField(
         queryset=UnidadeFederativa.objects.all(),
     )
-    endereco_cep = forms.CharField()
-    data_nascimento = forms.DateField()
 
     class Meta:
         model = Cliente
-        fields = ['imagem', 'cpf', 'rg', 'telefone', 'email']
-        widgets = {
-            'imagem': forms.ClearableFileInput(attrs={'class': 'form-control'}),
-            'cpf': forms.TextInput(attrs={'class': 'form-control'}),
-            'rg': forms.TextInput(attrs={'class': 'form-control'}),
-            'telefone': forms.TextInput(attrs={'class': 'form-control'}),
-        }
+        fields = '__all__'
+        # widgets = {
+        #     'imagem': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        #     'cpf': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'rg': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'telefone': forms.TextInput(attrs={'class': 'form-control'}),
+        # }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
