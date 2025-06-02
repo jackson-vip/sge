@@ -27,12 +27,6 @@ class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
         fields = '__all__'
-        # widgets = {
-        #     'imagem': forms.ClearableFileInput(attrs={'class': 'form-control'}),
-        #     'cpf': forms.TextInput(attrs={'class': 'form-control'}),
-        #     'rg': forms.TextInput(attrs={'class': 'form-control'}),
-        #     'telefone': forms.TextInput(attrs={'class': 'form-control'}),
-        # }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
