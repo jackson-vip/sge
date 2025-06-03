@@ -89,15 +89,46 @@ class ClienteDeleteView(SuccessMessageMixin, LoginRequiredMixin, DeleteView):
 
 class ClienteUpdateView(LoginRequiredMixin, UpdateView):
     model = Cliente
+    form_class = ClienteForm
     template_name = 'cliente/cliente_update_view.html'
-    fields = ['usuario', 'imagem']  # Substitua pelos campos do modelo Cliente
     success_url = reverse_lazy('cliente:cliente_list_view')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Atualizar Cliente'
+        context['title'] = 'Editar Cliente'
         context['breadcrumbs'] = [
             {'name': 'Clientes', 'url': reverse('cliente:cliente_list_view')},
-            {'name': 'Atualizar Cliente', 'url': reverse('cliente:cliente_update_view', kwargs={'pk': self.kwargs['pk']})},
+            {'name': 'Editar Cliente', 'url': reverse('cliente:cliente_update_view', kwargs={'pk': self.kwargs['pk']})},
         ]
         return context
+
+    def get_initial(self):
+        initial = super().get_initial()
+        cliente = self.object
+        user = cliente.usuario
+        endereco = cliente.endereco
+
+        # Adicionar dados do User
+        if user:
+            initial.update({
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+            })
+
+        # Adicionar dados do Endereco
+        if endereco:
+            initial.update({
+                'endereco_logradouro': endereco.logradouro,
+                'endereco_numero': endereco.numero,
+                'endereco_complemento': endereco.complemento,
+                'endereco_bairro': endereco.bairro,
+                'endereco_municipio': endereco.municipio,
+                'endereco_uf': endereco.uf,
+                'endereco_cep': endereco.cep,
+            })
+
+        return initial
+
+    def form_valid(self, form):
+        messages.success(self.request, "Cliente atualizado com sucesso!")
+        return super().form_valid(form)

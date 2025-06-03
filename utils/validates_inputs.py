@@ -72,8 +72,8 @@ def validate_sigla(sigla):
     return sigla.upper() in siglas
 
 def validate_rg(rg):
-    if not rg:
-        return False
+    if not rg or not rg.strip():
+        return True  # Campo não obrigatório, vazio é válido
     rg = re.sub(r'[^0-9]', '', rg)  # Apenas números
     if len(rg) < 7 or len(rg) > 12:  # Comprimento típico do RG no Brasil
         return False
