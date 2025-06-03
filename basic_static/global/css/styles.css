@@ -386,3 +386,11 @@
     color: #ee8b95;
     margin-left: 5px;
 }
+
+.errorlist {
+    margin-top: 4px;
+    padding: 0;
+    list-style: none;
+    color: #ee8b95;
+    font-size: 1.4rem;
+}

@@ -100,7 +100,7 @@ class ClienteForm(forms.ModelForm):
             raise forms.ValidationError("Telefone inválido.")
         return telefone
 
-    def clean_cep(self):
+    def clean_endereco_cep(self):
         cep = self.cleaned_data['endereco_cep']
         if not validate_cep(cep):
             raise forms.ValidationError("CEP inválido.")
