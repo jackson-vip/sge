@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from clientes.models import Cliente
 from django import forms
 from utils.django_forms import *
+from utils.validates_inputs import *
 import uuid
 
 class ClienteForm(forms.ModelForm):
@@ -80,6 +81,30 @@ class ClienteForm(forms.ModelForm):
         add_attr(self.fields['endereco_municipio'], 'class', 'form-control')
 
         rename_label(self.fields['endereco_uf'], 'UF')
+
+    def clean_cpf(self):
+        cpf = self.cleaned_data['cpf']
+        if not validate_cpf(cpf):
+            raise forms.ValidationError("CPF inválido.")
+        return cpf
+
+    def clean_rg(self):
+        rg = self.cleaned_data['rg']
+        if not validate_rg(rg):
+            raise forms.ValidationError("RG inválido.")
+        return rg
+    
+    def clean_telefone(self):
+        telefone = self.cleaned_data['telefone']
+        if not validate_phone(telefone):
+            raise forms.ValidationError("Telefone inválido.")
+        return telefone
+
+    def clean_cep(self):
+        cep = self.cleaned_data['endereco_cep']
+        if not validate_cep(cep):
+            raise forms.ValidationError("CEP inválido.")
+        return cep
 
     def save(self, commit=True):
         # Criar o usuário
