@@ -5,6 +5,7 @@ from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 from django.urls import reverse, reverse_lazy
 from django_filters.views import FilterView
 
+from authentication.models import UnidadeFederativa
 from utils.filters import ClienteFilter
 from .forms import ClienteForm
 
@@ -123,7 +124,7 @@ class ClienteUpdateView(LoginRequiredMixin, UpdateView):
                 'endereco_complemento': endereco.complemento,
                 'endereco_bairro': endereco.bairro,
                 'endereco_municipio': endereco.municipio,
-                'endereco_uf': endereco.uf,
+                'endereco_uf': UnidadeFederativa.objects.get(sigla=endereco.uf),
                 'endereco_cep': endereco.cep,
             })
 
