@@ -109,15 +109,13 @@ class ClienteUpdateView(LoginRequiredMixin, UpdateView):
         user = cliente.usuario
         endereco = cliente.endereco
 
-        # Adicionar dados do User
+        # Adicionar dados do User e Endereco ao initial
         if user:
             initial.update({
                 'first_name': user.first_name,
                 'last_name': user.last_name,
             })
 
-# TODO: Lembrar de trasformar o atributo endereço_sigla em um campo de ForeignKey para UnidadeFederativa
-        # Adicionar dados do Endereco
         if endereco:
             initial.update({
                 'endereco_cep': endereco.cep,
@@ -134,11 +132,12 @@ class ClienteUpdateView(LoginRequiredMixin, UpdateView):
         cliente = form.save(commit=False)
         usuario = cliente.usuario
 
-        # Atualizar os dados do usuário
-        usuario.first_name = form.cleaned_data['first_name']
-        usuario.last_name = form.cleaned_data['last_name']
-        usuario.save()  # Salvar o usuário antes de salvar o cliente
+        # Atualizar os dados do usuário diretamente do formulário
+        usuario.first_name = form.cleaned_data.get('first_name', usuario.first_name)
+        usuario.last_name = form.cleaned_data.get('last_name', usuario.last_name)
+        usuario.save()
 
+        # Atualizar a imagem do cliente, se fornecida
         if 'imagem' in self.request.FILES:
             cliente.imagem = self.request.FILES['imagem']
         cliente.save()

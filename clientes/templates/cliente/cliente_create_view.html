@@ -51,7 +51,7 @@
         <p>Preencha os campos abaixo para criar um novo cliente:</p>
     </div>
     <div style="padding: 30px 80px; margin: 0 auto">
-        <form method="post" action="{% url 'cliente:cliente_create_view' %}" id="cliente-create-form">
+        <form method="post" action="{% url 'cliente:cliente_create_view' %}" enctype="multipart/form-data" id="cliente-create-form">
             {% csrf_token %}
     
             <div class="row mb-4">
