@@ -27,7 +27,7 @@ class ClienteForm(forms.ModelForm):
 
     class Meta:
         model = Cliente
-        fields = ['imagem','cpf', 'rg', 'telefone', 'email', 'data_nascimento']
+        fields = ['imagem','cpf', 'rg', 'telefone', 'email', 'data_nascimento', 'observacoes']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -81,6 +81,10 @@ class ClienteForm(forms.ModelForm):
         add_attr(self.fields['endereco_municipio'], 'class', 'form-control')
 
         rename_label(self.fields['endereco_sigla'], 'UF')
+
+        # Campo de Observações
+        rename_label(self.fields['observacoes'], 'Observações')
+        add_placeholder(self.fields['observacoes'], 'Adicione observações sobre o cliente')
 
     def clean_cpf(self):
         cpf = self.cleaned_data['cpf']

@@ -17,7 +17,17 @@
             <img src="https://i.pinimg.com/736x/08/08/45/0808451bc6ef6ff426bb39880f956551.jpg" alt="User"
                 class="avatar">
             <div class="dropdown-content">
-                <h3>Bruno Leite</h3>
+                <h3>
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.is_authenticated and request.user.is_superuser %}
+                        {{ request.user.get_full_name| default:request.user.username }}
+                        {% else %}
+                            {{ request.user.get_full_name| default:request.user.username }}
+                        {% endif %}
+                    {% else %}
+                        Visitante
+                    {% endif %}
+                </h3>
                 <a href="#"><i class="bi bi-person"></i> Perfil</a>
                 <a href="#"><i class="bi bi-gear"></i> Configurações</a>
                 <hr class="hr-line">

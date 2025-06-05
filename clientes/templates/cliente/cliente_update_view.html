@@ -139,6 +139,19 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="{{ form.observacoes.id_for_label }}">{{ form.observacoes.label }}</label>
+                        {{ form.observacoes }}
+                        {% if form.observacoes.help_text %}
+                            <small class="form-text text-muted">{{ form.observacoes.help_text }}</small>
+                        {% endif %}
+                        {{ form.observacoes.errors }}
+                    </div>
+                </div>
+            </div>
     
             <div class="row mb-4">
                 <div class="col-md-3">
