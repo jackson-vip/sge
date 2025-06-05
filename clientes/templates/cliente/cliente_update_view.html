@@ -34,21 +34,28 @@
         <p>Preencha os campos abaixo para editar o cliente:</p>
     </div>
     <div style="padding: 30px 80px; margin: 0 auto">
-        <form method="post" action="{% url 'cliente:cliente_update_view' cliente.id %}" id="cliente-update-form">
+        <form method="post" action="{% url 'cliente:cliente_update_view' cliente.id %}" id="cliente-update-form" enctype="multipart/form-data">
             {% csrf_token %}
 
             <div class="row mb-4">
                 <div class="col-md-12 text-center">
+                    
                     <div class="image-upload-wrapper">
                         <label for="{{ form.imagem.id_for_label }}" class="image-label">
                             <div class="image-container">
-                                <img id="preview-image" src="{% static '../media/clientes/user.jpeg' %}" alt="Imagem do Cliente" class="rounded-circle">
+                                <img id="preview-image" src="{% if cliente.imagem and cliente.imagem.url %}{{ cliente.imagem.url }}{% else %}{% static 'global/assets/img/user.jpeg' %}{% endif %}" alt="Imagem do Cliente" class="rounded-circle">
                                 <div class="image-hover">
                                     <i class="fas fa-edit"></i>
                                 </div>
                             </div>
                         </label>
-                        {{ form.imagem }}
+                        {% comment %} <a href="{% if cliente.imagem and cliente.imagem.url %}{{ cliente.imagem.url }}{% else %}{% static 'global/assets/img/user.jpeg' %}{% endif %}" target="_blank">{{ cliente.imagem.url }}</a> {% endcomment %}
+                        
+                        <div class="mt-2">
+                            <span class="fw-bold">Alterar foto do perfil</span>
+                        </div>
+                        <input type="file" name="imagem" accept="image/*" class="form-control" id="id_imagem" style="display: none;">
+                        
                         {% if form.imagem.help_text %}
                             <small class="form-text text-muted">{{ form.imagem.help_text }}</small>
                         {% endif %}
@@ -199,12 +206,12 @@
                 </div>
                 <div class="col-md-1">
                     <div class="form-group">
-                        <label for="{{ form.endereco_uf.id_for_label }}">{{ form.endereco_uf.label }}</label>
-                        {{ form.endereco_uf }}
-                        {% if form.endereco_uf.help_text %}
-                            <p class="form-text text-muted">{{ form.endereco_uf.help_text }}</p>
+                        <label for="{{ form.endereco_sigla.id_for_label }}">{{ form.endereco_sigla.label }}</label>
+                        {{ form.endereco_sigla }}
+                        {% if form.endereco_sigla.help_text %}
+                            <p class="form-text text-muted">{{ form.endereco_sigla.help_text }}</p>
                         {% endif %}
-                        {{ form.endereco_uf.errors }}
+                        {{ form.endereco_sigla.errors }}
                     </div>
                 </div>
             </div>

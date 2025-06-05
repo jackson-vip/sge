@@ -116,20 +116,32 @@ class ClienteUpdateView(LoginRequiredMixin, UpdateView):
                 'last_name': user.last_name,
             })
 
+# TODO: Lembrar de trasformar o atributo endereço_sigla em um campo de ForeignKey para UnidadeFederativa
         # Adicionar dados do Endereco
         if endereco:
             initial.update({
+                'endereco_cep': endereco.cep,
                 'endereco_logradouro': endereco.logradouro,
                 'endereco_numero': endereco.numero,
                 'endereco_complemento': endereco.complemento,
                 'endereco_bairro': endereco.bairro,
-                'endereco_municipio': endereco.municipio,
-                'endereco_uf': UnidadeFederativa.objects.get(sigla=endereco.uf),
-                'endereco_cep': endereco.cep,
+                'endereco_municipio': endereco.municipio, 
+                'endereco_sigla': UnidadeFederativa.objects.get(sigla=endereco.sigla), # Assumindo que sigla é um campo de UnidadeFederativa
             })
-
         return initial
 
     def form_valid(self, form):
+        cliente = form.save(commit=False)
+        usuario = cliente.usuario
+
+        # Atualizar os dados do usuário
+        usuario.first_name = form.cleaned_data['first_name']
+        usuario.last_name = form.cleaned_data['last_name']
+        usuario.save()  # Salvar o usuário antes de salvar o cliente
+
+        if 'imagem' in self.request.FILES:
+            cliente.imagem = self.request.FILES['imagem']
+        cliente.save()
+
         messages.success(self.request, "Cliente atualizado com sucesso!")
         return super().form_valid(form)

@@ -21,7 +21,7 @@ class ClienteForm(forms.ModelForm):
     endereco_municipio = forms.ModelChoiceField(
         queryset=Municipio.objects.all(),
     )
-    endereco_uf = forms.ModelChoiceField(
+    endereco_sigla = forms.ModelChoiceField(
         queryset=UnidadeFederativa.objects.all(),
     )
 
@@ -80,7 +80,7 @@ class ClienteForm(forms.ModelForm):
         rename_label(self.fields['endereco_municipio'], 'Município')
         add_attr(self.fields['endereco_municipio'], 'class', 'form-control')
 
-        rename_label(self.fields['endereco_uf'], 'UF')
+        rename_label(self.fields['endereco_sigla'], 'UF')
 
     def clean_cpf(self):
         cpf = self.cleaned_data['cpf']
@@ -131,7 +131,7 @@ class ClienteForm(forms.ModelForm):
             complemento=self.cleaned_data['endereco_complemento'],
             bairro=self.cleaned_data['endereco_bairro'],
             municipio=self.cleaned_data['endereco_municipio'],
-            uf=self.cleaned_data['endereco_uf'],
+            sigla=self.cleaned_data['endereco_sigla'],  # Usar sigla da UF
             cep=self.cleaned_data['endereco_cep']
         )
 
