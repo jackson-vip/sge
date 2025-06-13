@@ -56,10 +56,10 @@
             {% if cliente.tempo_para_aniversario.meses > 0 %}
               <span class="mx-2">{{ cliente.tempo_para_aniversario.meses }} meses e {{ cliente.tempo_para_aniversario.dias }} dias</span>
             {% endif %}
-            <span class="mx-2">({{ cliente.tempo_para_aniversario.total_dias }} dias no total)</span>
+            <span class="mx-2">Faltam ({{ cliente.tempo_para_aniversario.total_dias }} dias)</span>
             <span>
             {% if cliente.tempo_para_aniversario.total_dias < 28 %}
-              <i class="fa fa-gift fs-2" title="Aniversariante do Mês" style="background: linear-gradient(45deg, #FFD700, #FF69B4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent;"></i>
+              <i class="fa fa-gift fs-2" title="Aniversariante do Mês"></i>
             {% endif %}
             </span>
           </div>

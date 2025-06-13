@@ -1,20 +1,20 @@
 <!-- Modal -->
 <div class="modal fade" id="cliente-delete-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-3" id="exampleModalLabel">Excluir Cliente</h1>
+      <div class="modal-header bg-secondary-subtle">
+        <h1 class="modal-title fs-2" id="exampleModalLabel">Excluir Cliente</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <h4>Tem certeza que deseja excluir o cliente <strong id="cliente-nome"></strong> (ID: <span id="cliente-id"></span>) ?</h4>
-        <p>Esta ação não pode ser desfeita.</p>
+      <div class="modal-body py-5">
+        <h4 class="fs-2">Tem certeza que deseja excluir o cliente <strong id="cliente-nome"></strong> (ID: <span id="cliente-id"></span>) ?</h4>
+        <p class="fs-3">Esta ação não pode ser desfeita.</p>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      <div class="modal-footer gap-3">
+        <button type="button" class="btn btn-lg btn-secondary fs-3" data-bs-dismiss="modal">Fechar</button>
         <form id="cliente-delete-form" method="POST" action="">
             {% csrf_token %}
-            <button type="submit" class="btn btn-lg btn-danger">Excluir</button>
+            <button type="submit" class="btn btn-lg btn-danger fs-3">Excluir</button>
         </form>
       </div>
     </div>
