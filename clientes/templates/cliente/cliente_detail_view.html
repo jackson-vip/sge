@@ -37,11 +37,36 @@
         <h5 class="card-title">Informações Pessoais</h5>
       </div>
       <div class="card-body">
-        <div><strong>Nome:</strong> {{ cliente.usuario.first_name }} {{ cliente.usuario.last_name }}</div>
-        <div><strong>Email:</strong> {{ cliente.email }}</div>
-        <div><strong>Telefone:</strong> {{ cliente.telefone }}</div>
-        <div><strong>Data de Nascimento:</strong> {{ cliente.data_nascimento|date:'d/m/Y' }}</div>
-        <div><strong>CPF:</strong> {{ cliente.cpf }}</div>
+        <div>
+          <strong>Nome:</strong> <span class="mx-2">{{ cliente.usuario.first_name }} {{ cliente.usuario.last_name }}</span>
+        </div>
+        <div>
+          <strong>Email:</strong> <span class="mx-2">{{ cliente.email }}</span>
+        </div>
+        <div>
+          <strong>Telefone:</strong> <span class="mx-2">{{ cliente.telefone }}</span>
+        </div>
+        <div class="d-flex gap-2 align-items-end">
+          <strong>Data de Nascimento:</strong> <span class="mx-2">{{ cliente.data_nascimento|date:'d/m/Y' }}</span>
+          <strong>Idade:</strong> <span class="mx-2">{{ cliente.idade }} anos</span>
+        </div>
+        {% if cliente.tempo_para_aniversario %}
+          <div>
+            <strong>Próximo aniversário em:</strong>
+            {% if cliente.tempo_para_aniversario.meses > 0 %}
+              <span class="mx-2">{{ cliente.tempo_para_aniversario.meses }} meses e {{ cliente.tempo_para_aniversario.dias }} dias</span>
+            {% endif %}
+            <span class="mx-2">({{ cliente.tempo_para_aniversario.total_dias }} dias no total)</span>
+            <span>
+            {% if cliente.tempo_para_aniversario.total_dias < 28 %}
+              <i class="fa fa-gift fs-2" title="Aniversariante do Mês" style="background: linear-gradient(45deg, #FFD700, #FF69B4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent;"></i>
+            {% endif %}
+            </span>
+          </div>
+        {% else %}
+          <div><strong>Data de nascimento não informada.</strong></div>
+        {% endif %}
+        <div><strong>CPF:</strong> <span class="mx-2">{{ cliente.cpf }}</span></div>
       </div>
     </div>
 
@@ -51,12 +76,22 @@
         <h5 class="card-title">Endereço</h5>
       </div>
       <div class="card-body">
-        <div><strong>CEP:</strong> {{ cliente.endereco.cep }}</div>
-        <div><strong>Rua:</strong> {{ cliente.endereco.logradouro }}</div>
-        <div><strong>Número:</strong> {{ cliente.endereco.numero }}</div>
-        <div><strong>Bairro:</strong> {{ cliente.endereco.bairro }}</div>
-        <div><strong>Cidade:</strong> {{ cliente.endereco.uf }}</div>
-        <div><strong>Estado:</strong> {{ cliente.endereco.sigla }}</div>
+        <div>
+          <strong>CEP:</strong> <span class="mx-2">{{ cliente.endereco.cep }}</span>
+        </div>
+        <div class="d-flex gap-2 align-items-end">
+          <strong>Rua:</strong> <span class="mx-2">{{ cliente.endereco.logradouro }}</span>
+          <strong>Número:</strong> <span class="mx-2">{{ cliente.endereco.numero }}</span>
+        </div>
+        <div>
+          <strong>Bairro:</strong> <span class="mx-2">{{ cliente.endereco.bairro }}</span>
+        </div>
+        <div>
+          <strong>Cidade:</strong> <span class="mx-2">{{ cliente.endereco.municipio }}</span>
+        </div>
+        <div>
+          <strong>Estado:</strong> <span class="mx-2">{{ cliente.endereco.sigla }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -66,9 +101,9 @@
         <h5 class="card-title">Outros Dados</h5>
       </div>
       <div class="card-body">
-        <div><strong>Data de Cadastro:</strong> {{ cliente.data_cadastro|date:'d/m/Y H:i' }}</div>
-        <div><strong>Status:</strong> <span>{{ cliente.get_status_display }}<span></div>
-        <div><strong>Observações:</strong> {{ cliente.observacoes|default:'-' }}</div>
+        <div><strong>Data de Cadastro:</strong> <span>{{ cliente.data_cadastro|date:'d/m/Y H:i' }}</span></div>
+        <div><strong>Status:</strong> <span>{{ cliente.get_status_display }}</span></div>
+        <div><strong>Observações:</strong> <span>{{ cliente.observacoes|default:'-' }}</span></div>
       </div>
   </div>
 </div>
