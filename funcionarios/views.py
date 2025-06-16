@@ -1,40 +1,32 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import View
+from utils.filters import FuncionarioFilter
+from django_filters.views import FilterView
 from .models import Funcionario
 
 # Create your views here.
 
-class FuncionarioListView(LoginRequiredMixin, View):
-    template = 'funcionario/funcionario_list_view.html'
+PRE_PAGES = 12
 
-    def get_context_data(self, **kwargs):
-        context = {}
-        context['title'] = 'Lista de Funcionários'
-        context['breadcrumbs'] = [
-            {'name': 'Funcionários', 'url': reverse('funcionario:funcionario_list_view')},
-        ]
-        context['funcionarios'] = Funcionario.objects.all()
-        return context
+class FuncionarioListView(LoginRequiredMixin, FilterView):
+    model = Funcionario
+    template_name = 'funcionario/funcionario_list_view.html'
+    context_object_name = 'funcionarios'
+    paginate_by = PRE_PAGES
+    filterset_class = FuncionarioFilter
 
     def get(self, request, *args, **kwargs):
-        context = self.get_context_data()
-        return render(request, self.template, context)
+        if request.GET.get('opcao'):
+            self.paginate_by = request.GET.get('opcao')
+        return super().get(request, *args, **kwargs)
     
-class FuncionarioCreateView(LoginRequiredMixin, View):
-    template = 'funcionario/funcionario_create_view.html'
-
     def get_context_data(self, **kwargs):
-        context = {}
-        context['title'] = 'Criar Funcionário'
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Lista de Funcionários'
+        context['qnt_ativos'] = Funcionario.objects.filter(status='ativo').count()
+        context['qnt_inativos'] = Funcionario.objects.filter(status='inativo').count()
+        context['qnt_bloqueados'] = Funcionario.objects.filter(status='bloqueado').count()
         context['breadcrumbs'] = [
             {'name': 'Funcionários', 'url': reverse('funcionario:funcionario_list_view')},
-            {'name': 'Criar Funcionário', 'url': reverse('funcionario:funcionario_create_view')},
         ]
         return context
-
-    def get(self, request, *args, **kwargs):
-        context = self.get_context_data()
-        return render(request, self.template, context)

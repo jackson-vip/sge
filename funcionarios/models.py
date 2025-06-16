@@ -6,6 +6,11 @@ from authentication.models import Endereco
 
 
 class Funcionario(models.Model):
+    STATUS_CHOICES = [
+        ('ativo', 'Ativo'),
+        ('inativo', 'Inativo'),
+        ('bloqueado', 'Bloqueado'),
+    ]
     usuario = models.OneToOneField(User, on_delete=models.PROTECT)
     imagem = models.ImageField(upload_to='funcionarios/', blank=True, null=True, default='funcionarios/default.png')
     cargo = models.CharField(max_length=100)
@@ -19,6 +24,7 @@ class Funcionario(models.Model):
     telefone = models.CharField(max_length=15)
     endereco = models.ForeignKey(Endereco, on_delete=models.CASCADE)
     email_profissional = models.EmailField(max_length=100, unique=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='ativo', verbose_name="Status")
 
     class Meta:
         db_table = 'sge_funcionario'

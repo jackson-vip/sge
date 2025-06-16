@@ -16,7 +16,7 @@ class Cliente(models.Model):
     rg = models.CharField(max_length=12, unique=True, blank=True, null=True)
     telefone = models.CharField(max_length=15)
     endereco = models.ForeignKey(Endereco, on_delete=models.CASCADE)
-    email = models.EmailField(unique=True)
+    email = models.EmailField(max_length=100, unique=True)
     data_cadastro = models.DateTimeField(auto_now_add=True, verbose_name="Data de Cadastro")
     ultima_atualizacao = models.DateTimeField(auto_now=True, verbose_name="Última Atualização")
     status = models.CharField(max_length=20, choices=[('ativo', 'Ativo'), ('inativo', 'Inativo'), ('bloqueado', 'Bloqueado')], default='ativo', verbose_name="Status")

@@ -1,14 +1,125 @@
-{% extends "global/base.html" %}
-{% load static %}
+{% extends "global/base.html" %} 
+{% load static %} 
+{% block title %}{{ title }}{% endblock title %} 
+{% block css %} 
+    <link rel="stylesheet" href="{% static 'cliente/css/cliente_list_view.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'funcionario/css/funcionario_list_view.css' %}" rel="stylesheet"/>
+{% endblock css %} 
 
-{% block content %}
-    {% include "global/partials/breadcrumb.html" %}
-    <br>
-    <h1>{{ title }}</h1>
-    <p> Página: funcionario_list_view.html</p>
-    <ul>
-        {% for funcionario in funcionarios %}
-            <li>{{ funcionario.nome }}</li>
-        {% endfor %}
-    </ul>
-{% endblock %}
+{% block content %} 
+
+{% include "global/partials/breadcrumb.html" %}
+{% include "global/partials/alerts.html" %}
+
+{% comment %} <form method="get" class="mb-3">
+    {{ filter.form.as_p }}
+    <button type="submit" class="btn btn-primary">Filtrar</button>
+</form> {% endcomment %}
+
+<div class="card-row actions-container w-100 mt-4">
+    {% include "global/partials/search.html" with placeholder_text="Buscar funcionário..." action_url=request.path show_status_filter=True %}
+    <a href="#" class="btn btn-lg btn-primary fs-4"> + Novo Funcionário</a>
+</div>
+
+{% comment %} Seleção global {% endcomment %}
+{% if funcionarios|length > 0 %}
+    <div class="row mb-4" id="funcionarios-dashboard-info">
+        <div class="col-md-3 d-flex">
+            <div class="w-100 dashboard-information-summary" id="funcionarios-selecionados">
+                <div>
+                    <label for="selecionarTodosFuncionarios">
+                        Capturar todos os funcionários,
+                    </label>
+                    <input class="select-all-checkbox" type="checkbox" id="selecionarTodosFuncionarios" />
+                    <label for="selecionarTodosFuncionarios">
+                        <span class="fs-5">clique aqui</span>
+                        <img src="{% static 'global/assets/img/cursor_click_outline.svg' %}" alt="Clique aqui" />
+                    </label>
+                </div>
+                <div class="selected-count-container">
+                    <span class="selected-count">
+                        {% comment %} Exibe a contagem de funcionários selecionados {% endcomment %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 d-flex">
+            <div class="w-100 dashboard-information-summary" id="funcionarios-ativos">
+                <span> Funcionários ativos: </span>
+                <span class="total-count">
+                    {{ qnt_ativos|default:0 }}
+                </span>
+            </div>
+        </div>
+        <div class="col-md-3 d-flex clientes-dashboard-info-card">
+            <div class="w-100 dashboard-information-summary" id="funcionarios-inativos">
+                <span> Funcionários inativos: </span>
+                <span class="total-count">
+                    {{ qnt_inativos|default:0 }}
+                </span>
+            </div>
+        </div>
+        <div class="col-md-3 d-flex clientes-dashboard-info-card">
+            <div class="w-100 dashboard-information-summary" id="funcionarios-bloqueados">
+                <span> Funcionários bloqueados: </span>
+                <span class="total-count">
+                    {{ qnt_bloqueados|default:0 }}
+                </span>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="clients-container">
+    {% for funcionario in funcionarios %}
+        <div class="client-card" data-cliente-id="{{ funcionario.id }}" >
+            <div class="card-header">
+                <input type="checkbox" class="select-card" id="funcionario-{{ funcionario.id }}" value="{{ funcionario.id }}" />
+                <img src="{% if funcionario.imagem and funcionario.imagem.url %}{{ funcionario.imagem.url }}{% else %}{% static 'global/assets/img/user.jpeg' %}{% endif %}" class="client-image" alt="Imagem do Funcionário"/>
+                <div class="client-info">
+                    <h2 class='mb-1 p-2'>{{ funcionario.usuario.first_name }} {{ funcionario.usuario.last_name }}</h2>
+                    <small class="status badge rounded-pill {% if funcionario.status == 'ativo' %}text-bg-success{% elif funcionario.status == 'inativo' %}text-bg-warning{% else %}text-bg-danger{% endif %}">{{ funcionario.status }}</small>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="client-details">
+                    <div class="client-detail">
+                        <span class="detail-label"><strong>CPF :</strong></span>
+                        <span class="detail-value cpf">{{ funcionario.cpf }}</span>
+                    </div>
+                    <div class="client-detail">
+                        <span class="detail-label"><strong>Email :</strong></span>
+                        <span class="detail-value">{{ funcionario.email_profissional }}</span>
+                    </div>
+                    <div class="client-detail">
+                        <span class="detail-label"><strong>Telefone :</strong></span>
+                        <span class="detail-value telefone">{{ funcionario.telefone }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="#" class="btn-view" data-bs-tooltip="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Visualizar">
+                    <i class="fas fa-eye"></i>
+                </a>
+                <a href="#" class="btn-edit" data-bs-tooltip="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Editar">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a href="#" class="btn-delete" data-bs-target="#funcionario-delete-modal" data-bs-toggle="modal" data-funcionario-id="{{ funcionario.id }}" data-funcionario-nome="{{ funcionario.usuario.first_name }} {{ funcionario.usuario.last_name }}" data-bs-tooltip="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Excluir">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </div>
+        </div>
+    {% empty %}
+        {% if funcionarios|length == 0 %}
+            <p class="no-clients">
+                Nenhum funcionário cadastrado no momento. Por favor, adicione um novo funcionário.
+            </p>
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock %} 
+
+{% block js %} 
+    <script type="text/javascript" src="{% static 'funcionario/js/funcionario_list_view.js' %}" defer></script>
+{% endblock js %}

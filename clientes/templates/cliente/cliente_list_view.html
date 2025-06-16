@@ -20,7 +20,7 @@
 {% if clientes|length > 0 %}
     <div class="row mb-4" id="clientes-dashboard-info">
         <div class="col-md-3 d-flex">
-            <div class="w-100 clientes-dashboard-info-content" id="clientes-selecionados">
+            <div class="w-100 dashboard-information-summary" id="clientes-selecionados">
                 <div>
                     <label for="selecionarTodos">
                         Capturar todos os clientes,
@@ -38,24 +38,24 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 d-flex clientes-dashboard-info-card">
-            <div class="w-100 clientes-dashboard-info-content" id="clientes-ativos">
+        <div class="col-md-3 d-flex">
+            <div class="w-100 dashboard-information-summary" id="clientes-ativos">
                 <span> Clientes ativos: </span>
                 <span class="total-count">
                     {{ qnt_ativos|default:0 }}
                 </span>
             </div>
         </div>
-        <div class="col-md-3 d-flex clientes-dashboard-info-card">
-            <div class="w-100 clientes-dashboard-info-content" id="clientes-inativos">
+        <div class="col-md-3 d-flex">
+            <div class="w-100 dashboard-information-summary" id="clientes-inativos">
                 <span> Clientes inativos: </span>
                 <span class="total-count">
                     {{ qnt_inativos|default:0 }}
                 </span>
             </div>
         </div>
-        <div class="col-md-3 d-flex clientes-dashboard-info-card">
-            <div class="w-100 clientes-dashboard-info-content" id="clientes-bloqueados">
+        <div class="col-md-3 d-flex">
+            <div class="w-100 dashboard-information-summary" id="clientes-bloqueados">
                 <span> Clientes bloqueados: </span>
                 <span class="total-count">
                     {{ qnt_bloqueados|default:0 }}
@@ -114,53 +114,8 @@
     {% endfor %}
 </div>
 
-    <!-- Teste Card Statico Apaga -->
-    {% comment %} 
-    <div class="clients-container">
-        
-        <div class="client-card">
-            <div class="card-header">
-                <input type="checkbox" class="select-card" value="" />
-                <img src="{% static 'global/assets/img/user.jpeg' %}" class="client-image" alt="Imagem do Cliente"/>
-                <div class="client-info">
-                <h5>Jhon Doe</h5>
-                <small class="status">Ativo</small>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="client-details">
-                    <div class="client-detail">
-                        <span class="detail-label"><strong>CPF :</strong></span>
-                        <span class="detail-value">000.000.000-00</span>
-                    </div>
-                    <div class="client-detail">
-                        <span class="detail-label"><strong>Email :</strong></span>
-                        <span class="detail-value">jhondoe@example.com</span>
-                    </div>
-                    <div class="client-detail">
-                        <span class="detail-label"><strong>Telefone :</strong></span>
-                        <span class="detail-value">(00) 0000-0000</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <a href="#" class="btn-view" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Visualizar">
-                    <i class="fas fa-eye"></i>
-                </a>
-                <a href="#" class="btn-edit" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Editar">
-                        <i class="fas fa-pencil-alt"></i>
-                </a>
-                <a href="#" class="btn-delete" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Excluir">
-                    <i class="fas fa-trash"></i>
-                </a>
-            </div>
-        </div>
-
-    </div> 
-    {% endcomment %}
-
-    {% comment %} Modal de exclusão de cliente {% endcomment %}
-    {% include "cliente/cliente_modal/modal_cliente_delete_view.html" %}
+{% comment %} Modal de exclusão de cliente {% endcomment %}
+{% include "cliente/cliente_modal/modal_cliente_delete_view.html" %}
 
 {% endblock %} 
 
