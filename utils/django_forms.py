@@ -53,5 +53,6 @@ def add_form_control(self):
             field.widget.attrs['data-dropup-auto'] = 'false'
         elif field and isinstance(field, forms.DateField):
             field.widget.attrs['class'] = 'date datepicker'
+            field.widget.attrs['autocomplete'] = 'off'
         else:
             field.widget.attrs['class'] = 'form-control'
