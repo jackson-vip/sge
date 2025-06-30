@@ -11,7 +11,7 @@ document.querySelectorAll(".has-submenu > a").forEach((link) => {
         const parent = link.parentElement;
         const icon = link.querySelector("i:last-of-type");
         icon.className = icon.className === "bi bi-chevron-down" ? "bi bi-chevron-left" : "bi bi-chevron-down";
-        
+
         parent.classList.toggle("open");
     });
 });
@@ -19,7 +19,7 @@ document.querySelectorAll(".has-submenu > a").forEach((link) => {
 /** Inicializa o Feather Icons
  * Usado para substituir os ícones do Feather no DOM
  * @description O Feather Icons é uma biblioteca de ícones SVG.
- * */ 
+ * */
 feather.replace();
 
 /** Alterna o menu lateral
@@ -102,8 +102,8 @@ const tooltipTriggerList = document.querySelectorAll('[data-bs-tooltip="tooltip"
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 // Capturar o valor do select opcao e redirecionar para a página correta
-$(document).ready(function() {
-    $('#opcoes').on("change", function() {
+$(document).ready(function () {
+    $('#opcoes').on("change", function () {
         let opcao = $('#opcoes').val();
         console.log(opcao);
 
@@ -124,10 +124,42 @@ $(document).ready(function() {
  * @description Este código seleciona todos os elementos com a classe `alert` e define um temporizador para removê-los do DOM após 5 segundos.
  * Isso é útil para limpar automaticamente os alerts da página após um período de tempo, melhorando a experiência do usuário.
  */
-$(document).ready(function() {
-    setTimeout(function() {
-        $('div.alert').fadeOut('slow', function() {
+$(document).ready(function () {
+    setTimeout(function () {
+        $('div.alert').fadeOut('slow', function () {
             $(this).remove();
         });
     }, 5000);
 });
+
+/** Inicialização do Datepicker
+ * Usado para inicializar o datepicker nos campos de data
+ * @description Este código seleciona todos os elementos com a classe `datepicker` e inicializa o datepicker neles.
+ * Isso permite que os usuários selecionem uma data de forma mais fácil e intuitiva.
+ */
+// Configuração do Datepicker para pt-BR
+$.fn.datepicker.dates['pt-BR'] = {
+    days: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+    daysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+    daysMin: ['Do', 'Se', 'Te', 'Qa', 'Qi', 'Se', 'Sa'],
+    months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+    monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+    today: "Hoje",
+    clear: "Limpar",
+    format: "dd/mm/yyyy",
+    titleFormat: "MM yyyy",
+    weekStart: 0                // Inicia a semana no domingo
+};
+
+$(function () {
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        language: 'pt-BR',
+        autoclose: true,
+        todayHighlight: true,   // Destaca a data de hoje
+        clearBtn: true,
+        startDate: '-100y',
+        container: 'body'
+    });
+});
+
