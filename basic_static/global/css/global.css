@@ -152,8 +152,9 @@ p {
     color: #fff !important;
 }
 
-.datepicker-dropdown.datepicker-orient-top:before {
+.datepicker-dropdown:before {
     border-top-color: #86b7fe !important;
+    border-bottom-color: #86b7fe !important;
 }
 
 /* Paginação */
