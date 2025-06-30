@@ -18,7 +18,7 @@
 
 <div class="card-row actions-container w-100 mt-4">
     {% include "global/partials/search.html" with placeholder_text="Buscar funcionário..." action_url=request.path show_status_filter=True %}
-    <a href="#" class="btn btn-lg btn-primary fs-4"> + Novo Funcionário</a>
+    <a href="{% url 'funcionario:funcionario_create_view' %}" class="btn btn-lg btn-primary fs-4"> + Novo Funcionário</a>
 </div>
 
 {% comment %} Seleção global {% endcomment %}
