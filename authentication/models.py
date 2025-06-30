@@ -39,13 +39,13 @@ class Endereco(models.Model):
     ]
 
     logradouro = models.CharField(max_length=255)
-    numero = models.CharField(max_length=20)
-    complemento = models.CharField(max_length=100, blank=True, null=True)
-    bairro = models.CharField(max_length=100)
-    municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE, related_name='enderecos')
-    uf = models.CharField(max_length=20)
-    sigla = models.CharField(max_length=2)
-    cep = models.CharField(max_length=9)
+    numero = models.CharField(max_length=20, verbose_name='Número')
+    complemento = models.CharField(max_length=100, blank=True, null=True, verbose_name='Complemento')
+    bairro = models.CharField(max_length=100, verbose_name='Bairro')
+    municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE, related_name='enderecos', verbose_name='Município')
+    uf = models.CharField(max_length=20, verbose_name='UF')
+    sigla = models.CharField(max_length=2, verbose_name='Sigla')
+    cep = models.CharField(max_length=9, verbose_name='CEP')
     tipo_endereco = models.CharField(max_length=50, choices=TIPO_ENDERECO, default='residencial')
 
     class Meta:
