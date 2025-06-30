@@ -78,9 +78,10 @@ class ClienteForm(forms.ModelForm):
         add_placeholder(self.fields['endereco_cep'], '00000-000')
 
         rename_label(self.fields['endereco_municipio'], 'Município')
-        add_attr(self.fields['endereco_municipio'], 'class', 'form-control')
+        add_attr(self.fields['endereco_municipio'], 'class', 'custom-select')
 
         rename_label(self.fields['endereco_sigla'], 'UF')
+        add_attr(self.fields['endereco_sigla'], 'class', 'custom-select')
 
         # Campo de Observações
         rename_label(self.fields['observacoes'], 'Observações')
