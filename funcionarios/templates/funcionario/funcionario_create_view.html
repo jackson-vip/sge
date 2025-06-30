@@ -1,3 +1,266 @@
-<!-- Template para criar um cliente -->
-<h1>Criar Cliente</h1>
-<p> Página: cliente_create_view.html</p>
+{% extends "global/base.html" %} 
+{% load static %} 
+{% block title %}{{ title }}{% endblock title %} 
+{% block css %} 
+    <link rel="stylesheet" href="{% static 'funcionario/css/funcionario_create_view.css' %}" rel="stylesheet"/>
+{% endblock css %} 
+
+{% block content %} 
+
+{% include "global/partials/breadcrumb.html" %}
+
+{% if form.is_bound and not form.is_valid %}
+    <div class="alert alert-danger mt-5 fs-3">
+        <p>Houve um erro ao criar o funcionario. Por favor, verifique os dados.</p>
+    </div>
+{% endif %}
+
+{% if form.is_bound and form.is_valid %}
+    <div class="alert alert-success">
+        <p>Funcionario criado com sucesso!</p>
+    </div>
+{% endif %}
+
+<!-- Template para criar um funcionario -->
+<div class="card-row mt-5">
+    <div class="card-header">
+        <h2>Formulário de Cadastro de Funcionario</h2>
+        <p>Preencha os campos abaixo para criar um novo funcionario:</p>
+    </div>
+    <div style="padding: 30px 80px; margin: 0 auto">
+
+        <form method="post" action="{% url 'funcionario:funcionario_create_view' %}" enctype="multipart/form-data" id="funcionario-create-form">
+            {% csrf_token %}
+    
+            <div class="row mb-4">
+                <div class="col-md-12 text-center">
+                    <div class="image-upload-wrapper">
+                        <label for="{{ form.imagem.id_for_label }}" class="image-label">
+                            <div class="image-container">
+                                <img id="preview-image" src="{% static '../media/clientes/user.jpeg' %}" alt="Imagem do Funcionario" class="rounded-circle">
+                                <div class="image-hover">
+                                    <i class="fas fa-edit"></i>
+                                </div>
+                            </div>
+                        </label>
+                        {{ form.imagem }}
+                        {% if form.imagem.help_text %}
+                            <small class="form-text text-muted">{{ form.imagem.help_text }}</small>
+                        {% endif %}
+                        {{ form.imagem.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4 mt-5 ">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                        {{ form.first_name }}
+                        {% if form.first_name.help_text %}
+                            <p class="form-text text-muted">{{ form.first_name.help_text }}</p>
+                        {% endif %}
+                        {{ form.first_name.errors }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                        {{ form.last_name }}
+                        {% if form.last_name.help_text %}
+                            <p class="form-text text-muted">{{ form.last_name.help_text }}</p>
+                        {% endif %}
+                        {{ form.last_name.errors }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="{{ form.email_profissional.id_for_label }}">{{ form.email_profissional.label }}</label>
+                        {{ form.email_profissional }}
+                        {% if form.email_profissional.help_text %}
+                            <p class="form-text text-muted">{{ form.email_profissional.help_text }}</p>
+                        {% endif %}
+                        {{ form.email_profissional.errors }}
+                    </div>
+                </div>
+    
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="{{ form.data_nascimento.id_for_label }}">{{ form.data_nascimento.label }}</label>
+                        {{ form.data_nascimento }}
+                        {% if form.data_nascimento.help_text %}
+                            <p class="form-text text-muted">{{ form.data_nascimento.help_text }}</p>
+                        {% endif %}
+                        {{ form.data_nascimento.errors }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="{{ form.cpf.id_for_label }}">{{ form.cpf.label }}</label>
+                        {{ form.cpf }}
+                        {% if form.cpf.help_text %}
+                            <p class="form-text text-muted">{{ form.cpf.help_text }}</p>
+                        {% endif %}
+                        {{ form.cpf.errors }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="{{ form.rg.id_for_label }}">{{ form.rg.label }}</label>
+                        {{ form.rg }}
+                        {% if form.rg.help_text %}
+                            <p class="form-text text-muted">{{ form.rg.help_text }}</p>
+                        {% endif %}
+                        {{ form.rg.errors }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="{{ form.telefone.id_for_label }}">{{ form.telefone.label }}</label>
+                        {{ form.telefone }}
+                        {% if form.telefone.help_text %}
+                            <p class="form-text text-muted">{{ form.telefone.help_text }}</p>
+                        {% endif %}
+                        {{ form.telefone.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="{{ form.cargo.id_for_label }}">{{ form.cargo.label }}</label>
+                        {{ form.cargo }}
+                        {% if form.cargo.help_text %}
+                            <p class="form-text text-muted">{{ form.cargo.help_text }}</p>
+                        {% endif %}
+                        {{ form.cargo.errors }}
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="{{ form.departamento.id_for_label }}">{{ form.departamento.label }}</label>
+                        {{ form.departamento }}
+                        {% if form.departamento.help_text %}
+                            <p class="form-text text-muted">{{ form.departamento.help_text }}</p>
+                        {% endif %}
+                        {{ form.departamento.errors }}
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="{{ form.data_contratacao.id_for_label }}">{{ form.data_contratacao.label }}</label>
+                        {{ form.data_contratacao }}
+                        {% if form.data_contratacao.help_text %}
+                            <p class="form-text text-muted">{{ form.data_contratacao.help_text }}</p>
+                        {% endif %}
+                        {{ form.data_contratacao.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="{{ form.observacoes.id_for_label }}">{{ form.observacoes.label }}</label>
+                        {{ form.observacoes }}
+                        {% if form.observacoes.help_text %}
+                            <small class="form-text text-muted">{{ form.observacoes.help_text }}</small>
+                        {% endif %}
+                        {{ form.observacoes.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="{{ form.endereco_cep.id_for_label }}">{{ form.endereco_cep.label }}</label>
+                        {{ form.endereco_cep }}
+                        {% if form.endereco_cep.help_text %}
+                            <p class="form-text text-muted">{{ form.endereco_cep.help_text }}</p>
+                        {% endif %}
+                        {{ form.endereco_cep.errors }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="{{ form.endereco_logradouro.id_for_label }}">{{ form.endereco_logradouro.label }}</label>
+                        {{ form.endereco_logradouro }}
+                        {% if form.endereco_logradouro.help_text %}
+                            <p class="form-text text-muted">{{ form.endereco_logradouro.help_text }}</p>
+                        {% endif %}
+                        {{ form.endereco_logradouro.errors }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="{{ form.endereco_numero.id_for_label }}">{{ form.endereco_numero.label }}</label>
+                        {{ form.endereco_numero }}
+                        {% if form.endereco_numero.help_text %}
+                            <p class="form-text text-muted">{{ form.endereco_numero.help_text }}</p>
+                        {% endif %}
+                        {{ form.endereco_numero.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="{{ form.endereco_complemento.id_for_label }}">{{ form.endereco_complemento.label }}</label>
+                        {{ form.endereco_complemento }}
+                        {% if form.endereco_complemento.help_text %}
+                            <p class="form-text text-muted">{{ form.endereco_complemento.help_text }}</p>
+                        {% endif %}
+                        {{ form.endereco_complemento.errors }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="{{ form.endereco_bairro.id_for_label }}">{{ form.endereco_bairro.label }}</label>
+                        {{ form.endereco_bairro }}
+                        {% if form.endereco_bairro.help_text %}
+                            <p class="form-text text-muted">{{ form.endereco_bairro.help_text }}</p>
+                        {% endif %}
+                        {{ form.endereco_bairro.errors }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="{{ form.endereco_municipio.id_for_label }}">{{ form.endereco_municipio.label }}</label>
+                        {{ form.endereco_municipio }}
+                        {% if form.endereco_municipio.help_text %}
+                        <p class="form-text text-muted">{{ form.endereco_municipio.help_text }}</p>
+                        {% endif %}
+                        {{ form.endereco_municipio.errors }}
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label for="{{ form.endereco_sigla.id_for_label }}">{{ form.endereco_sigla.label }}</label>
+                        {{ form.endereco_sigla }}
+                        {% if form.endereco_sigla.help_text %}
+                            <p class="form-text text-muted">{{ form.endereco_sigla.help_text }}</p>
+                        {% endif %}
+                        {{ form.endereco_sigla.errors }}
+                    </div>
+                </div>
+            </div> 
+
+        </form>
+        
+    </div>
+    <div class="card-footer d-flex justify-content-end">
+        <a href="{% url 'funcionario:funcionario_list_view' %}" class="btn btn-lg btn-secondary fs-3 me-4" style="width: 120px;">Fechar</a>
+        <button type="submit" form="funcionario-create-form" class="btn btn-lg btn-primary fs-3">Criar Funcionario</button>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+    <script src="{% static 'funcionario/js/funcionario_create_view.js' %}"></script>
+{% endblock js %}
