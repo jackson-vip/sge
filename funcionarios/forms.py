@@ -1,10 +1,10 @@
 from authentication.models import Endereco, UnidadeFederativa, Municipio, Perfil
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from funcionarios.models import Funcionario
 from django import forms
 from utils.django_forms import *
 from utils.validates_inputs import *
+from django.utils.crypto import get_random_string
 import uuid
 
 
@@ -28,7 +28,7 @@ class FuncionarioForm(forms.ModelForm):
 
     class Meta:
         model = Funcionario
-        fields = ['imagem', 'cpf', 'rg', 'telefone', 'email_profissional', 'data_nascimento', 'cargo', 'departamento', 'data_contratacao', 'salario', 'status', 'observacoes']
+        fields = ['imagem', 'cpf', 'rg', 'telefone', 'email_profissional', 'data_nascimento', 'cargo', 'departamento', 'data_contratacao', 'salario', 'observacoes']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -54,6 +54,7 @@ class FuncionarioForm(forms.ModelForm):
         add_placeholder(self.fields['cargo'], 'Digite o cargo do funcionário') # Exemplo: Gerente, Analista, Caixa, etc.
         add_placeholder(self.fields['departamento'], 'Digite o departamento do funcionário') # Exemplo: Vendas, TI, RH, etc.
         add_placeholder(self.fields['data_contratacao'], '01/01/2020')
+        add_placeholder(self.fields['salario'], 'R$ 0,00')
 
         # Os campos de Endereço
         rename_label(self.fields['endereco_cep'], 'CEP')
@@ -101,3 +102,53 @@ class FuncionarioForm(forms.ModelForm):
         if not validate_cep(cep):
             raise forms.ValidationError("CEP inválido.")
         return cep
+    
+    def save(self, commit=True):
+        # Criar o usuário
+        usuario = User(
+            first_name=self.cleaned_data['first_name'],
+            last_name=self.cleaned_data['last_name'],
+            username=f"{self.cleaned_data['email_profissional']}-{uuid.uuid4().hex[:8]}"  # Gerar username único
+        )
+        senha_aleatoria = get_random_string(8)
+        usuario.set_password(senha_aleatoria)  # Gerar senha aleatória corretamente
+        if commit:
+            usuario.save()
+
+        # Criar o funcionário associado ao usuário
+        funcionario = super().save(commit=False)
+        funcionario.usuario = usuario
+        funcionario.email = self.cleaned_data['email_profissional'] # Salva o email profissional no campo email do usuário
+        funcionario.data_nascimento = self.cleaned_data['data_nascimento']
+        funcionario.status = 'ativo'  # Define o status como ativo por padrão
+
+        # Criar o endereço associado ao funcionário
+        endereco = Endereco(
+            cep=self.cleaned_data['endereco_cep'],
+            logradouro=self.cleaned_data['endereco_logradouro'],
+            numero=self.cleaned_data['endereco_numero'],
+            complemento=self.cleaned_data['endereco_complemento'],
+            bairro=self.cleaned_data['endereco_bairro'],
+            municipio=self.cleaned_data['endereco_municipio'],
+            sigla=self.cleaned_data['endereco_sigla']
+        )
+
+        if commit:
+            endereco.save()
+            funcionario.endereco = endereco
+            funcionario.save()
+
+        # Garantir que a imagem escolhida seja salva antes de salvar o funcionário
+        if 'imagem' in self.files:
+            funcionario.imagem = self.files['imagem']
+            funcionario.save()
+        
+        # Criar o perfil associado ao usuário
+        perfil = Perfil(
+            usuario=usuario,
+            tipo='funcionario' # Definir o tipo como funcionário
+            )
+        if commit:
+            perfil.save()
+        
+        return funcionario

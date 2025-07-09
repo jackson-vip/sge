@@ -24,30 +24,49 @@
 <!-- Template para criar um funcionario -->
 <div class="card-row mt-5">
     <div class="card-header">
-        <h2>Formulário de Cadastro de Funcionario</h2>
-        <p>Preencha os campos abaixo para criar um novo funcionario:</p>
+        <h2>{{ title }}</h2>
+        <p>{% if view.action == 'update' or 'Editar' in title %}Atualize os campos desejados do funcionário:{% else %}Preencha os campos abaixo para criar um novo funcionario:{% endif %}</p>
     </div>
     <div style="padding: 30px 80px; margin: 0 auto">
 
-        <form method="post" action="{% url 'funcionario:funcionario_create_view' %}" enctype="multipart/form-data" id="funcionario-create-form">
+        <form method="POST" action="" enctype="multipart/form-data" id="funcionario-create-form">
             {% csrf_token %}
     
             <div class="row mb-4">
                 <div class="col-md-12 text-center">
                     <div class="image-upload-wrapper">
-                        <label for="{{ form.imagem.id_for_label }}" class="image-label">
-                            <div class="image-container">
-                                <img id="preview-image" src="{% static '../media/clientes/user.jpeg' %}" alt="Imagem do Funcionario" class="rounded-circle">
-                                <div class="image-hover">
-                                    <i class="fas fa-edit"></i>
+                        {% if 'Editar' in title %}
+                            <label for="{{ form.imagem.id_for_label }}" class="image-label">
+                                <div class="image-container">
+                                    <img id="preview-image" src="{% if funcionario.imagem and funcionario.imagem.url %}{{ funcionario.imagem.url }}{% else %}{% static 'global/assets/img/user.jpeg' %}{% endif %}" alt="Imagem do Funcionario" class="rounded-circle">
+                                    <div class="image-hover">
+                                        <i class="fas fa-edit"></i>
+                                    </div>
                                 </div>
+                            </label>
+                            <div class="mt-2">
+                                <span class="fw-bold">Alterar foto do perfil</span>
                             </div>
-                        </label>
-                        {{ form.imagem }}
-                        {% if form.imagem.help_text %}
-                            <small class="form-text text-muted">{{ form.imagem.help_text }}</small>
+                            <input type="file" name="imagem" accept="image/*" class="form-control" id="id_imagem" style="display: none;">
+                            {% if form.imagem.help_text %}
+                                <small class="form-text text-muted">{{ form.imagem.help_text }}</small>
+                            {% endif %}
+                            {{ form.imagem.errors }}
+                        {% else %}
+                            <label for="{{ form.imagem.id_for_label }}" class="image-label">
+                                <div class="image-container">
+                                    <img id="preview-image" src="{% static '../media/clientes/user.jpeg' %}" alt="Imagem do Funcionario" class="rounded-circle">
+                                    <div class="image-hover">
+                                        <i class="fas fa-edit"></i>
+                                    </div>
+                                </div>
+                            </label>
+                            {{ form.imagem }}
+                            {% if form.imagem.help_text %}
+                                <small class="form-text text-muted">{{ form.imagem.help_text }}</small>
+                            {% endif %}
+                            {{ form.imagem.errors }}
                         {% endif %}
-                        {{ form.imagem.errors }}
                     </div>
                 </div>
             </div>
@@ -129,7 +148,7 @@
             </div>
 
             <div class="row mb-4">
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label for="{{ form.cargo.id_for_label }}">{{ form.cargo.label }}</label>
                         {{ form.cargo }}
@@ -139,7 +158,7 @@
                         {{ form.cargo.errors }}
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label for="{{ form.departamento.id_for_label }}">{{ form.departamento.label }}</label>
                         {{ form.departamento }}
@@ -157,6 +176,16 @@
                             <p class="form-text text-muted">{{ form.data_contratacao.help_text }}</p>
                         {% endif %}
                         {{ form.data_contratacao.errors }}
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="{{ from.salario.id_for_label }}">{{ form.salario.label }}</label>
+                        {{ form.salario }}
+                        {% if form.salario.help_text %}
+                            <p class="form-text text-muted">{{ form.salario.help_text }}</p>
+                        {% endif %}
+                        {{ form.salario.errors }}
                     </div>
                 </div>
             </div>
@@ -255,7 +284,9 @@
     </div>
     <div class="card-footer d-flex justify-content-end">
         <a href="{% url 'funcionario:funcionario_list_view' %}" class="btn btn-lg btn-secondary fs-3 me-4" style="width: 120px;">Fechar</a>
-        <button type="submit" form="funcionario-create-form" class="btn btn-lg btn-primary fs-3">Criar Funcionario</button>
+        <button type="submit" form="funcionario-create-form" class="btn btn-lg btn-primary fs-3">
+            {% if 'Editar' in title %}Atualizar Funcionário{% else %}Criar Funcionário{% endif %}
+        </button>
     </div>
 </div>
 

@@ -9,13 +9,6 @@
 
 {% include "global/partials/breadcrumb.html" %}
 
-<!-- Template para Atualizar Cliente -->
-{% comment %} <h1>Atualizar Cliente</h1>
-<span class="fs-5 text-muted">
-    <strong>{{ cliente.usuario.first_name }} {{ cliente.usuario.last_name }}</strong> ID: <span class="text-danger">{{ cliente.id }}</span>
-</span>
-<p> Página: cliente_update_view.html</p> {% endcomment %}
-
 {% if form.is_bound and not form.is_valid %}
     <div class="alert alert-danger mt-5 fs-3">
         <p>Houve um erro ao atualizar o cliente. Por favor, verifique os dados.</p>

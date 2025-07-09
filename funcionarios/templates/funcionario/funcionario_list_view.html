@@ -101,7 +101,7 @@
                 <a href="#" class="btn-view" data-bs-tooltip="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Visualizar">
                     <i class="fas fa-eye"></i>
                 </a>
-                <a href="#" class="btn-edit" data-bs-tooltip="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Editar">
+                <a href="{% url 'funcionario:funcionario_update_view' funcionario.id %}" class="btn-edit" data-bs-tooltip="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Editar">
                     <i class="fas fa-pencil-alt"></i>
                 </a>
                 <a href="#" class="btn-delete" data-bs-target="#funcionario-delete-modal" data-bs-toggle="modal" data-funcionario-id="{{ funcionario.id }}" data-funcionario-nome="{{ funcionario.usuario.first_name }} {{ funcionario.usuario.last_name }}" data-bs-tooltip="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Excluir">
