@@ -6,6 +6,7 @@ from utils.filters import FuncionarioFilter
 from django_filters.views import FilterView
 from .models import Funcionario
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView
+from django.contrib.messages.views import SuccessMessageMixin
 
 # Create your views here.
 
@@ -110,4 +111,13 @@ class FuncionarioUpdateView(LoginRequiredMixin, UpdateView):
         endereco.save()
         # Salva o restante do formulário normalmente
         return super().form_valid(form)
-        
+
+class FuncionarioDeleteView(SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+    model = Funcionario
+    template_name = 'funcionario/funcionario_modal/modal_funcionario_delete_view.html'
+    success_url = reverse_lazy('funcionario:funcionario_list_view')
+    success_message = "Funcionario %(funcionario_nome)s removido com sucesso!"
+
+    def get_success_message(self, cleaned_data):
+        funcionario = self.object if hasattr(self, 'object') else self.get_object()
+        return self.success_message % {'funcionario_nome': funcionario.usuario.get_full_name()}
