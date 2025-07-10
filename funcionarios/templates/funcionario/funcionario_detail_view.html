@@ -1,3 +1,126 @@
-<!-- Template para visualizar detalhes de um cliente -->
-<h1>Detalhes do Cliente</h1>
-<p> Página: cliente_detail_view.html</p>
+{% extends "global/base.html" %}
+{% load static %}
+{% block title %}{{ title }}{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'cliente/css/funcionario_detail_view.css' %}"/>
+{% endblock css %}
+
+{% block content %}
+{% include "global/partials/breadcrumb.html" %}
+<div class="card-row mt-5" id="detail-view">
+
+    <div class="detail-header">
+        <div class="info">
+            <img src="{% if funcionario.imagem and funcionario.imagem.url %}{{ funcionario.imagem.url }}{% else %}{% static 'global/assets/img/user.jpeg' %}{% endif %}" 
+            class="rounded-circle" alt="Foto do Funcionário">
+            <div class="d-flex flex-column gap-2 align-items-start">
+                <h2>{{ funcionario.usuario.first_name }} {{ funcionario.usuario.last_name }}</h2>
+                <span class="badge rounded-pill {% if funcionario.status == 'ativo' %}text-bg-success{% elif funcionario.status == 'inativo' %}text-bg-warning{% else %}text-bg-danger{% endif %} status">
+                {{ funcionario.get_status_display }}
+                </span>
+            </div>
+        </div>
+        <div class="actions">
+            {% if funcionario.pk %}
+            <a href="{% url 'funcionario:funcionario_update_view' funcionario.pk %}" class="btn btn-lg btn-primary fs-4">
+                <i class="fa fa-pen"></i> Editar
+            </a>
+            {% endif %}
+            <a href="{% url 'funcionario:funcionario_list_view' %}" class="btn btn-lg btn-secondary fs-4">
+                <i class="fa fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+    
+    <div class="d-flex flex-wrap gap-4 w-100 justify-content-between mb-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-user"></i>
+                <h5 class="card-title">Informações Pessoais</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex gap-2 align-items-end">
+                    <strong>Nome:</strong> <span class="mx-2">{{ funcionario.usuario.first_name }} {{ funcionario.usuario.last_name }}</span>
+                    <strong>Matrícula:</strong> <span class="mx-2">{{ funcionario.matricula }}</span>
+                </div>
+                <div>
+                    <strong>Email:</strong> <span class="mx-2">{{ funcionario.email_profissional }}</span>
+                </div>
+                <div>
+                    <strong>Telefone:</strong> <span class="mx-2">{{ funcionario.telefone }}</span>
+                </div>
+                <div class="d-flex gap-2 align-items-end">
+                    <strong>Data de Nascimento:</strong> <span class="mx-2">{{ funcionario.data_nascimento|date:'d/m/Y' }}</span>
+                    <strong>Idade:</strong> <span class="mx-2">{{ funcionario.idade }} anos</span>
+                </div>
+                {% if funcionario.tempo_para_aniversario %}
+                <div>
+                    <strong>Próximo aniversário em:</strong>
+                    {% if funcionario.tempo_para_aniversario.meses > 0 %}
+                    <span class="mx-2">{{ funcionario.tempo_para_aniversario.meses }} meses e {{ funcionario.tempo_para_aniversario.dias }} dias</span>
+                    {% endif %}
+                    <span class="mx-2">Faltam ({{ funcionario.tempo_para_aniversario.total_dias }} dias)</span>
+                    <span>
+                    {% if funcionario.tempo_para_aniversario.total_dias < 28 %}
+                    <i class="fa fa-gift fs-2" title="Aniversariante do Mês"></i>
+                    {% endif %}
+                    </span>
+                </div>
+                {% else %}
+                    <div><strong>Data de nascimento não informada.</strong></div>
+                {% endif %}
+                <div class="d-flex gap-2 align-items-end">
+                    <strong>CPF:</strong> <span class="mx-2">{{ funcionario.cpf }}</span>
+                    <strong>RG:</strong> <span class="mx-2">{{ funcionario.rg | default:"-" }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-map-marker-alt"></i>
+                <h5 class="card-title">Endereço</h5>
+            </div>
+            <div class="card-body">
+                <div>
+                    <strong>CEP:</strong> <span class="mx-2">{{ funcionario.endereco.cep }}</span>
+                </div>
+                <div class="d-flex gap-2 align-items-end">
+                    <strong>Rua:</strong> <span class="mx-2">{{ funcionario.endereco.logradouro }}</span>
+                    <strong>Número:</strong> <span class="mx-2">{{ funcionario.endereco.numero }}</span>
+                </div>
+                <div class="d-flex gap-2 align-items-end">
+                    <strong>Bairro:</strong> <span class="mx-2">{{ funcionario.endereco.bairro }}</span>
+                    <strong>Complemento:</strong> <span class="mx-2">{{ funcionario.endereco.complemento | default:"-" }}</span>
+                </div>
+                <div>
+                    <strong>Cidade:</strong> <span class="mx-2">{{ funcionario.endereco.municipio }}</span>
+                </div>
+                <div>
+                    <strong>Estado:</strong> <span class="mx-2">{{ funcionario.endereco.sigla }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fa fa-info-circle"></i>
+            <h5 class="card-title">Outros Dados</h5>
+        </div>
+        <div class="card-body">
+            {% comment %} <div><strong>Data de Cadastro:</strong> <span>{{ funcionario.data_cadastro|date:'d/m/Y H:i' }}</span></div> {% endcomment %}
+            <div class="d-flex gap-2 align-items-end">
+                <strong>Departamento:</strong> <span>{{ funcionario.departamento }}</span>
+                <strong>Cargo:</strong> <span>{{ funcionario.cargo }}</span>
+                <strong>Salário:</strong> <span> R$ {{ funcionario.salario|floatformat:2|default:"-" }}</span>
+            </div>
+            <div class="d-flex gap-2 align-items-end">
+                <strong>Data de Contratação:</strong> <span>{{ funcionario.data_contratacao| date:'d/m/Y'| default:"-" }}</span>
+                <strong>Status:</strong> <span>{{ funcionario.get_status_display }}</span>
+            </div>
+            <div><strong>Observações:</strong> <span>{{ funcionario.observacoes|default:'-' }}</span></div>
+        </div>
+    </div>
+    
+</div>
+{% endblock content %}
