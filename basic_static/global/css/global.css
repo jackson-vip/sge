@@ -286,3 +286,113 @@ p {
 .custom-select.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
     width: 100%;
 }
+
+/* Customização das páginas Detail View */
+
+#detail-view .detail-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+#detail-view .detail-header .info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+#detail-view .detail-header .info img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover; /* usado para que a imagem preencha todo o espaço disponível */
+    box-shadow: 0 4px 16px rgba(100, 100, 100, 0.18);
+    border: 2px solid #d7d8da;
+    background: #f4f4f5;
+}
+
+#detail-view .detail-header .actions {
+    display: flex;
+    gap: 12px;
+}
+
+#detail-view .detail-header .actions a > i {
+    margin-right: 6px; 
+    font-size: 1.2rem;
+}
+
+
+#detail-view .actions a {
+    padding: 5px 18px;
+} 
+
+#detail-view.card-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+#detail-view .card {
+    flex: 1 1 260px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    padding: 0px 0px 16px;
+    min-width: 260px;
+    overflow: hidden; /* usado para ocultar conteúdo que transborda */
+}
+
+#detail-view .card-header {
+    display: flex;
+    gap: 8px;
+    padding: 16px;
+    background-color: #D5DED9;
+}
+
+#detail-view .card-header h5 {
+    color: #555152;
+}
+
+#detail-view .card .card-header i {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    text-align: center;
+    line-height: 18px;
+    color: #333 !important;
+}
+
+#detail-view .card-header i {
+    font-size: 1.5rem;
+    color: #45629b;
+}
+
+#detail-view .card-title {
+    font-size: 1.6rem;
+    color: #3491e9;
+    margin: 0;
+}
+
+#detail-view .card-body {
+    background: #fff;
+    padding: 32px 18px 0px;
+}
+
+#detail-view .card-body div {
+    margin-bottom: 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+#detail-view .card-body p {
+    margin: 8px 0;
+    color: #222;
+}
+
+#detail-view .card-body i.fa-gift {
+    background: linear-gradient(45deg, #FFD700, #FF69B4); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+    background-clip: text; 
+}
