@@ -108,12 +108,12 @@
             <h5 class="card-title">Outros Dados</h5>
         </div>
         <div class="card-body">
-            {% comment %} <div><strong>Data de Cadastro:</strong> <span>{{ funcionario.data_cadastro|date:'d/m/Y H:i' }}</span></div> {% endcomment %}
             <div class="d-flex gap-2 align-items-end">
                 <strong>Departamento:</strong> <span>{{ funcionario.departamento }}</span>
                 <strong>Cargo:</strong> <span>{{ funcionario.cargo }}</span>
                 <strong>Salário:</strong> <span> R$ {{ funcionario.salario|floatformat:2|default:"-" }}</span>
             </div>
+            <div><strong>Data de Cadastro:</strong> <span>{{ funcionario.data_cadastro |date:'d/m/Y H:i' }}</span></div>
             <div class="d-flex gap-2 align-items-end">
                 <strong>Data de Contratação:</strong> <span>{{ funcionario.data_contratacao| date:'d/m/Y'| default:"-" }}</span>
                 <strong>Status:</strong> <span>{{ funcionario.get_status_display }}</span>
