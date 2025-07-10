@@ -126,3 +126,22 @@ class FuncionarioDeleteView(SuccessMessageMixin, LoginRequiredMixin, DeleteView)
     def get_success_message(self, cleaned_data):
         funcionario = self.object if hasattr(self, 'object') else self.get_object()
         return self.success_message % {'funcionario_nome': funcionario.usuario.get_full_name()}
+    
+class FuncionarioDetailView(LoginRequiredMixin, ListView):
+    model = Funcionario
+    template_name = 'funcionario/funcionario_detail_view.html'
+    context_object_name = 'funcionario'
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        return Funcionario.objects.filter(pk=pk)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Detalhes do Funcionário'
+        context['funcionario'] = self.get_queryset().first()
+        context['breadcrumbs'] = [
+            {'name': 'Funcionários', 'url': reverse_lazy('funcionario:funcionario_list_view')},
+            {'name': 'Detalhes do Funcionário', 'url': self.request.path},
+        ]
+        return context
