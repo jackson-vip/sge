@@ -1,6 +1,6 @@
-# 📦 Sistema de Gestão de Estoque (SGE)
+# 📦 Sistema de Gestão Empresarial (SGE)
 
-O **SGE** é um sistema web desenvolvido para atender as necessidades de pequenas e médias empresas no controle e gerenciamento de seus estoques. Ele permite o cadastro, movimentação e monitoramento de produtos, fornecedores, clientes e relatórios.
+O **SGE** é um sistema web completo para gestão de empresas, com foco em controle de estoque, cadastro de clientes, funcionários, fornecedores, movimentações e relatórios. O sistema é responsivo, moderno e utiliza boas práticas de desenvolvimento Django.
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -9,82 +9,99 @@ O **SGE** é um sistema web desenvolvido para atender as necessidades de pequena
 - [PostgreSQL](https://www.postgresql.org/)
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
-- [HTML5, CSS3 e JavaScript]
+- HTML5, CSS3 (Bootstrap 5) e JavaScript (jQuery)
 
 ## ⚙️ Funcionalidades
 
-- Cadastro de produtos com:
-  - Nome, código, descrição, unidade, categoria e marca
-  - Quantidade mínima e atual
-  - Controle de validade e lote (opcional)
-- Controle de entrada e saída de produtos
-- Relatórios de movimentações por período
-- Alerta de estoque baixo
-- Cadastro de fornecedores e clientes
-- Controle de usuários com níveis de permissão
-- Interface web responsiva
-- Histórico de alterações (log de ações)
-- Sistema de login seguro
+- Cadastro e edição de funcionários, clientes, fornecedores e produtos
+- Geração automática e única de matrícula para funcionários
+- Edição integrada de dados do usuário e endereço do funcionário
+- Filtros avançados e busca dinâmica nas listagens
+- Máscara de CPF com toggle de visualização
+- Controle de estoque: entrada, saída, movimentações e alertas
+- Relatórios de movimentações (em desenvolvimento)
+- Interface responsiva e moderna com Bootstrap 5
+- Templates e componentes reutilizáveis (search, filtros, breadcrumbs, etc)
+- Autenticação de usuários e permissões
+- Geração de senha aleatória e segura para novos usuários
+- Customização de datas com datepicker e máscaras
 
 ## 📁 Estrutura recomendada do projeto
 
+
 ```bash
-sge/                               # Raiz do projeto
+sge/                      # Raiz do projeto
 │
-├── sge_core/                      # Configurações do projeto Django
-│   ├── settings/                  # Configurações do Django
-│   ├── urls.py                    # URLs do projeto
-│   ├── wsgi.py                    # Ponto de entrada para o servidor WSGI
-│   └── asgi.py                    # Ponto de entrada para o servidor ASGI
+├── sge_core/             # Configurações globais do Django
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── asgi.py
 │
-├── authentication/                # App: login, autenticação de usuários, perfis de usuários
-│   ├── urls.py                    # URLs do app autenticacao
-│   ├── views.py                   # Views do app autenticacao
-│   ├── models.py                  # Aqui poderá ficar os perfis de usuários
-│   ├── forms.py                   # Formulários de login e registro
-│   ├── templates/authentication/  # criando name space para autenticacao
-│   └── static/authentication/     # criando name space para autenticacao
+├── authentication/       # Autenticação e perfis de usuário
+│   ├── models.py
+│   ├── urls.py
+│   ├── views.py
+│   └── templates/authentication/
 │
-├── dashboard/                     # App: informações e gráficos
-│   ├── templates/dashboard/       # Criando name space para dashboard
-│   └── static/dashboard/          # Criando name space para dashboard
+├── dashboard/            # Painel e gráficos
+│   └── templates/dashboard/
 │
-├── produtos/                      # App: produtos (cadastro, estoque, etc.)
-│   ├── templates/produtos/        # Criando name space para templates
-│   └── static/produtos/           # Criando name space para arquivos estáticos
+├── clientes/             # Cadastro e gestão de clientes
+│   ├── models.py
+│   ├── forms.py
+│   ├── views.py
+│   ├── templates/cliente/
+│   └── static/cliente/
 │
-├── estoque/                       # App: gerenciamento de produtos e estoque
-│   ├── templates/estoque/         # Criando name space para templates
-│   └── static/estoque/            # Criando name space para arquivos estáticos
+├── funcionarios/         # Cadastro e gestão de funcionários
+│   ├── models.py
+│   ├── forms.py
+│   ├── views.py
+│   ├── templates/funcionario/
+│   └── static/funcionario/
 │
-├── movimentacoes/                 # App: movimentações (entrada e saída)
-│   ├── templates/movimentacoes/   # Criando name space para movimentações
-│   └── static/movimentacoes/      # Criando name space para movimentações
+├── fornecedores/         # Cadastro e gestão de fornecedores
+│   ├── models.py
+│   ├── views.py
+│   ├── templates/fornecedor/
+│   └── static/fornecedor/
 │
-├── fornecedores/                  # App: controle de fornecedores
-│   ├── templates/fornecedores/    # Criando name space para fornecedores
-│   └── static/fonecedores/        # Criando name space para fornecedores
+├── produtos/             # Cadastro e gestão de produtos
+│   ├── models.py
+│   ├── views.py
+│   ├── templates/produto/
+│   └── static/produto/
 │
-├── relatorios/                    # App: geração de relatórios (futuro)
-│   ├── templates/relatorios/      # Criando name space para relatorios
-│   └── static/relatorios/         # Criando name space para relatorios
+├── estoque/              # Controle de estoque
+│   ├── models.py
+│   ├── views.py
+│   ├── templates/estoque/
+│   └── static/estoque/
 │
-├── logs/                         # App: registro de logs e auditorias
-│   ├── templates/logs/           # Criando name space para templates
-│   └── static/logs/              # Criando name space para arquivos estáticos
+├── movimentacoes/        # Entradas e saídas de estoque
+│   ├── models.py
+│   ├── views.py
+│   ├── templates/movimentacao/
+│   └── static/movimentacao/
 │
-├── basic_templates/               # Template base para os apps
-├── basic_static/                  # Arquivos estáticos (CSS, JS, imagens)
-├── media/                         # Arquivos de mídia (uploads)
-├── utils/                         # Funções utilitárias (ex: validações)
+├── utils/                # Funções utilitárias e validações
+│   ├── filters.py
+│   ├── django_forms.py
+│   └── validates_inputs.py
 │
-│ Dockerfile                       # Imagem do Docker
-│ requirements.txt                 # Dependências do projeto
-│ docker-compose.yml               # Orquestração dos containers
-│ .gitignore                       # Ignorar arquivos do Git
-│ .env                             # Variáveis de ambiente
+├── basic_templates/      # Templates base e parciais globais
+│   └── global/
+├── basic_static/         # CSS, JS e imagens globais
+│   └── global/
+├── media/                # Uploads de arquivos
+├── Dockerfile
+├── requirements.txt
+├── docker-compose.yml
+├── .env / .env-exemplo
 └── README.md
 ```
+[git clone git@github.com:jackson-vip/sge.git](https://github.com/jackson-vip/sge)
 
 ## 🐳 Como Executar com Docker
 
@@ -99,3 +116,37 @@ cp .env.example .env
 # 3. Suba os containers
 docker-compose up --build
 ```
+O sistema estará disponível em [http://localhost:8000](http://localhost:8000)
+
+## 👨‍💻 Execução Local (sem Docker)
+
+1. Crie e ative um ambiente virtual Python 3.11+
+2. Instale as dependências:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Configure o banco de dados PostgreSQL e o arquivo `.env`
+4. Execute as migrações:
+   ```bash
+   python manage.py migrate
+   ```
+5. Crie um superusuário:
+   ```bash
+   python manage.py createsuperuser
+   ```
+6. Inicie o servidor:
+   ```bash
+   python manage.py runserver
+   ```
+
+## 📌 Observações
+
+- O projeto utiliza Bootstrap 5 e componentes customizados para uma interface moderna.
+- Os templates e filtros são altamente reutilizáveis.
+- O sistema de matrícula de funcionários é automático e único.
+- O CPF é mascarado e pode ser exibido/desmascarado via JS.
+- O projeto já está pronto para deploy em produção via Docker.
+- Para customização de temas, edite os arquivos em `basic_static/global/css/`.
+
+---
+Desenvolvido por Jackson. Para dúvidas ou sugestões, abra uma issue no repositório.
