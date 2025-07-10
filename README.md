@@ -28,7 +28,6 @@ O **SGE** é um sistema web completo para gestão de empresas, com foco em contr
 
 ## 📁 Estrutura recomendada do projeto
 
-
 ```bash
 sge/                      # Raiz do projeto
 │
@@ -101,6 +100,7 @@ sge/                      # Raiz do projeto
 ├── .env / .env-exemplo
 └── README.md
 ```
+
 [git clone git@github.com:jackson-vip/sge.git](https://github.com/jackson-vip/sge)
 
 ## 🐳 Como Executar com Docker
@@ -116,25 +116,33 @@ cp .env.example .env
 # 3. Suba os containers
 docker-compose up --build
 ```
+
 O sistema estará disponível em [http://localhost:8000](http://localhost:8000)
 
 ## 👨‍💻 Execução Local (sem Docker)
 
 1. Crie e ative um ambiente virtual Python 3.11+
 2. Instale as dependências:
+
    ```bash
    pip install -r requirements.txt
    ```
+
 3. Configure o banco de dados PostgreSQL e o arquivo `.env`
 4. Execute as migrações:
+
    ```bash
    python manage.py migrate
    ```
+
 5. Crie um superusuário:
+
    ```bash
    python manage.py createsuperuser
    ```
+
 6. Inicie o servidor:
+
    ```bash
    python manage.py runserver
    ```
