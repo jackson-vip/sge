@@ -6,6 +6,7 @@ from utils.filters import FuncionarioFilter
 from django_filters.views import FilterView
 from .models import Funcionario
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 
 # Create your views here.
@@ -40,6 +41,10 @@ class FuncionarioCreateView(LoginRequiredMixin, CreateView):
     form_class = FuncionarioForm
     template_name = 'funcionario/funcionario_create_view.html'
     success_url = reverse_lazy('funcionario:funcionario_list_view')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Funcionário criado com sucesso!")
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
