@@ -102,19 +102,25 @@ const tooltipTriggerList = document.querySelectorAll('[data-bs-tooltip="tooltip"
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 // Capturar o valor do select opcao e redirecionar para a página correta
+// Defina baseUrl antes de usar
+const baseUrl = window.location.origin + window.location.pathname;
+console.log(window.location.origin);
+console.log(window.location.pathname);
+console.log(baseUrl);
+
 $(document).ready(function () {
     $('#opcoes').on("change", function () {
         let opcao = $('#opcoes').val();
         console.log(opcao);
 
         if (opcao == '12') {
-            window.location.href = `/clientes/?opcao=${opcao}`;
+            window.location.href = `${baseUrl}?opcao=${opcao}`;
         } else if (opcao == '15') {
-            window.location.href = `/clientes/?opcao=${opcao}`;
+            window.location.href = `${baseUrl}?opcao=${opcao}`;
         } else if (opcao == '18') {
-            window.location.href = `/clientes/?opcao=${opcao}`;
+            window.location.href = `${baseUrl}?opcao=${opcao}`;
         } else if (opcao == '21') {
-            window.location.href = `/clientes/?opcao=${opcao}`;
+            window.location.href = `${baseUrl}?opcao=${opcao}`;
         }
     });
 });
