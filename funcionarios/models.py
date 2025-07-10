@@ -1,3 +1,4 @@
+from datetime import date
 from django.db import models
 from django.contrib.auth.models import User
 from authentication.models import Endereco
@@ -45,3 +46,35 @@ class Funcionario(models.Model):
             while Funcionario.objects.filter(matricula=self.matricula).exists():
                 self.matricula = uuid.uuid4().hex[:8].upper()
         super().save(*args, **kwargs)
+
+    @property
+    def idade(self):
+        if self.data_nascimento:
+            hoje = date.today()
+            return hoje.year - self.data_nascimento.year - (
+                (hoje.month, hoje.day) < (self.data_nascimento.month, self.data_nascimento.day)
+            )
+        return None
+    
+    @property
+    def tempo_para_aniversario(self):
+        if not self.data_nascimento:
+            return None
+
+        hoje = date.today()
+        # Próximo aniversário neste ano
+        proximo = self.data_nascimento.replace(year=hoje.year)
+        # Se já passou, pega do ano seguinte
+        if proximo < hoje:
+            proximo = proximo.replace(year=hoje.year + 1)
+        delta = proximo - hoje
+
+        # Calcula meses e dias restantes
+        meses = (proximo.year - hoje.year) * 12 + proximo.month - hoje.month
+        if proximo.day < hoje.day:
+            meses -= 1
+            dias = (proximo - proximo.replace(day=1)).days + proximo.day - hoje.day
+        else:
+            dias = proximo.day - hoje.day
+
+        return {'meses': meses, 'dias': dias, 'total_dias': delta.days}
