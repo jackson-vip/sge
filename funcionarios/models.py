@@ -18,6 +18,7 @@ class Funcionario(models.Model):
     cargo = models.CharField(max_length=100, verbose_name="Cargo")
     departamento = models.CharField(max_length=100, blank=True, null=True, verbose_name="Departamento")
     data_contratacao = models.DateField(verbose_name="Data de Contratação")
+    data_cadastro = models.DateTimeField(auto_now_add=True, verbose_name="Data de Cadastro")
     matricula = models.CharField(max_length=20, unique=True, blank=True, null=False, verbose_name="Matrícula")
     cpf = models.CharField(max_length=14, unique=True, verbose_name="CPF")
     rg = models.CharField(max_length=12, unique=True, blank=True, null=True, verbose_name="RG")
