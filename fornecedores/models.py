@@ -22,6 +22,7 @@ class Fornecedor(models.Model):
     email = models.EmailField(unique=True)
     site = models.URLField(max_length=100, blank=True, null=True)
     tipo_pessoa = models.CharField(max_length=10, choices=TIPO_PESSOA, default='juridica')
+    data_cadastro = models.DateTimeField(auto_now_add=True, verbose_name="Data de Cadastro")
 
     class Meta:
         db_table = 'sge_fornecedor'
