@@ -30,7 +30,7 @@ class Municipio(models.Model):
         verbose_name_plural = 'Municípios'
     
     def __str__(self):
-        return f"{self.municipio} - {self.uf}"
+        return f"{self.municipio}"
 
 class Endereco(models.Model):
     TIPO_ENDERECO = [
