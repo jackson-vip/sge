@@ -104,14 +104,10 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
 // Capturar o valor do select opcao e redirecionar para a página correta
 // Defina baseUrl antes de usar
 const baseUrl = window.location.origin + window.location.pathname;
-console.log(window.location.origin);
-console.log(window.location.pathname);
-console.log(baseUrl);
 
 $(document).ready(function () {
     $('#opcoes').on("change", function () {
         let opcao = $('#opcoes').val();
-        console.log(opcao);
 
         if (opcao == '12') {
             window.location.href = `${baseUrl}?opcao=${opcao}`;
@@ -169,3 +165,69 @@ $(function () {
     });
 });
 
+// Função para buscar o Endereço pelo CEP (ViaCEP)
+$(document).ready(function () {
+
+    function limparEndereco() {
+        $('#id_endereco_logradouro').val('');
+        $('#id_endereco_complemento').val('');
+        $('#id_endereco_bairro').val('');
+        $('#id_endereco_municipio').val('');
+        $('#id_endereco_sigla').val('');
+    }
+
+    // Função para buscar o CEP
+    function buscarCEP(cep) {
+        $("#id_endereco_cep").on("blur", function () {
+            // Remove tudo que não é número
+            let cep = $(this).val().replace(/[^\d]+/g, '');
+
+            // Verifica se o CEP possui 8 caracteres
+            if (cep.length !== 8) {
+                console.log('CEP inválido!');
+                return false;
+            }
+            // Se CEP for diferente de vazio
+            if (cep !== '') {
+
+                // Faz a requisição
+                $.ajax({
+                    url: `https://viacep.com.br/ws/${cep}/json/`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        // Se não houver erro
+                        if (!('erro' in data)) {
+                            // Preenche os campos com '...' (aguardando a requisição)
+                            $('#id_endereco_logradouro').val('...');
+                            $('#id_endereco_complemento').val('...');
+                            $('#id_endereco_bairro').val('...');
+                            // $('#id_endereco_municipio').val('...');
+                            // $('#id_endereco_sigla').val('...');
+
+                            setTimeout(() => {
+                                // Carrega os campos
+                                $('#id_endereco_logradouro').val(data.logradouro);
+                                $('#id_endereco_complemento').val(data.complemento);
+                                $('#id_endereco_bairro').val(data.bairro);
+                                // $('#id_endereco_municipio').val(data.localidade);
+                                // $('#id_endereco_sigla').val(data.uf);
+                            }, 500);
+
+                        } else {
+                            limparEndereco();
+                            // console.log('CEP não encontrado!');
+                        }
+                    },
+                    error: function () {
+                        limparEndereco();
+                        // console.log('CEP não encontrado!');
+                    }
+                });
+            }
+            limparEndereco();
+        });
+    };
+    // Chama a função buscarCEP passando o campo de CEP
+    buscarCEP($('#id_endereco_cep'));
+});
