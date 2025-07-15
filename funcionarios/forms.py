@@ -26,6 +26,26 @@ class FuncionarioForm(forms.ModelForm):
         queryset=UnidadeFederativa.objects.all(),
     )
 
+    CARGOS_OPCOES = [
+        ('assistente', 'Assistente'),
+        ('caixa', 'Caixa'),
+        ('estagiario', 'Estagiário'),
+        ('gerente', 'Gerente'),
+        ('supervisor', 'Supervisor'),
+        ('vendedor', 'Vendedor'),
+        ('outro', 'Outro'),
+    ]
+    cargo = forms.ChoiceField(choices=CARGOS_OPCOES)
+
+    DEPARTAMENTOS_OPCOES = [
+        ('vendas', 'Vendas'),
+        ('financeiro', 'Financeiro'),
+        ('logistica', 'Logística'),
+        ('marketing', 'Marketing'),
+        ('outro', 'Outro'),
+    ]
+    departamento = forms.ChoiceField(choices=DEPARTAMENTOS_OPCOES, required=False)
+
     class Meta:
         model = Funcionario
         fields = ['imagem', 'cpf', 'rg', 'telefone', 'email_profissional', 'data_nascimento', 'cargo', 'departamento', 'data_contratacao', 'salario', 'observacoes']
@@ -51,8 +71,10 @@ class FuncionarioForm(forms.ModelForm):
         rename_label(self.fields['email_profissional'], 'Email')
         add_placeholder(self.fields['email_profissional'], 'exemplo@dominio.com')
         add_placeholder(self.fields['observacoes'], 'Adicione observações sobre o funcionário')
-        add_placeholder(self.fields['cargo'], 'Digite o cargo do funcionário') # Exemplo: Gerente, Analista, Caixa, etc.
-        add_placeholder(self.fields['departamento'], 'Digite o departamento do funcionário') # Exemplo: Vendas, TI, RH, etc.
+        # add_placeholder(self.fields['cargo'], 'Digite o cargo do funcionário') # Exemplo: Gerente, Analista, Caixa, etc.
+        add_attr(self.fields['cargo'], 'class', 'custom-select')
+        # add_placeholder(self.fields['departamento'], 'Digite o departamento do funcionário') # Exemplo: Vendas, TI, RH, etc.
+        add_attr(self.fields['departamento'], 'class', 'custom-select')
         add_placeholder(self.fields['data_contratacao'], '01/01/2020')
         add_placeholder(self.fields['salario'], 'R$ 0,00')
 

@@ -150,22 +150,22 @@
             <div class="row mb-4">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="{{ form.cargo.id_for_label }}">{{ form.cargo.label }}</label>
-                        {{ form.cargo }}
-                        {% if form.cargo.help_text %}
-                            <p class="form-text text-muted">{{ form.cargo.help_text }}</p>
-                        {% endif %}
-                        {{ form.cargo.errors }}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
                         <label for="{{ form.departamento.id_for_label }}">{{ form.departamento.label }}</label>
                         {{ form.departamento }}
                         {% if form.departamento.help_text %}
                             <p class="form-text text-muted">{{ form.departamento.help_text }}</p>
                         {% endif %}
                         {{ form.departamento.errors }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="{{ form.cargo.id_for_label }}">{{ form.cargo.label }}</label>
+                        {{ form.cargo }}
+                        {% if form.cargo.help_text %}
+                            <p class="form-text text-muted">{{ form.cargo.help_text }}</p>
+                        {% endif %}
+                        {{ form.cargo.errors }}
                     </div>
                 </div>
                 <div class="col-md-2">
