@@ -7,5 +7,5 @@ app_name = 'fornecedor'
 
 urlpatterns = [
     path('', FornecedorListView.as_view(), name='fornecedor_list_view'),
-    path('novo/', FornecedorCreateView.as_view(), name='fornecedor_create_view'),
+    path('novo_fornecedor/', FornecedorCreateView.as_view(), name='fornecedor_create_view'),
 ]
