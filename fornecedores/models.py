@@ -7,13 +7,17 @@ from django.db import models
 # Atualização no modelo Fornecedor
 class Fornecedor(models.Model):
     TIPO_PESSOA = [
-        ('fisica', 'Pessoa Física'),
-        ('juridica', 'Pessoa Jurídica')
+        ('juridica', 'Jurídica'),
+        ('fisica', 'Física')
     ]
-
+    STATUS_CHOICES = [
+        ('ativo', 'Ativo'),
+        ('inativo', 'Inativo'),
+        ('bloqueado', 'Bloqueado'),
+    ]
     usuario = models.OneToOneField(User, on_delete=models.PROTECT)
     imagem = models.ImageField(upload_to='fornecedores/', blank=True, null=True, default='fornecedores/default.png')
-    razao_social = models.CharField(max_length=255, blank=True, null=True, verbose_name="Razão Social")
+    razao_social = models.CharField(max_length=255, verbose_name="Razão Social") # blank=True, null=True,
     nome_fantasia = models.CharField(max_length=255, blank=True, null=True, verbose_name="Nome Fantasia")
     endereco = models.ForeignKey(Endereco, on_delete=models.CASCADE)
     cnpj = models.CharField(max_length=18, unique=True, blank=True, null=True, verbose_name="CNPJ")
@@ -23,6 +27,8 @@ class Fornecedor(models.Model):
     site = models.URLField(max_length=100, blank=True, null=True)
     tipo_pessoa = models.CharField(max_length=10, choices=TIPO_PESSOA, default='juridica')
     data_cadastro = models.DateTimeField(auto_now_add=True, verbose_name="Data de Cadastro")
+    observacoes = models.TextField(blank=True, null=True, verbose_name="Observações")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='ativo', verbose_name="Status")
 
     class Meta:
         db_table = 'sge_fornecedor'
