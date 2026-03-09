@@ -111,6 +111,12 @@
     transition: background 0.2s;
 }
 
+.sidebar nav 
+.submenu li a {
+    padding-left: 4rem;
+    color: #b88d41;
+}
+
 .sidebar a:hover {
     background: var(--bg-sidebar);
     color: var(--text-sidebar);
