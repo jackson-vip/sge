@@ -1,0 +1,160 @@
+/* Cards
+ * Cards utilizados para listar os Clientes, Funcionários e Fornecedores do sistema.
+**/
+
+.sge-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.sge-card {
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+    min-width: 440px;
+    width: calc(33.333% - 14px);
+    padding: 15px 15px 2px 15px;
+}
+
+.select-card {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+    width: 18px;
+    height: 18px;
+}
+.sge-card-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+}
+
+.sge-card-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover; /* usado para que a imagem preencha todo o espaço disponível */
+    box-shadow: 0 4px 16px rgba(100, 100, 100, 0.18);
+    border: 1px solid #d7d8da;
+    background: #f4f4f5;
+}
+
+.sge-card-info 
+.status {
+    font-size: 12px;
+}
+
+.sge-card-body {
+    padding: 10px;
+    border-radius: 0 0 5px 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sge-card-body 
+.sge-card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.sge-card-body 
+.sge-card-detail {
+    padding: 5px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.sge-card-body 
+.sge-card-detail:last-child {
+    border-bottom: none;
+}
+
+.sge-card-body 
+.sge-card-detail 
+.sge-card-detail_label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.sge-card-body 
+.sge-card-detail 
+.sge-card-detail_value {
+    color: #555;
+    font-size: 14px;
+    margin-left: 8px;
+}
+
+.sge-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid #dedada;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 10px;
+}
+
+
+/* Botões utilizados dentro dos cards para ações como Visualizar, Editar, Excluir.
+*/
+
+.btn-view,
+.btn-edit,
+.btn-delete {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    padding: 0;
+    font-size: 1.2rem;
+}
+
+.btn-view {
+    background: #2196f3; /* Azul padrão */
+    color: white;
+    transition: background 0.3s, color 0.3s;
+    box-shadow: 0 2px 6px rgba(33, 150, 243, 0.15);
+}
+
+.btn-edit {
+    background: #ff9800; /* Laranja padrão */
+    color: white;
+    transition: background 0.3s, color 0.3s;
+    box-shadow: 0 2px 6px rgba(255, 152, 0, 0.15);
+}
+
+.btn-delete {
+    background: #f44336; /* Vermelho padrão */
+    color: white;
+    transition: background 0.3s, color 0.3s;
+    box-shadow: 0 2px 6px rgba(244, 67, 54, 0.15);
+}
+
+.btn-view:hover {
+    background: #1769aa;
+}
+
+.btn-edit:hover {
+    background: #c66900;
+}
+
+.btn-delete:hover {
+    background: #b71c1c;
+}
+
+.empty-state {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    font-size: 2.4rem;
+    color: #666;
+    margin-top: 50px;
+}

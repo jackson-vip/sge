@@ -18,12 +18,12 @@
 
 {% comment %} Seleção global {% endcomment %}
 {% if clientes|length > 0 %}
-    <div class="row mb-4" id="clientes-dashboard-info">
+    <div class="row mb-4 sge-dashboard-info">
         <div class="col-md-3 d-flex">
-            <div class="w-100 dashboard-information-summary" id="clientes-selecionados">
+            <div class="w-100 dashboard-information-summary sge-selecionados">
                 <div>
                     <label for="selecionarTodos">
-                        Capturar todos os clientes,
+                        Selecionar todos,
                     </label>
                     <input class="select-all-checkbox" type="checkbox" id="selecionarTodos" />
                     <label for="selecionarTodos">
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="col-md-3 d-flex">
-            <div class="w-100 dashboard-information-summary" id="clientes-ativos">
+            <div class="w-100 dashboard-information-summary sge-ativos">
                 <span> Clientes ativos: </span>
                 <span class="total-count">
                     {{ qnt_ativos|default:0 }}
@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="col-md-3 d-flex">
-            <div class="w-100 dashboard-information-summary" id="clientes-inativos">
+            <div class="w-100 dashboard-information-summary sge-inativos">
                 <span> Clientes inativos: </span>
                 <span class="total-count">
                     {{ qnt_inativos|default:0 }}
@@ -55,7 +55,7 @@
             </div>
         </div>
         <div class="col-md-3 d-flex">
-            <div class="w-100 dashboard-information-summary" id="clientes-bloqueados">
+            <div class="w-100 dashboard-information-summary sge-bloqueados">
                 <span> Clientes bloqueados: </span>
                 <span class="total-count">
                     {{ qnt_bloqueados|default:0 }}
@@ -66,34 +66,34 @@
 {% endif %}
 
 {% comment %} Lista de clientes em cards {% endcomment %}
-<div class="clients-container">
+<div class="sge-container">
     {% for cliente in clientes %}
-        <div class="client-card" data-cliente-id="{{ cliente.id }}" >
-            <div class="card-header">
+        <div class="sge-card" data-cliente-id="{{ cliente.id }}" >
+            <div class="sge-card-header">
                 <input type="checkbox" class="select-card" id="cliente-{{ cliente.id }}" value="{{ cliente.id }}" />
-                <img src="{% if cliente.imagem and cliente.imagem.url %}{{ cliente.imagem.url }}{% else %}{% static 'global/assets/img/user.jpeg' %}{% endif %}" class="client-image" alt="Imagem do Cliente"/>
-                <div class="client-info">
+                <img src="{% if cliente.imagem and cliente.imagem.url %}{{ cliente.imagem.url }}{% else %}{% static 'global/assets/img/user.jpeg' %}{% endif %}" class="sge-card-image" alt="Imagem do Cliente"/>
+                <div class="sge-card-info">
                     <h2 class='mb-1 p-2'>{{ cliente.usuario.first_name }} {{ cliente.usuario.last_name }}</h2>
                     <small class="status badge rounded-pill {% if cliente.status == 'ativo' %}text-bg-success{% elif cliente.status == 'inativo' %}text-bg-warning{% else %}text-bg-danger{% endif %}">{{ cliente.status }}</small>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="client-details">
-                    <div class="client-detail">
-                        <span class="detail-label"><strong>CPF :</strong></span>
-                        <span class="detail-value cpf">{{ cliente.cpf }}</span>
+            <div class="sge-card-body">
+                <div class="sge-card-details">
+                    <div class="sge-card-detail">
+                        <span class="sge-card-detail_label"><strong>CPF :</strong></span>
+                        <span class="sge-card-detail_value cpf">{{ cliente.cpf }}</span>
                     </div>
-                    <div class="client-detail">
-                        <span class="detail-label"><strong>Email :</strong></span>
-                        <span class="detail-value">{{ cliente.email }}</span>
+                    <div class="sge-card-detail">
+                        <span class="sge-card-detail_label"><strong>Email :</strong></span>
+                        <span class="sge-card-detail_value">{{ cliente.email }}</span>
                     </div>
-                    <div class="client-detail">
-                        <span class="detail-label"><strong>Telefone :</strong></span>
-                        <span class="detail-value telefone">{{ cliente.telefone }}</span>
+                    <div class="sge-card-detail">
+                        <span class="sge-card-detail_label"><strong>Telefone :</strong></span>
+                        <span class="sge-card-detail_value telefone">{{ cliente.telefone }}</span>
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
+            <div class="sge-card-footer">
                 <a href="{% url 'cliente:cliente_detail_view' cliente.id %}" class="btn-view" data-bs-tooltip="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Visualizar">
                     <i class="fas fa-eye"></i>
                 </a>
@@ -107,7 +107,7 @@
         </div>
     {% empty %}
         {% if clientes|length == 0 %}
-            <p class="no-clients">
+            <p class="empty-state">
                 Nenhum cliente cadastrado no momento. Por favor, adicione um novo cliente.
             </p>
         {% endif %}
