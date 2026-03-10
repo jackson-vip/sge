@@ -13,17 +13,12 @@ class FornecedorListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context = {}
-        context['title'] = 'Lista de Fornecedores'
+        context['fornecedores'] = Fornecedor.objects.all()
+        context['title'] = 'Detalhes do Fornecedor'
         context['breadcrumbs'] = [
             {'name': 'Fornecedores', 'url': reverse('fornecedor:fornecedor_list_view')},
         ]
-        context['fornecedores'] = Fornecedor.objects.all()
         return context
-
-    # def get(self, request, *args, **kwargs):
-    #     context = self.get_context_data()
-    #     return render(request, self.template_name, context)
 
 class FornecedorCreateView(LoginRequiredMixin, CreateView):
     model = Fornecedor

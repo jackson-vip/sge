@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView, DeleteView, UpdateView
+from django.views.generic import DetailView, ListView, CreateView, DeleteView, UpdateView
 from django.urls import reverse, reverse_lazy
 from django_filters.views import FilterView
 
@@ -60,34 +60,6 @@ class ClienteCreateView(LoginRequiredMixin, CreateView):
         ]
         return context
     
-class ClienteDetailView(LoginRequiredMixin, ListView):
-    model = Cliente
-    template_name = 'cliente/cliente_detail_view.html'
-    context_object_name = 'cliente'
-
-    def get_queryset(self):
-        pk = self.kwargs.get('pk')
-        return Cliente.objects.filter(pk=pk)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['cliente'] = self.get_queryset().first()
-        context['breadcrumbs'] = [
-            {'name': 'Clientes', 'url': reverse('cliente:cliente_list_view')},
-            {'name': 'Detalhes do Cliente', 'url': reverse('cliente:cliente_detail_view', kwargs={'pk': self.kwargs['pk']})},
-        ]
-        return context
-
-class ClienteDeleteView(SuccessMessageMixin, LoginRequiredMixin, DeleteView):
-    model = Cliente
-    template_name = 'cliente/cliente_modal/modal_cliente_delete_view.html'
-    success_url = reverse_lazy('cliente:cliente_list_view')
-    success_message = "Cliente %(cliente_nome)s removido com sucesso!"
-    
-    def get_success_message(self, cleaned_data):
-        cliente = self.object if hasattr(self, 'object') else self.get_object()
-        return self.success_message % {'cliente_nome': cliente.usuario.get_full_name()}
-
 class ClienteUpdateView(LoginRequiredMixin, UpdateView):
     model = Cliente
     form_class = ClienteForm
@@ -144,3 +116,31 @@ class ClienteUpdateView(LoginRequiredMixin, UpdateView):
 
         messages.success(self.request, "Cliente atualizado com sucesso!")
         return super().form_valid(form)
+    
+class ClienteDetailView(LoginRequiredMixin, DetailView):
+    model = Cliente
+    template_name = 'cliente/cliente_detail_view.html'
+    context_object_name = 'cliente'
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        return Cliente.objects.filter(pk=pk)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cliente'] = self.get_queryset().first()
+        context['breadcrumbs'] = [
+            {'name': 'Clientes', 'url': reverse('cliente:cliente_list_view')},
+            {'name': 'Detalhes do Cliente', 'url': reverse('cliente:cliente_detail_view', kwargs={'pk': self.kwargs['pk']})},
+        ]
+        return context
+
+class ClienteDeleteView(SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+    model = Cliente
+    template_name = 'cliente/cliente_modal/modal_cliente_delete_view.html'
+    success_url = reverse_lazy('cliente:cliente_list_view')
+    success_message = "Cliente %(cliente_nome)s removido com sucesso!"
+    
+    def get_success_message(self, cleaned_data):
+        cliente = self.object if hasattr(self, 'object') else self.get_object()
+        return self.success_message % {'cliente_nome': cliente.usuario.get_full_name()}
