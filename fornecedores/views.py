@@ -14,6 +14,9 @@ class FornecedorListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['fornecedores'] = Fornecedor.objects.all()
+        context['qnt_ativos'] = Fornecedor.objects.filter(status='ativo').count()
+        context['qnt_inativos'] = Fornecedor.objects.filter(status='inativo').count()
+        context['qnt_bloqueados'] = Fornecedor.objects.filter(status='bloqueado').count()
         context['title'] = 'Detalhes do Fornecedor'
         context['breadcrumbs'] = [
             {'name': 'Fornecedores', 'url': reverse('fornecedor:fornecedor_list_view')},

@@ -1,1 +1,120 @@
-<h1>fornecedor_detail_view</h1>
+{% extends "global/base.html" %}
+{% load static %}
+{% block title %}{{ title }}{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'fornecedor/css/fornecedor_detail_view.css' %}"/>
+{% endblock css %}
+
+{% block content %}
+{% include "global/partials/breadcrumb.html" %}
+<div class="card-row mt-5" id="detail-view">
+
+    <div class="detail-header">
+        <div class="info">
+            <img src="{% if fornecedor.imagem and fornecedor.imagem.url %}{{ fornecedor.imagem.url }}{% else %}{% static 'global/assets/img/user.jpeg' %}{% endif %}" class="rounded-circle" alt="Foto do Fornecedor">
+            <div class="d-flex flex-column gap-2 align-items-start">
+                <h2>{{ fornecedor.usuario.first_name }} {{ fornecedor.usuario.last_name }}</h2>
+                <span class="badge rounded-pill {% if fornecedor.status == 'ativo' %}text-bg-success{% elif fornecedor.status == 'inativo' %}text-bg-warning{% else %}text-bg-danger{% endif %} status">
+                    {{ fornecedor.get_status_display }}
+                </span>
+            </div>
+        </div>
+        <div class="actions">
+            <a href="{% url 'fornecedor:fornecedor_update_view' fornecedor.id %}" class="btn btn-lg btn-primary fs-4">
+                <i class="fa fa-pen"></i> Editar
+            </a>
+            <a href="{% url 'fornecedor:fornecedor_list_view' %}" class="btn btn-lg btn-secondary fs-4">
+                <i class="fa fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+  
+  <div class="d-flex flex-wrap gap-4 w-100 justify-content-between mb-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-user"></i>
+                <h5 class="card-title">Informações Pessoais</h5>
+            </div>
+            <div class="card-body">
+                <div class="card-col-2">
+                    <span>
+                        <strong>Razão Social:</strong> <span>{{ fornecedor.razao_social }}</span>
+                    </span>
+                    <span>
+                        <strong>Responsável:</strong> <span>{{ fornecedor.usuario.first_name }} {{ fornecedor.usuario.last_name }}</span>
+                    </span>
+                </div>
+                <div class="card-col-2">
+                    {% if fornecedor.nome_fantasia %}
+                        <span>
+                            <strong>Nome Fantasia:</strong> <span>{{ fornecedor.nome_fantasia }}</span>
+                        </span>
+                    {% endif %}
+                    <span>
+                        <strong>Email:</strong> <span class="mx-2">{{ fornecedor.email }}</span>
+                    </span>
+                </div>
+                <div class="card-col-2">
+                    <span>
+                        <strong>CNPJ:</strong> <span>{{ fornecedor.cnpj }}</span>
+                    </span>
+                    {% if fornecedor.cpf %}
+                        <span>
+                            <strong>CPF:</strong> <span>{{ fornecedor.cpf }}</span>
+                        </span>
+                    {% endif %}
+                </div>
+                <div class="card-col-2">
+                    <span>
+                        <strong>Telefone:</strong> <span>{{ fornecedor.telefone }}</span>
+                    </span>
+                    {% if fornecedor.site %}
+                        <span>
+                            <strong>Site:</strong> <span>{{ fornecedor.site }}</span>
+                        </span>
+                    {% endif %}
+                </div>
+                <div>
+                    <strong>Tipo:</strong> <span>{{ fornecedor.tipo_pessoa|upper }} </span>
+                </div>
+            </div>
+        </div>
+
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-map-marker-alt"></i>
+        <h5 class="card-title">Endereço</h5>
+      </div>
+      <div class="card-body">
+        <div>
+          <strong>CEP:</strong> <span class="mx-2">{{ fornecedor.endereco.cep }}</span>
+        </div>
+        <div class="d-flex gap-2 align-items-end">
+          <strong>Rua:</strong> <span class="mx-2">{{ fornecedor.endereco.logradouro }}</span>
+          <strong>Número:</strong> <span class="mx-2">{{ fornecedor.endereco.numero }}</span>
+        </div>
+        <div>
+          <strong>Bairro:</strong> <span class="mx-2">{{ fornecedor.endereco.bairro }}</span>
+        </div>
+        <div>
+          <strong>Cidade:</strong> <span class="mx-2">{{ fornecedor.endereco.municipio }}</span>
+        </div>
+        <div>
+          <strong>Estado:</strong> <span class="mx-2">{{ fornecedor.endereco.sigla }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card mb-4">
+      <div class="card-header">
+        <i class="fa fa-info-circle"></i>
+        <h5 class="card-title">Outros Dados</h5>
+      </div>
+      <div class="card-body">
+        <div><strong>Data de Cadastro:</strong> <span>{{ fornecedor.data_cadastro|date:'d/m/Y H:i' }}</span></div>
+        <div><strong>Status:</strong> <span>{{ fornecedor.get_status_display }}</span></div>
+        <div><strong>Observações:</strong> <span>{{ fornecedor.observacoes|default:'-' }}</span></div>
+      </div>
+  </div>
+</div>
+{% endblock content %}
