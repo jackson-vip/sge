@@ -92,13 +92,14 @@
                     </div>
                 </div>
                 <div class="sge-card-footer">
-                    <a href="#" class="btn-view" data-bs-tooltip="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Visualizar">
+                    <a href="{% url 'fornecedor:fornecedor_detail_view' fornecedor.id %}" class="btn-view" data-bs-tooltip="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Visualizar">
                         <i class="fas fa-eye"></i>
                     </a>
-                    <a href="#" class="btn-edit" data-bs-tooltip="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Editar">
+                    <a href="{% url 'fornecedor:fornecedor_update_view' fornecedor.id %}" class="btn-edit" data-bs-tooltip="tooltip"data-bs-custom-class="custom-tooltip" data-bs-title="Editar">
                         <i class="fas fa-pencil-alt"></i>
                     </a>
-                    <a href="#" class="btn-delete" data-bs-target="#fornecedor-delete-modal" data-bs-toggle="modal" data-fornecedor-id="{{ fornecedor.id }}" data-fornecedor-nome="{{ fornecedor.usuario.first_name }} {{ fornecedor.usuario.last_name }}" data-bs-tooltip="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Excluir">
+                    <a href="#" class="btn-delete" data-bs-target="#fornecedor-delete-modal" data-bs-toggle="modal" data-fornecedor-id="{{ fornecedor.id }}" data-fornecedor-nome="{{ fornecedor.usuario.first_name }} {{ fornecedor.usuario.last_name }}" data-bs-tooltip="tooltip" data-bs-custom-class="custom-tooltip"
+                    data-bs-title="Excluir">
                         <i class="fas fa-trash"></i>
                     </a>
                 </div>
@@ -111,6 +112,9 @@
             {% endif %}
         {% endfor %}
     </div>
+
+    {% comment %} Modal de exclusão de fornecedor {% endcomment %}
+    {% include "fornecedor/fornecedor_modal/modal_funcionario_delete_view.html" %}
 
 {% endblock %}
 
