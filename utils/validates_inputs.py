@@ -19,15 +19,36 @@ def validate_cpf(cpf):
 # Validar CNPJ
 def validate_cnpj(cnpj):
     cnpj = ''.join(filter(str.isdigit, cnpj)) # Apenas números
-    if not cnpj:
+    
+    if not cnpj or len(cnpj) != 14:
         return False
+    
     cnpj = re.sub(r'[^0-9]', '', cnpj) # Apenas números
-    if len(cnpj) != 14:
+    
+    # Elimina CNPJs inválidos conhecidos (todos dígitos iguais) 
+    if len(set(cnpj)) == 1:
         return False
-    calc = lambda t: int(t[1]) * t[0]
-    d1 = (sum(map(calc, enumerate(reversed(cnpj[:-2])), 2) * 10) % 11) % 10
-    d2 = (sum(map(calc, enumerate(reversed(cnpj[:-1])), 2) * 10) % 11) % 10
-    return str(d1) == cnpj[-2] and str(d2) == cnpj[-1]
+    
+    # Calcula primeiro dígito verificador
+    pesos_primeiro = [5,4,3,2,9,8,7,6,5,4,3,2]
+    soma = 0
+    for i in range(12):
+        soma += int(cnpj[i]) * pesos_primeiro[i]
+    
+    resto = soma % 11
+    digito1 = 0 if resto < 2 else 11 - resto
+    
+    # Calcula segundo dígito verificador
+    pesos_segundo = [6,5,4,3,2,9,8,7,6,5,4,3,2]
+    soma = 0
+    for i in range(13):
+        soma += int(cnpj[i]) * pesos_segundo[i]
+    
+    resto = soma % 11
+    digito2 = 0 if resto < 2 else 11 - resto
+    
+    # Verifica se os dígitos calculados são iguais aos fornecidos
+    return str(digito1) == cnpj[12] and str(digito2) == cnpj[13]
 
 # Validar CPF ou CNPJ
 def validate_cpf_cnpj(value):
