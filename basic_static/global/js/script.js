@@ -231,3 +231,5 @@ $(document).ready(function () {
     // Chama a função buscarCEP passando o campo de CEP
     buscarCEP($('#id_endereco_cep'));
 });
+
+// Mascaras 
