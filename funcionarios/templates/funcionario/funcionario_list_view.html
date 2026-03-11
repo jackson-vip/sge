@@ -70,9 +70,11 @@
         <div class="sge-card" data-cliente-id="{{ funcionario.id }}" >
             <div class="sge-card-header">
                 <input type="checkbox" class="select-card" id="funcionario-{{ funcionario.id }}" value="{{ funcionario.id }}" />
-                <img src="{% if funcionario.imagem and funcionario.imagem.url %}{{ funcionario.imagem.url }}{% else %}{% static 'global/assets/img/user.jpeg' %}{% endif %}" class="sge-card-image" alt="Imagem do Funcionário"/>
+                <img src="{{ funcionario.imagem_url }}" class="sge-card-image" alt="Imagem do Funcionário"/>
                 <div class="sge-card-info">
-                    <h2 class='mb-1 p-2'>{{ funcionario.usuario.first_name }} {{ funcionario.usuario.last_name }}</h2>
+                    <h2 class='mb-1 p-2'>
+                        {{ funcionario.usuario.first_name|lower|capfirst }} {{ funcionario.usuario.last_name|lower|capfirst }}
+                    </h2>
                     <small class="status badge rounded-pill {% if funcionario.status == 'ativo' %}text-bg-success{% elif funcionario.status == 'inativo' %}text-bg-warning{% else %}text-bg-danger{% endif %}">{{ funcionario.status }}</small>
                 </div>
             </div>

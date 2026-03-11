@@ -2,24 +2,13 @@
 {% load static %} 
 {% block title %}{{ title }}{% endblock title %} 
 {% block css %} 
-    <link rel="stylesheet" href="{% static 'cliente/css/cliente_update_view.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'fornecedor/css/fornecedor_create_view.css' %}" rel="stylesheet"/>
 {% endblock css %} 
 
 {% block content %} 
 
 {% include "global/partials/breadcrumb.html" %}
-
-{% if form.is_bound and not form.is_valid %}
-    <div class="alert alert-danger mt-5 fs-3">
-        <p>Houve um erro ao atualizar o fornecedor. Por favor, verifique os dados.</p>
-    </div>
-{% endif %}
-
-{% if form.is_bound and form.is_valid %}
-    <div class="alert alert-success">
-        <p>Fornecedor atualizado com sucesso!</p>
-    </div>
-{% endif %}
+{% include "global/partials/alerts.html" %}
 
 <div class="card-row mt-5">
     <div class="card-header">
@@ -37,7 +26,7 @@
                     <div class="image-upload-wrapper">
                         <label for="{{ form.imagem.id_for_label }}" class="image-label">
                             <div class="image-container">
-                                <img id="preview-image" src="{% if fornecedor.imagem and fornecedor.imagem.url %}{{ fornecedor.imagem.url }}{% else %}{% static 'global/assets/img/user.jpeg' %}{% endif %}" alt="Imagem do Fornecedor" class="rounded-circle">
+                                <img id="preview-image" src="{{ fornecedor.imagem_url }}" data-default-image="{% static 'global/assets/img/user.jpeg' %}" alt="Imagem do Fornecedor" class="rounded-circle">
                                 <div class="image-hover">
                                     <i class="fas fa-edit"></i>
                                 </div>
@@ -91,7 +80,7 @@
             </div>
 
             <div class="row mb-4">
-                <div class="col-md-4">
+                <div class="col-md-4" id="cnpj-field">
                     <div class="form-group">
                         <label for="{{ form.cnpj.id_for_label }}">{{ form.cnpj.label }}</label>
                         {{ form.cnpj }}
@@ -101,7 +90,7 @@
                         {{ form.cnpj.errors }}
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" id="cpf-field">
                     <div class="form-group">
                         <label for="{{ form.cpf.id_for_label }}">{{ form.cpf.label }}</label>
                         {{ form.cpf }}
@@ -119,6 +108,29 @@
                             <p class="form-text text-muted">{{ form.telefone.help_text }}</p>
                         {% endif %}
                         {{ form.telefone.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="{{ form.site.id_for_label }}">{{ form.site.label }}</label>
+                        {{ form.site }}
+                        {% if form.site.help_text %}
+                            <p class="form-text text-muted">{{ form.site.help_text }}</p>
+                        {% endif %}
+                        {{ form.site.errors }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="{{ form.tipo_pessoa.id_for_label }}">{{ form.tipo_pessoa.label }}</label>
+                        {{ form.tipo_pessoa }}
+                        {% if form.tipo_pessoa.help_text %}
+                            <p class="form-text text-muted">{{ form.tipo_pessoa.help_text }}</p>
+                        {% endif %}
+                        {{ form.tipo_pessoa.errors }}
                     </div>
                 </div>
             </div>

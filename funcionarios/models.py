@@ -1,5 +1,7 @@
 from datetime import date
 from django.db import models
+from django.templatetags.static import static
+from django.utils import timezone
 from django.contrib.auth.models import User
 from authentication.models import Endereco
 import uuid
@@ -8,13 +10,15 @@ import uuid
 
 
 class Funcionario(models.Model):
+    DEFAULT_IMAGE = 'funcionarios/default.png'
+
     STATUS_CHOICES = [
         ('ativo', 'Ativo'),
         ('inativo', 'Inativo'),
         ('bloqueado', 'Bloqueado'),
     ]
     usuario = models.OneToOneField(User, on_delete=models.PROTECT)
-    imagem = models.ImageField(upload_to='funcionarios/', blank=True, null=True, default='funcionarios/default.png')
+    imagem = models.ImageField(upload_to='funcionarios/', blank=True, null=True, default=DEFAULT_IMAGE)
     cargo = models.CharField(max_length=100, verbose_name="Cargo")
     departamento = models.CharField(max_length=100, blank=True, null=True, verbose_name="Departamento")
     data_contratacao = models.DateField(verbose_name="Data de Contratação")
@@ -38,8 +42,35 @@ class Funcionario(models.Model):
 
     def __str__(self):
         return f"{self.usuario.username} - {self.cargo}"
+
+    @property
+    def imagem_url(self):
+        if self.imagem and self.imagem.name and self.imagem.storage.exists(self.imagem.name):
+            return self.imagem.url
+        return static('global/assets/img/user.jpeg')
+
+    def _delete_old_image_if_replaced(self):
+        if not self.pk:
+            return
+        try:
+            old = Funcionario.objects.get(pk=self.pk)
+        except Funcionario.DoesNotExist:
+            return
+
+        old_name = old.imagem.name if old.imagem else ''
+        new_name = self.imagem.name if self.imagem else ''
+        if old_name and old_name != new_name and old_name != self.DEFAULT_IMAGE:
+            storage = old.imagem.storage
+            if storage.exists(old_name):
+                storage.delete(old_name)
     
     def save(self, *args, **kwargs):
+        if self.data_cadastro and timezone.is_naive(self.data_cadastro):
+            self.data_cadastro = timezone.make_aware(
+                self.data_cadastro,
+                timezone.get_current_timezone(),
+            )
+        self._delete_old_image_if_replaced()
         if not self.matricula:
             # Gera uma matrícula única (exemplo: 8 dígitos hexadecimais)
             self.matricula = uuid.uuid4().hex[:8].upper()
@@ -47,6 +78,13 @@ class Funcionario(models.Model):
             while Funcionario.objects.filter(matricula=self.matricula).exists():
                 self.matricula = uuid.uuid4().hex[:8].upper()
         super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        if self.imagem and self.imagem.name and self.imagem.name != self.DEFAULT_IMAGE:
+            storage = self.imagem.storage
+            if storage.exists(self.imagem.name):
+                storage.delete(self.imagem.name)
+        super().delete(*args, **kwargs)
 
     @property
     def idade(self):

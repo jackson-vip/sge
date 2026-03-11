@@ -64,9 +64,15 @@
             <div class="sge-card" data-cliente-id="{{ fornecedor.id }}" >
                 <div class="sge-card-header">
                     <input type="checkbox" class="select-card" id="fornecedor-{{ fornecedor.id }}" value="{{ fornecedor.id }}" />
-                    <img src="{% if fornecedor.imagem and fornecedor.imagem.url %}{{ fornecedor.imagem.url }}{% else %}{% static 'global/assets/img/user.jpeg' %}{% endif %}" class="sge-card-image" alt="Imagem do Fornecedor"/>
+                    <img src="{{ fornecedor.imagem_url }}" class="sge-card-image" alt="Imagem do Fornecedor"/>
                     <div class="sge-card-info">
-                        <h2 class='mb-1 p-2'>{{ fornecedor.usuario.first_name }} {{ fornecedor.usuario.last_name }}</h2>
+                        <h2 class='mb-1 p-2'>
+                            {% if fornecedor.tipo_pessoa == 'fisica' %}
+                                {{ fornecedor.razao_social|lower|capfirst }} {{ fornecedor.nome_fantasia|lower|capfirst }}
+                            {% elif fornecedor.tipo_pessoa == 'juridica' %}
+                                {{ fornecedor.razao_social|lower|capfirst }}
+                            {% endif %}
+                        </h2>
                         <small class="status badge rounded-pill {% if fornecedor.status == 'ativo' %}text-bg-success{% elif fornecedor.status == 'inativo' %}text-bg-warning{% else %}text-bg-danger{% endif %}">{{ fornecedor.status }}</small>
                     </div>
                 </div>

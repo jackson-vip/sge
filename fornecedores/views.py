@@ -1,10 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView, DetailView
 from django.contrib import messages
 
 from authentication.models import UnidadeFederativa
 from fornecedores.forms import FornecedorForm
+from utils.messages import msg_criado, msg_atualizado, msg_erro_criar, msg_erro_atualizar
 from .models import Fornecedor
 
 class FornecedorListView(LoginRequiredMixin, ListView):
@@ -27,26 +28,29 @@ class FornecedorCreateView(LoginRequiredMixin, CreateView):
     model = Fornecedor
     form_class = FornecedorForm
     template_name = 'fornecedor/fornecedor_create_view.html'
-    success_url = 'fornecedores/'
+    success_url = reverse_lazy('fornecedor:fornecedor_list_view')
 
     def get_context_data(self, **kwargs):
-        context = {}
+        context = super().get_context_data(**kwargs)
         context['title'] = 'Novo Fornecedor'
-        context['form'] = self.form_class()
         context['breadcrumbs'] = [
             {'name': 'Fornecedores', 'url': reverse('fornecedor:fornecedor_list_view')},
             {'name': 'Novo Fornecedor', 'url': reverse('fornecedor:fornecedor_create_view')},
         ]
         return context
-    
-    # def get(self, request, *args, **kwargs):
-    #     context = self.get_context_data()
-    #     return render(request, self.template_name, context)
+
+    def form_valid(self, form):
+        messages.success(self.request, msg_criado('Fornecedor'))
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, msg_erro_criar('Fornecedor'))
+        return super().form_invalid(form)
 
 class FornecedorDeleteView(LoginRequiredMixin, DeleteView):
     model = Fornecedor
     template_name = 'fornecedor/fornecedor_modal/modal_funcionario_delete_view.html'
-    success_url = 'fornecedores/'
+    success_url = reverse_lazy('fornecedor:fornecedor_list_view')
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
@@ -78,7 +82,7 @@ class FornecedorUpdateView(LoginRequiredMixin, UpdateView):
     model = Fornecedor
     form_class = FornecedorForm
     template_name = 'fornecedor/fornecedor_update_view.html'
-    success_url = 'fornecedores/'
+    success_url = reverse_lazy('fornecedor:fornecedor_list_view')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -108,12 +112,9 @@ class FornecedorUpdateView(LoginRequiredMixin, UpdateView):
         return initial
     
     def form_valid(self, form):
-        try:
-            fornecedor = form.save(commit=False)
-            print(fornecedor)  # Verificar os dados do fornecedor antes de salvar
-            # Aqui você pode adicionar lógica adicional antes de salvar o fornecedor, se necessário
+        messages.success(self.request, msg_atualizado('Fornecedor'))
+        return super().form_valid(form)
 
-            return super().form_valid(form)
-        except Exception as e:
-            messages.error(self.request, f"Erro ao atualizar fornecedor: {str(e)}")
-            return super().form_invalid(form)
+    def form_invalid(self, form):
+        messages.error(self.request, msg_erro_atualizar('Fornecedor'))
+        return super().form_invalid(form)

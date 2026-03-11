@@ -1,6 +1,6 @@
 from authentication.models import Endereco, UnidadeFederativa, Municipio, Perfil
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
+from django.utils.crypto import get_random_string
 from clientes.models import Cliente
 from django import forms
 from utils.django_forms import *
@@ -112,49 +112,65 @@ class ClienteForm(forms.ModelForm):
         return cep
 
     def save(self, commit=True):
-        # Criar o usuário
-        user = User(
-            first_name=self.cleaned_data['first_name'],
-            last_name=self.cleaned_data['last_name'],
-            username=f"{self.cleaned_data['email']}-{uuid.uuid4().hex[:8]}"  # Gerar username único
-        )
-        user.set_password(make_password(None))  # Gerar senha aleatória corretamente
-        if commit:
-            user.save()
-
-        # Criar o cliente associado ao usuário
+        is_create = self.instance.pk is None
+        uf_obj = self.cleaned_data['endereco_sigla']
+        imagem_upload = self.cleaned_data.get('imagem')
         cliente = super().save(commit=False)
-        cliente.usuario = user
-        cliente.email = self.cleaned_data['email']  # Salvar o email do formulário no cliente
-        cliente.data_nascimento = self.cleaned_data['data_nascimento']  # Adicionar data de nascimento
-        cliente.status = 'ativo'  # Definir como cliente ativo
 
-        # Criar o endereço associado ao cliente
-        endereco = Endereco(
-            logradouro=self.cleaned_data['endereco_logradouro'],
-            numero=self.cleaned_data['endereco_numero'],
-            complemento=self.cleaned_data['endereco_complemento'],
-            bairro=self.cleaned_data['endereco_bairro'],
-            municipio=self.cleaned_data['endereco_municipio'],
-            sigla=self.cleaned_data['endereco_sigla'],  # Usar sigla da UF
-            cep=self.cleaned_data['endereco_cep']
-        )
+        cliente.email = self.cleaned_data['email']
+        cliente.data_nascimento = self.cleaned_data['data_nascimento']
 
-        if commit:
-            endereco.save()
-            cliente.endereco = endereco  # Associar o endereço ao cliente
-            cliente.save()
+        if is_create:
+            user = User(
+                first_name=self.cleaned_data['first_name'],
+                last_name=self.cleaned_data['last_name'],
+                username=f"{self.cleaned_data['email']}-{uuid.uuid4().hex[:8]}"
+            )
+            user.set_password(get_random_string(8))
+            cliente.status = 'ativo'
+            cliente.usuario = user
 
-        # Garantir que a imagem escolhida seja salva antes de salvar o cliente
-        if 'imagem' in self.cleaned_data:
-            cliente.imagem = self.cleaned_data['imagem']
+            endereco = Endereco(
+                logradouro=self.cleaned_data['endereco_logradouro'],
+                numero=self.cleaned_data['endereco_numero'],
+                complemento=self.cleaned_data['endereco_complemento'],
+                bairro=self.cleaned_data['endereco_bairro'],
+                municipio=self.cleaned_data['endereco_municipio'],
+                uf=uf_obj.uf,
+                sigla=uf_obj.sigla,
+                cep=self.cleaned_data['endereco_cep']
+            )
 
-        # Criar o perfil associado ao usuário
-        perfil = Perfil(
-            usuario=user,
-            tipo='cliente'  # Definir o tipo como cliente
-        )
-        if commit:
-            perfil.save()
+            if commit:
+                user.save()
+                endereco.save()
+                cliente.endereco = endereco
+                if imagem_upload:
+                    cliente.imagem = imagem_upload
+                cliente.save()
+                Perfil.objects.create(usuario=user, tipo='cliente')
+        else:
+            user = cliente.usuario
+            user.first_name = self.cleaned_data['first_name']
+            user.last_name = self.cleaned_data['last_name']
+            user.email = self.cleaned_data['email']
+
+            endereco = cliente.endereco
+            endereco.logradouro = self.cleaned_data['endereco_logradouro']
+            endereco.numero = self.cleaned_data['endereco_numero']
+            endereco.complemento = self.cleaned_data['endereco_complemento']
+            endereco.bairro = self.cleaned_data['endereco_bairro']
+            endereco.municipio = self.cleaned_data['endereco_municipio']
+            endereco.uf = uf_obj.uf
+            endereco.sigla = uf_obj.sigla
+            endereco.cep = self.cleaned_data['endereco_cep']
+
+            if imagem_upload:
+                cliente.imagem = imagem_upload
+
+            if commit:
+                user.save()
+                endereco.save()
+                cliente.save()
 
         return cliente

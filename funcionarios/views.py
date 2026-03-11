@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from authentication.models import UnidadeFederativa
 from funcionarios.forms import FuncionarioForm
 from utils.filters import FuncionarioFilter
+from utils.messages import msg_criado, msg_atualizado, msg_erro_criar, msg_erro_atualizar
 from django_filters.views import FilterView
 from .models import Funcionario
 from django.views.generic import DetailView, CreateView, DeleteView, UpdateView
@@ -43,8 +44,12 @@ class FuncionarioCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('funcionario:funcionario_list_view')
 
     def form_valid(self, form):
-        messages.success(self.request, "Funcionário criado com sucesso!")
+        messages.success(self.request, msg_criado("Funcionário"))
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, msg_erro_criar("Funcionário"))
+        return super().form_invalid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -96,26 +101,12 @@ class FuncionarioUpdateView(LoginRequiredMixin, UpdateView):
         return initial
 
     def form_valid(self, form):
-        funcionario = self.get_object()
-        user = funcionario.usuario
-        endereco = funcionario.endereco
-        # Atualiza os dados do usuário relacionado
-        user.first_name = form.cleaned_data.get('first_name')
-        user.last_name = form.cleaned_data.get('last_name')
-        user.email = form.cleaned_data.get('email_profissional')
-        user.save()
-        # Atualiza os dados do endereço relacionado
-        endereco.cep = form.cleaned_data.get('endereco_cep')
-        endereco.logradouro = form.cleaned_data.get('endereco_logradouro')
-        endereco.numero = form.cleaned_data.get('endereco_numero')
-        endereco.complemento = form.cleaned_data.get('endereco_complemento')
-        endereco.bairro = form.cleaned_data.get('endereco_bairro')
-        endereco.municipio = form.cleaned_data.get('endereco_municipio')
-        sigla_obj = form.cleaned_data.get('endereco_sigla')
-        endereco.sigla = sigla_obj.sigla if sigla_obj else ''
-        endereco.save()
-        # Salva o restante do formulário normalmente
+        messages.success(self.request, msg_atualizado("Funcionário"))
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, msg_erro_atualizar("Funcionário"))
+        return super().form_invalid(form)
 
 class FuncionarioDetailView(LoginRequiredMixin, DetailView):
     model = Funcionario

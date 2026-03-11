@@ -11,7 +11,7 @@
 
   <div class="detail-header">
     <div class="info">
-      <img src="{% if cliente.imagem and cliente.imagem.url %}{{ cliente.imagem.url }}{% else %}{% static 'global/assets/img/user.jpeg' %}{% endif %}" 
+      <img src="{{ cliente.imagem_url }}" 
       class="rounded-circle" alt="Foto do Cliente">
       <div class="d-flex flex-column gap-2 align-items-start">
         <h2>{{ cliente.usuario.first_name }} {{ cliente.usuario.last_name }}</h2>

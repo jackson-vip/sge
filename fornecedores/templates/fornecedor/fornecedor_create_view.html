@@ -8,18 +8,7 @@
 {% block content %} 
 
 {% include "global/partials/breadcrumb.html" %}
-
-{% if form.is_bound and not form.is_valid %}
-    <div class="alert alert-danger mt-5 fs-3">
-        <p>Houve um erro ao criar o Fornecedor. Por favor, verifique os dados.</p>
-    </div>
-{% endif %}
-
-{% if form.is_bound and form.is_valid %}
-    <div class="alert alert-success">
-        <p>Fornecedor criado com sucesso!</p>
-    </div>
-{% endif %}
+{% include "global/partials/alerts.html" %}
 
 <!-- Template para criar um fornecedor -->
 <div class="card-row mt-5">
@@ -38,7 +27,7 @@
                         {% if 'Editar' in title %}
                             <label for="{{ form.imagem.id_for_label }}" class="image-label">
                                 <div class="image-container">
-                                    <img id="preview-image" src="{% if fornecedor.imagem and fornecedor.imagem.url %}{{ fornecedor.imagem.url }}{% else %}{% static 'global/assets/img/user.jpeg' %}{% endif %}" alt="Imagem do Fornecedor" class="rounded-circle">
+                                    <img id="preview-image" src="{{ fornecedor.imagem_url }}" data-default-image="{% static 'global/assets/img/user.jpeg' %}" alt="Imagem do Fornecedor" class="rounded-circle">
                                     <div class="image-hover">
                                         <i class="fas fa-edit"></i>
                                     </div>
@@ -55,7 +44,7 @@
                         {% else %}
                             <label for="{{ form.imagem.id_for_label }}" class="image-label">
                                 <div class="image-container">
-                                    <img id="preview-image" src="{% static '../media/clientes/user.jpeg' %}" alt="Imagem do Fornecedor" class="rounded-circle">
+                                    <img id="preview-image" src="{% static 'global/assets/img/user.jpeg' %}" data-default-image="{% static 'global/assets/img/user.jpeg' %}" alt="Imagem do Fornecedor" class="rounded-circle">
                                     <div class="image-hover">
                                         <i class="fas fa-edit"></i>
                                     </div>

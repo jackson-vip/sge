@@ -7,6 +7,7 @@ from django_filters.views import FilterView
 
 from authentication.models import UnidadeFederativa
 from utils.filters import ClienteFilter
+from utils.messages import msg_criado, msg_atualizado, msg_erro_criar, msg_erro_atualizar
 from .forms import ClienteForm
 
 # Importação dos modelos
@@ -47,8 +48,12 @@ class ClienteCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('cliente:cliente_list_view')
 
     def form_valid(self, form):
-        messages.success(self.request, "Cliente criado com sucesso!")
+        messages.success(self.request, msg_criado("Cliente"))
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, msg_erro_criar("Cliente"))
+        return super().form_invalid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -101,21 +106,12 @@ class ClienteUpdateView(LoginRequiredMixin, UpdateView):
         return initial
 
     def form_valid(self, form):
-        cliente = form.save(commit=False)
-        usuario = cliente.usuario
-
-        # Atualizar os dados do usuário diretamente do formulário
-        usuario.first_name = form.cleaned_data.get('first_name', usuario.first_name)
-        usuario.last_name = form.cleaned_data.get('last_name', usuario.last_name)
-        usuario.save()
-
-        # Atualizar a imagem do cliente, se fornecida
-        if 'imagem' in self.request.FILES:
-            cliente.imagem = self.request.FILES['imagem']
-        cliente.save()
-
-        messages.success(self.request, "Cliente atualizado com sucesso!")
+        messages.success(self.request, msg_atualizado("Cliente"))
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, msg_erro_atualizar("Cliente"))
+        return super().form_invalid(form)
     
 class ClienteDetailView(LoginRequiredMixin, DetailView):
     model = Cliente

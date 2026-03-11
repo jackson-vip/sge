@@ -75,6 +75,19 @@ class FuncionarioForm(forms.ModelForm):
         add_attr(self.fields['cargo'], 'class', 'custom-select')
         # add_placeholder(self.fields['departamento'], 'Digite o departamento do funcionário') # Exemplo: Vendas, TI, RH, etc.
         add_attr(self.fields['departamento'], 'class', 'custom-select')
+
+        # Aceita valores legados fora da lista padrão para permitir update sem quebra.
+        if self.instance and self.instance.pk:
+            cargo_atual = (self.instance.cargo or '').strip()
+            if cargo_atual and cargo_atual not in dict(self.fields['cargo'].choices):
+                self.fields['cargo'].choices = list(self.fields['cargo'].choices) + [(cargo_atual, cargo_atual)]
+
+            departamento_atual = (self.instance.departamento or '').strip()
+            if departamento_atual and departamento_atual not in dict(self.fields['departamento'].choices):
+                self.fields['departamento'].choices = list(self.fields['departamento'].choices) + [
+                    (departamento_atual, departamento_atual)
+                ]
+
         add_placeholder(self.fields['data_contratacao'], '01/01/2020')
         add_placeholder(self.fields['salario'], 'R$ 0,00')
 
@@ -126,51 +139,67 @@ class FuncionarioForm(forms.ModelForm):
         return cep
     
     def save(self, commit=True):
-        # Criar o usuário
-        usuario = User(
-            first_name=self.cleaned_data['first_name'],
-            last_name=self.cleaned_data['last_name'],
-            username=f"{self.cleaned_data['email_profissional']}-{uuid.uuid4().hex[:8]}"  # Gerar username único
-        )
-        senha_aleatoria = get_random_string(8)
-        usuario.set_password(senha_aleatoria)  # Gerar senha aleatória corretamente
-        if commit:
-            usuario.save()
+        is_create = self.instance.pk is None
+        uf_obj = self.cleaned_data['endereco_sigla']
+        imagem_upload = self.cleaned_data.get('imagem')
 
-        # Criar o funcionário associado ao usuário
         funcionario = super().save(commit=False)
-        funcionario.usuario = usuario
-        funcionario.email = self.cleaned_data['email_profissional'] # Salva o email profissional no campo email do usuário
+        funcionario.email_profissional = self.cleaned_data['email_profissional']
         funcionario.data_nascimento = self.cleaned_data['data_nascimento']
-        funcionario.status = 'ativo'  # Define o status como ativo por padrão
 
-        # Criar o endereço associado ao funcionário
-        endereco = Endereco(
-            cep=self.cleaned_data['endereco_cep'],
-            logradouro=self.cleaned_data['endereco_logradouro'],
-            numero=self.cleaned_data['endereco_numero'],
-            complemento=self.cleaned_data['endereco_complemento'],
-            bairro=self.cleaned_data['endereco_bairro'],
-            municipio=self.cleaned_data['endereco_municipio'],
-            sigla=self.cleaned_data['endereco_sigla']
-        )
-
-        if commit:
-            endereco.save()
-            funcionario.endereco = endereco
-            funcionario.save()
-
-        # Garantir que a imagem escolhida seja salva antes de salvar o funcionário
-        if 'imagem' in self.files:
-            funcionario.imagem = self.files['imagem']
-            funcionario.save()
-        
-        # Criar o perfil associado ao usuário
-        perfil = Perfil(
-            usuario=usuario,
-            tipo='funcionario' # Definir o tipo como funcionário
+        if is_create:
+            usuario = User(
+                first_name=self.cleaned_data['first_name'],
+                last_name=self.cleaned_data['last_name'],
+                username=f"{self.cleaned_data['email_profissional']}-{uuid.uuid4().hex[:8]}"
             )
-        if commit:
-            perfil.save()
+            usuario.set_password(get_random_string(8))
+            usuario.email = self.cleaned_data['email_profissional']
+            funcionario.usuario = usuario
+            funcionario.status = 'ativo'
+
+            endereco = Endereco(
+                cep=self.cleaned_data['endereco_cep'],
+                logradouro=self.cleaned_data['endereco_logradouro'],
+                numero=self.cleaned_data['endereco_numero'],
+                complemento=self.cleaned_data['endereco_complemento'],
+                bairro=self.cleaned_data['endereco_bairro'],
+                municipio=self.cleaned_data['endereco_municipio'],
+                uf=uf_obj.uf,
+                sigla=uf_obj.sigla,
+            )
+
+            if imagem_upload:
+                funcionario.imagem = imagem_upload
+
+            if commit:
+                usuario.save()
+                endereco.save()
+                funcionario.endereco = endereco
+                funcionario.save()
+                Perfil.objects.create(usuario=usuario, tipo='funcionario')
+        else:
+            usuario = funcionario.usuario
+            usuario.first_name = self.cleaned_data['first_name']
+            usuario.last_name = self.cleaned_data['last_name']
+            usuario.email = self.cleaned_data['email_profissional']
+
+            endereco = funcionario.endereco
+            endereco.cep = self.cleaned_data['endereco_cep']
+            endereco.logradouro = self.cleaned_data['endereco_logradouro']
+            endereco.numero = self.cleaned_data['endereco_numero']
+            endereco.complemento = self.cleaned_data['endereco_complemento']
+            endereco.bairro = self.cleaned_data['endereco_bairro']
+            endereco.municipio = self.cleaned_data['endereco_municipio']
+            endereco.uf = uf_obj.uf
+            endereco.sigla = uf_obj.sigla
+
+            if imagem_upload:
+                funcionario.imagem = imagem_upload
+
+            if commit:
+                usuario.save()
+                endereco.save()
+                funcionario.save()
         
         return funcionario

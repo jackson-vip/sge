@@ -71,9 +71,11 @@
         <div class="sge-card" data-cliente-id="{{ cliente.id }}" >
             <div class="sge-card-header">
                 <input type="checkbox" class="select-card" id="cliente-{{ cliente.id }}" value="{{ cliente.id }}" />
-                <img src="{% if cliente.imagem and cliente.imagem.url %}{{ cliente.imagem.url }}{% else %}{% static 'global/assets/img/user.jpeg' %}{% endif %}" class="sge-card-image" alt="Imagem do Cliente"/>
+                <img src="{{ cliente.imagem_url }}" class="sge-card-image" alt="Imagem do Cliente"/>
                 <div class="sge-card-info">
-                    <h2 class='mb-1 p-2'>{{ cliente.usuario.first_name }} {{ cliente.usuario.last_name }}</h2>
+                    <h2 class='mb-1 p-2'>
+                        {{ cliente.usuario.first_name|lower|capfirst }} {{ cliente.usuario.last_name|lower|capfirst }}
+                    </h2>
                     <small class="status badge rounded-pill {% if cliente.status == 'ativo' %}text-bg-success{% elif cliente.status == 'inativo' %}text-bg-warning{% else %}text-bg-danger{% endif %}">{{ cliente.status }}</small>
                 </div>
             </div>

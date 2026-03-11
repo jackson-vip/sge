@@ -25,7 +25,18 @@ class FornecedorForm(forms.ModelForm):
 
     class Meta:
         model = Fornecedor
-        fields = '__all__'
+        fields = [
+            'imagem',
+            'razao_social',
+            'nome_fantasia',
+            'cnpj',
+            'cpf',
+            'telefone',
+            'email',
+            'site',
+            'tipo_pessoa',
+            'observacoes',
+        ]
         # widgets = {
         #     'tipo_pessoa': forms.RadioSelect
         # }
@@ -34,7 +45,7 @@ class FornecedorForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # Adicionar form-control a todos os campos do formulário
         add_form_control(self)
-        
+
         # Adicionar placeholders e atributos aos campos do formulário
         add_placeholder(self.fields['razao_social'], 'Digite a Razão Social')
         add_placeholder(self.fields['nome_fantasia'], 'Digite o Nome Fantasia')
@@ -49,7 +60,7 @@ class FornecedorForm(forms.ModelForm):
         add_placeholder(self.fields['endereco_numero'], 'Digite o Número')
         add_placeholder(self.fields['endereco_complemento'], 'Digite o Complemento')
         add_placeholder(self.fields['endereco_bairro'], 'Digite o Bairro')
-        
+
         # Adicionar atributos específicos aos campos do formulário
         add_attr(self.fields['imagem'], 'class', 'form-control')
         # add_attr(self.fields['tipo_pessoa'], 'class', 'd-flex justify-content-around') # custom-select
@@ -58,7 +69,7 @@ class FornecedorForm(forms.ModelForm):
         add_attr(self.fields['endereco_municipio'], 'class', 'custom-select')
         add_attr(self.fields['endereco_sigla'], 'class', 'custom-select')
 
-        # Alterar o label do campo de imagem
+        # Alterar o label dos campos de endereço
         rename_label(self.fields['endereco_cep'], 'CEP')
         rename_label(self.fields['endereco_logradouro'], 'Logradouro')
         rename_label(self.fields['endereco_numero'], 'Número')
@@ -80,13 +91,13 @@ class FornecedorForm(forms.ModelForm):
         if not validate_cep(cep):
             raise forms.ValidationError("CEP inválido.")
         return cep
-    
+
     def clean_cnpj(self):
         cnpj = self.cleaned_data.get('cnpj')
         if cnpj and not validate_cnpj(cnpj):
             raise forms.ValidationError("CNPJ inválido.")
         return cnpj
-    
+
     def clean_cpf(self):
         cpf = self.cleaned_data.get('cpf')
         if cpf and not validate_cpf(cpf):
@@ -109,22 +120,13 @@ class FornecedorForm(forms.ModelForm):
                 self.add_error('cnpj', 'CNPJ é obrigatório para pessoa jurídica.')
             cleaned_data['cpf'] = None  # Ignora CPF
         return cleaned_data
-    
-    def save(self, commit=True):
-        # Criar o usuário
-        usuario = User(
-            username=f"{self.cleaned_data['email']}-{uuid.uuid4().hex[:8]}"  # Gerar username único
-        )
-        # Gerar senha aleatória de 8 caracteres
-        senha_aleatoria = get_random_string(8)
-        usuario.set_password(senha_aleatoria)
-        
-        if commit:
-            usuario.save()
 
-        # Criar o fornecedor
+    def save(self, commit=True):
+        is_create = self.instance.pk is None
+        uf_obj = self.cleaned_data['endereco_sigla']
+        imagem_upload = self.cleaned_data.get('imagem')
+
         fornecedor = super().save(commit=False)
-        fornecedor.usuario = usuario
         fornecedor.tipo_pessoa = self.cleaned_data['tipo_pessoa']
         fornecedor.cnpj = self.cleaned_data['cnpj']
         fornecedor.cpf = self.cleaned_data['cpf']
@@ -134,36 +136,50 @@ class FornecedorForm(forms.ModelForm):
         fornecedor.telefone = self.cleaned_data['telefone']
         fornecedor.site = self.cleaned_data['site']
         fornecedor.observacoes = self.cleaned_data['observacoes']
-        fornecedor.status = 'ativo'  # Define o status como ativo por padrão
 
-        # Criar o endereço associado ao fornecedor
-        endereco = Endereco(
-            cep=self.cleaned_data['endereco_cep'],
-            logradouro=self.cleaned_data['endereco_logradouro'],
-            numero=self.cleaned_data['endereco_numero'],
-            complemento=self.cleaned_data['endereco_complemento'],
-            bairro=self.cleaned_data['endereco_bairro'],
-            municipio=self.cleaned_data['endereco_municipio'],
-            sigla=self.cleaned_data['endereco_sigla'],
-        )
+        if imagem_upload:
+            fornecedor.imagem = imagem_upload
 
-        if commit:
-            endereco.save()
-            fornecedor.endereco = endereco
-            fornecedor.save()
-        
-        # Garantir que a imagem escolhida seja salva antes de salvar o fornecedor
-        if 'imagem' in self.files:
-            fornecedor.imagem = self.files['imagem']
-            fornecedor.save()
+        if is_create:
+            # Criar usuário e perfil apenas no create
+            usuario = User(
+                username=f"{self.cleaned_data['email']}-{uuid.uuid4().hex[:8]}"
+            )
+            usuario.set_password(get_random_string(8))
+            fornecedor.status = 'ativo'
+            fornecedor.usuario = usuario
 
-        
-        # Crear o perfil associado ao fornecedor
-        perfil = Perfil.objects.create(
-            usuario=usuario,
-            tipo='fornecedor'  # Definir o tipo como fornecedor
-        )
-        if commit:
-            perfil.save()
+            endereco = Endereco(
+                cep=self.cleaned_data['endereco_cep'],
+                logradouro=self.cleaned_data['endereco_logradouro'],
+                numero=self.cleaned_data['endereco_numero'],
+                complemento=self.cleaned_data['endereco_complemento'],
+                bairro=self.cleaned_data['endereco_bairro'],
+                municipio=self.cleaned_data['endereco_municipio'],
+                uf=uf_obj.uf,
+                sigla=uf_obj.sigla,
+            )
+
+            if commit:
+                usuario.save()
+                endereco.save()
+                fornecedor.endereco = endereco
+                fornecedor.save()
+                Perfil.objects.create(usuario=usuario, tipo='fornecedor')
+        else:
+            # Atualizar endereço existente no update — não toca em User nem Perfil
+            endereco = fornecedor.endereco
+            endereco.cep = self.cleaned_data['endereco_cep']
+            endereco.logradouro = self.cleaned_data['endereco_logradouro']
+            endereco.numero = self.cleaned_data['endereco_numero']
+            endereco.complemento = self.cleaned_data['endereco_complemento']
+            endereco.bairro = self.cleaned_data['endereco_bairro']
+            endereco.municipio = self.cleaned_data['endereco_municipio']
+            endereco.uf = uf_obj.uf
+            endereco.sigla = uf_obj.sigla
+
+            if commit:
+                endereco.save()
+                fornecedor.save()
 
         return fornecedor
