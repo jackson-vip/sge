@@ -1,4 +1,5 @@
 from datetime import date
+from dateutil.relativedelta import relativedelta
 from django.db import models
 from django.templatetags.static import static
 from django.utils import timezone
@@ -107,13 +108,31 @@ class Funcionario(models.Model):
         if proximo < hoje:
             proximo = proximo.replace(year=hoje.year + 1)
         delta = proximo - hoje
+        total_dias = delta.days
+        
+        # Flag: aniversário é hoje
+        is_hoje = (hoje.month == self.data_nascimento.month and 
+                   hoje.day == self.data_nascimento.day)
+        
+        # Total de horas até meia-noite do próximo aniversário
+        total_horas = total_dias * 24
+        
+        # Semanas completas e dias restantes
+        semanas = total_dias // 7
+        dias_semana = total_dias % 7
+        
+        # Meses e dias restantes usando relativedelta
+        rd = relativedelta(proximo, hoje)
+        meses = rd.months
+        dias_mes = rd.days
 
-        # Calcula meses e dias restantes
-        meses = (proximo.year - hoje.year) * 12 + proximo.month - hoje.month
-        if proximo.day < hoje.day:
-            meses -= 1
-            dias = (proximo - proximo.replace(day=1)).days + proximo.day - hoje.day
-        else:
-            dias = proximo.day - hoje.day
-
-        return {'meses': meses, 'dias': dias, 'total_dias': delta.days}
+        return {
+            'total_dias': total_dias,
+            'total_horas': total_horas,
+            'semanas': semanas,
+            'dias_semana': dias_semana,
+            'meses': meses,
+            'dias_mes': dias_mes,
+            'is_hoje': is_hoje,
+            'data': proximo,
+        }
