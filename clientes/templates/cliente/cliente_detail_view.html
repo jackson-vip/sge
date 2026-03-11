@@ -14,7 +14,7 @@
       <img src="{{ cliente.imagem_url }}" 
       class="rounded-circle" alt="Foto do Cliente">
       <div class="d-flex flex-column gap-2 align-items-start">
-        <h2>{{ cliente.usuario.first_name }} {{ cliente.usuario.last_name }}</h2>
+        <h2>{{ cliente.usuario.first_name|title }} {{ cliente.usuario.last_name|title }}</h2>
         <span class="badge rounded-pill {% if cliente.status == 'ativo' %}text-bg-success{% elif cliente.status == 'inativo' %}text-bg-warning{% else %}text-bg-danger{% endif %} status">
           {{ cliente.get_status_display }}
         </span>

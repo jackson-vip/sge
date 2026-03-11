@@ -13,7 +13,7 @@
         <div class="info">
             <img src="{{ fornecedor.imagem_url }}" class="rounded-circle" alt="Foto do Fornecedor">
             <div class="d-flex flex-column gap-2 align-items-start">
-                <h2>{{ fornecedor.usuario.first_name }} {{ fornecedor.usuario.last_name }}</h2>
+                <h2>{{ fornecedor.usuario.first_name|title }} {{ fornecedor.usuario.last_name|title }}</h2>
                 <span class="badge rounded-pill {% if fornecedor.status == 'ativo' %}text-bg-success{% elif fornecedor.status == 'inativo' %}text-bg-warning{% else %}text-bg-danger{% endif %} status">
                     {{ fornecedor.get_status_display }}
                 </span>
