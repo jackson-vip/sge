@@ -165,22 +165,30 @@ $(function () {
     });
 });
 
+// Método global para limpar os campos de um formulário
+function cleanFields(fields) {
+    fields.forEach(field => {
+        $(field).val('');
+    });
+}
+
 // Função para buscar o Endereço pelo CEP (ViaCEP)
 $(document).ready(function () {
-
-    function limparEndereco() {
-        $('#id_endereco_logradouro').val('');
-        $('#id_endereco_complemento').val('');
-        $('#id_endereco_bairro').val('');
-        $('#id_endereco_municipio').val('');
-        $('#id_endereco_sigla').val('');
-    }
 
     // Função para buscar o CEP
     function buscarCEP(cep) {
         $("#id_endereco_cep").on("blur", function () {
             // Remove tudo que não é número
             let cep = $(this).val().replace(/[^\d]+/g, '');
+            
+            // Lista dos campos de endereço para limpar em caso de erro
+            const listFieldsEndereco = [
+                '#id_endereco_logradouro', 
+                '#id_endereco_complemento', 
+                '#id_endereco_bairro', 
+                '#id_endereco_municipio', 
+                '#id_endereco_sigla'
+            ];
 
             // Verifica se o CEP possui 8 caracteres
             if (cep.length !== 8) {
@@ -202,32 +210,85 @@ $(document).ready(function () {
                             $('#id_endereco_logradouro').val('...');
                             $('#id_endereco_complemento').val('...');
                             $('#id_endereco_bairro').val('...');
-                            // $('#id_endereco_municipio').val('...');
-                            // $('#id_endereco_sigla').val('...');
 
                             setTimeout(() => {
                                 // Carrega os campos
                                 $('#id_endereco_logradouro').val(data.logradouro);
                                 $('#id_endereco_complemento').val(data.complemento);
                                 $('#id_endereco_bairro').val(data.bairro);
-                                // $('#id_endereco_municipio').val(data.localidade);
-                                // $('#id_endereco_sigla').val(data.uf);
                             }, 500);
 
                         } else {
-                            limparEndereco();
-                            // console.log('CEP não encontrado!');
+                            cleanFields(listFieldsEndereco);
                         }
                     },
                     error: function () {
-                        limparEndereco();
-                        // console.log('CEP não encontrado!');
+                        cleanFields(listFieldsEndereco);
                     }
                 });
             }
-            limparEndereco();
+            cleanFields(listFieldsEndereco);
         });
     };
     // Chama a função buscarCEP passando o campo de CEP
     buscarCEP($('#id_endereco_cep'));
+});
+
+
+$(document).ready(function () {
+    
+    // Função para requisitar o CNPJ (https://www.receitaws.com.br/v1/cnpj/)
+    function buscarCNPJ(cnpj) {
+        $("#id_cnpj").on("blur", function () {
+            // Remove tudo que não é número
+            let cnpj = $(this).val().replace(/[^\d]+/g, '');
+            
+            // Lista dos campos de fornecedor para limpar em caso de erro
+            const listFieldsFornecedor = [
+                '#id_razao_social', 
+                '#id_nome_fantasia', 
+                '#id_email',
+            ];
+            
+            // Verifica se o CNPJ possui 14 caracteres
+            if (cnpj.length !== 14) {
+                console.log('CNPJ inválido!');
+                return false;
+            }
+            // Se CNPJ for diferente de vazio
+            if (cnpj !== '') {
+                
+                // Faz a requisição
+                $.ajax({
+                    url: `https://www.receitaws.com.br/v1/cnpj/${cnpj}`,
+                    type: 'GET',
+                    dataType: 'jsonp',
+                    success: function (data) {
+                        // Se não houver erro
+                        if (!('error' in data)) {
+                            // Preenche os campos com '...' (aguardando a requisição)
+                            listFieldsFornecedor.forEach(field => {
+                                $(field).val('...');
+                            });                         
+                            setTimeout(() => {
+                                // Carrega os campos
+                                $('#id_razao_social').val(data.nome);
+                                $('#id_nome_fantasia').val(data.fantasia);
+                                $('#id_email').val(data.email);
+                            }, 500);
+
+                        } else {
+                            cleanFields(listFieldsFornecedor);
+                        }
+                    },
+                    error: function () {
+                        cleanFields(listFieldsFornecedor);
+                    }
+                });
+            }
+            cleanFields(listFieldsFornecedor);
+        });
+    };
+    // Chama a função buscarCNPJ passando o campo de CNPJ
+    buscarCNPJ($('#id_cnpj'));
 });
