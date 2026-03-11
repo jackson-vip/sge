@@ -1,5 +1,6 @@
 from datetime import timezone
 import uuid
+import re
 from django.utils.crypto import get_random_string
 from authentication.models import Endereco, UnidadeFederativa, Municipio, Perfil
 from django.contrib.auth.models import User
@@ -90,19 +91,19 @@ class FornecedorForm(forms.ModelForm):
         cep = self.cleaned_data['endereco_cep']
         if not validate_cep(cep):
             raise forms.ValidationError("CEP inválido.")
-        return cep
+        return re.sub(r'[^0-9]', '', cep) if cep else cep
 
     def clean_cnpj(self):
         cnpj = self.cleaned_data.get('cnpj')
         if cnpj and not validate_cnpj(cnpj):
             raise forms.ValidationError("CNPJ inválido.")
-        return cnpj
+        return re.sub(r'[^0-9]', '', cnpj) if cnpj else cnpj
 
     def clean_cpf(self):
         cpf = self.cleaned_data.get('cpf')
         if cpf and not validate_cpf(cpf):
             raise forms.ValidationError("CPF inválido.")
-        return cpf
+        return re.sub(r'[^0-9]', '', cpf) if cpf else cpf
 
     # Método de limpeza geral do formulário
     def clean(self):

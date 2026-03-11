@@ -89,15 +89,15 @@ class ClienteForm(forms.ModelForm):
 
     def clean_cpf(self):
         cpf = self.cleaned_data['cpf']
-        if not validate_cpf(cpf):
+        if cpf and not validate_cpf(cpf):
             raise forms.ValidationError("CPF inválido.")
-        return cpf
+        return re.sub(r'[^0-9]', '', cpf) if cpf else cpf
 
     def clean_rg(self):
         rg = self.cleaned_data['rg']
-        if not validate_rg(rg):
+        if rg and not validate_rg(rg):
             raise forms.ValidationError("RG inválido.")
-        return rg
+        return re.sub(r'[^0-9]', '', rg) if rg else rg
     
     def clean_telefone(self):
         telefone = self.cleaned_data['telefone']
@@ -107,9 +107,9 @@ class ClienteForm(forms.ModelForm):
 
     def clean_endereco_cep(self):
         cep = self.cleaned_data['endereco_cep']
-        if not validate_cep(cep):
+        if cep and not validate_cep(cep):
             raise forms.ValidationError("CEP inválido.")
-        return cep
+        return re.sub(r'[^0-9]', '', cep) if cep else cep
 
     def save(self, commit=True):
         is_create = self.instance.pk is None

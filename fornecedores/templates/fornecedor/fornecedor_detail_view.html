@@ -13,7 +13,7 @@
         <div class="info">
             <img src="{{ fornecedor.imagem_url }}" class="rounded-circle" alt="Foto do Fornecedor">
             <div class="d-flex flex-column gap-2 align-items-start">
-                <h2>{{ fornecedor.usuario.first_name|title }} {{ fornecedor.usuario.last_name|title }}</h2>
+                <h2>{{ fornecedor.razao_social|title }} {{ fornecedor.nome_fantasia|title }}</h2>
                 <span class="badge rounded-pill {% if fornecedor.status == 'ativo' %}text-bg-success{% elif fornecedor.status == 'inativo' %}text-bg-warning{% else %}text-bg-danger{% endif %} status">
                     {{ fornecedor.get_status_display }}
                 </span>
@@ -37,30 +37,37 @@
             </div>
             <div class="card-body">
                 <div class="card-col-2">
-                    <span>
-                        <strong>Razão Social:</strong> <span>{{ fornecedor.razao_social }}</span>
-                    </span>
-                    <span>
-                        <strong>Responsável:</strong> <span>{{ fornecedor.usuario.first_name }} {{ fornecedor.usuario.last_name }}</span>
-                    </span>
-                </div>
-                <div class="card-col-2">
-                    {% if fornecedor.nome_fantasia %}
+                    {% if fornecedor.cnpj %}
                         <span>
-                            <strong>Nome Fantasia:</strong> <span>{{ fornecedor.nome_fantasia }}</span>
+                            <strong>Razão Social:</strong> <span>{{ fornecedor.razao_social }}</span>
+                        </span>
+                        {% if fornecedor.nome_fantasia %}
+                            <span>
+                                <strong>Nome Fantasia:</strong> <span>{{ fornecedor.nome_fantasia }}</span>
+                            </span>
+                        {% endif %}
+                    {% else %}
+                        <span>
+                            <strong>Nome:</strong>
+                            <span>
+                                {{ fornecedor.razao_social }}{% if fornecedor.nome_fantasia %} {{ fornecedor.nome_fantasia }}{% endif %}
+                            </span>
                         </span>
                     {% endif %}
+                </div>
+                <div class="card-col-2">
                     <span>
                         <strong>Email:</strong> <span class="mx-2">{{ fornecedor.email }}</span>
                     </span>
                 </div>
                 <div class="card-col-2">
-                    <span>
-                        <strong>CNPJ:</strong> <span>{{ fornecedor.cnpj }}</span>
-                    </span>
-                    {% if fornecedor.cpf %}
+                    {% if fornecedor.cnpj %}
                         <span>
-                            <strong>CPF:</strong> <span>{{ fornecedor.cpf }}</span>
+                            <strong>CNPJ:</strong> <span>{{ fornecedor.cnpj }}</span>
+                        </span>
+                    {% else %}
+                        <span>
+                            <strong>CPF:</strong> <span id="cpf">{{ fornecedor.cpf }}</span>
                         </span>
                     {% endif %}
                 </div>
@@ -75,7 +82,7 @@
                     {% endif %}
                 </div>
                 <div>
-                    <strong>Tipo:</strong> <span>{{ fornecedor.tipo_pessoa|upper }} </span>
+                    <strong>Tipo:</strong> <span>PESSOA {{ fornecedor.tipo_pessoa|upper }} </span>
                 </div>
             </div>
         </div>
@@ -87,7 +94,7 @@
       </div>
       <div class="card-body">
         <div>
-          <strong>CEP:</strong> <span class="mx-2">{{ fornecedor.endereco.cep }}</span>
+          <strong>CEP:</strong> <span id="cep" class="mx-2">{{ fornecedor.endereco.cep }}</span>
         </div>
         <div class="d-flex gap-2 align-items-end">
           <strong>Rua:</strong> <span class="mx-2">{{ fornecedor.endereco.logradouro }}</span>
@@ -118,3 +125,13 @@
   </div>
 </div>
 {% endblock content %}
+
+{% block js %}
+    <script>
+        $(document).ready(function() {
+            $('#cnpj').mask('00.000.000/0000-00');
+            $('#cpf').mask('000.000.000-00');
+            $('#cep').mask('00000-000');
+        });
+    </script>
+{% endblock js %}
