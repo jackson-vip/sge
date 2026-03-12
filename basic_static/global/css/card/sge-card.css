@@ -94,13 +94,13 @@
 .sge-card-footer {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     gap: 10px;
     border-top: 1px solid #dedada;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     padding: 10px;
 }
-
 
 /* Botões utilizados dentro dos cards para ações como Visualizar, Editar, Excluir.
 */

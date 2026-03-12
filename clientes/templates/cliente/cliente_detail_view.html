@@ -53,8 +53,8 @@
         {% if cliente.tempo_para_aniversario %}
           <div>
             {% if cliente.tempo_para_aniversario.is_hoje %}
-              <span class="badge text-bg-primary fs-6">
-                <i class="fa fa-cake-candles"></i> Aniversário hoje! Parabéns! 🎉
+              <span class="badge rounded-pill p-3 fs-5" style="background-color: #d4edda; color: #218838">
+                Parabéns {{ cliente.usuario.first_name|title }}, pelo seu aniversário! 🎉 
               </span>
             {% else %}
               <strong>Próximo aniversário:</strong>
